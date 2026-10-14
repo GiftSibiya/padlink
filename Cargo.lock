@@ -788,6 +788,7 @@ version = "0.1.0"
 dependencies = [
  "evdev",
  "glib-unix",
+ "gtk4",
  "libadwaita",
  "libc",
  "librsvg-rebind",
