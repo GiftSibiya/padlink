@@ -198,7 +198,11 @@ pub fn art_dirs() -> Vec<PathBuf> {
 
 fn colors(area: &gtk::DrawingArea) -> (Rgb, Rgb) {
     let fg = area.color();
-    let acc = adw::StyleManager::default().accent_color_rgba();
+    // StyleManager::accent_color_rgba needs libadwaita 1.6; the named color works on every
+    // version and still follows the system accent where there is one
+    #[allow(deprecated)]
+    let acc =
+        area.style_context().lookup_color("accent_color").unwrap_or_else(|| gtk::gdk::RGBA::new(0.21, 0.52, 0.89, 1.0));
     ((fg.red() as f64, fg.green() as f64, fg.blue() as f64), (acc.red() as f64, acc.green() as f64, acc.blue() as f64))
 }
 

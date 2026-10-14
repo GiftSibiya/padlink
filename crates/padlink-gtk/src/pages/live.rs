@@ -78,12 +78,17 @@ impl LivePage {
         bar.append(&status);
 
         let views = gtk::Stack::builder().transition_type(gtk::StackTransitionType::Crossfade).build();
-        let view_toggle = adw::ToggleGroup::new();
-        view_toggle.set_valign(gtk::Align::Center);
-        view_toggle
-            .add(adw::Toggle::builder().name("drawing").label("Drawing").tooltip("Controller illustration").build());
-        view_toggle
-            .add(adw::Toggle::builder().name("raw").label("Raw values").tooltip("Every evdev button and axis").build());
+        // linked toggle buttons rather than adw::ToggleGroup, which needs libadwaita 1.7
+        let view_toggle = gtk::Box::builder().valign(gtk::Align::Center).build();
+        view_toggle.add_css_class("linked");
+        let drawing_btn = gtk::ToggleButton::builder().label("Drawing").tooltip_text("Controller illustration").build();
+        let raw_btn = gtk::ToggleButton::builder()
+            .label("Raw values")
+            .tooltip_text("Every evdev button and axis")
+            .group(&drawing_btn)
+            .build();
+        view_toggle.append(&drawing_btn);
+        view_toggle.append(&raw_btn);
         bar.append(&view_toggle);
         root.append(&bar);
 
@@ -115,14 +120,16 @@ impl LivePage {
             _ => "drawing",
         };
         views.set_visible_child_name(initial);
-        view_toggle.set_active_name(Some(initial));
-        let views2 = views.clone();
-        view_toggle.connect_active_name_notify(move |group| {
-            if let Some(name) = group.active_name() {
-                views2.set_visible_child_name(&name);
-                settings::set("input_view", json!(name.as_str()));
-            }
-        });
+        if initial == "raw" { &raw_btn } else { &drawing_btn }.set_active(true);
+        for (btn, name) in [(&drawing_btn, "drawing"), (&raw_btn, "raw")] {
+            let views2 = views.clone();
+            btn.connect_toggled(move |b| {
+                if b.is_active() {
+                    views2.set_visible_child_name(name);
+                    settings::set("input_view", json!(name));
+                }
+            });
+        }
 
         let (sw, view) = mono_view(120);
         root.append(&sw);
