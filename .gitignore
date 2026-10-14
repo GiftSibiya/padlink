@@ -9,4 +9,4 @@ dist/
 
 # local MCP config (contains a bearer token)
 .mcp.json
-./cursor
+.cursor/
