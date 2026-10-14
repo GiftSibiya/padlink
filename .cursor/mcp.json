@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+      "dirah": {
+        "url": "https://api.dirah.co.za/mcp",
+        "headers": {
+          "Authorization": "Bearer dirah_mcp_0GxPK9iOflzcjBi4K1gtXfJ_7ZAklxL8"
+        }
+      }
+    }
+  }

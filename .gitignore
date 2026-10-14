@@ -1,5 +1,13 @@
-__pycache__/
-*.pyc
-*.egg-info/
-build/
-dist/
+# Cargo workspace (root target dir; crate sources stay tracked)
+/target/
+**/*.rs.bk
+
+# makepkg (PKGBUILD). Anchored so crates/*/src is not ignored.
+/pkg/
+/src/
+/*.pkg.tar*
+/*.src.tar*
+
+# Local MCP config (bearer token)
+.mcp.json
+.cursor/mcp.json

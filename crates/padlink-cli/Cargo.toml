@@ -1,0 +1,21 @@
+[package]
+name = "padlink-cli"
+description = "padlink command line"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "padlink"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+evdev.workspace = true
+flate2.workspace = true
+libc.workspace = true
+padlink-core = { path = "../padlink-core" }
+serde_json.workspace = true
+tar.workspace = true

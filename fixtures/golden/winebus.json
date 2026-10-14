@@ -1,0 +1,37 @@
+{
+ "cases": {
+  "none": {
+   "text": "WINE REGISTRY Version 2\n\n[Software\\\\Wine] 1700000000\n\"Version\"=\"win10\"\n",
+   "keys": {}
+  },
+  "keys": {
+   "text": "WINE REGISTRY Version 2\n\n[System\\\\CurrentControlSet\\\\Services\\\\winebus] 1700000000\n#time=1da\n\"DisableHidraw\"=dword:00000001\n\"DisableInput\"=dword:00000001\n\"Enable SDL\"=dword:00000000\n\n[System\\\\Other] 1\n\"X\"=\"y\"\n",
+   "keys": {
+    "DisableHidraw": "dword:00000001",
+    "DisableInput": "dword:00000001",
+    "Enable SDL": "dword:00000000"
+   }
+  },
+  "at_end": {
+   "text": "[System\\\\CurrentControlSet\\\\Services\\\\winebus] 1\n\"Map Controllers\"=dword:00000000",
+   "keys": {
+    "Map Controllers": "dword:00000000"
+   }
+  },
+  "controlset001_real_layout": {
+   "text": "WINE REGISTRY Version 2\n\n[System\\\\ControlSet001\\\\Services\\\\winebus] 1790702630\n#time=1dd50374b435e66\n\"Description\"=\"Wine HID bus driver\"\n\"DisableHidraw\"=dword:00000000\n\"Map Controllers\"=dword:00000000\n\"Start\"=dword:00000003\n\n[System\\\\ControlSet001\\\\Services\\\\winehid] 1\n",
+   "keys": {
+    "Description": "\"Wine HID bus driver\"",
+    "DisableHidraw": "dword:00000000",
+    "Map Controllers": "dword:00000000",
+    "Start": "dword:00000003"
+   }
+  },
+  "empty_section": {
+   "text": "[System\\\\CurrentControlSet\\\\Services\\\\winebus] 1\n\n\"After\"=1\n",
+   "keys": {
+    "After": "1"
+   }
+  }
+ }
+}

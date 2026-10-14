@@ -1,0 +1,626 @@
+{
+ "effect_to_dict": [
+  {
+   "kind": "rumble",
+   "params": {
+    "id": 0,
+    "strong": 65535,
+    "weak": 0,
+    "length": 500
+   },
+   "dict": {
+    "type": "rumble",
+    "id": 0,
+    "direction": 0,
+    "length": 500,
+    "delay": 0,
+    "strong": 65535,
+    "weak": 0
+   }
+  },
+  {
+   "kind": "rumble",
+   "params": {
+    "id": 3,
+    "strong": 1234,
+    "weak": 40000,
+    "length": 0,
+    "delay": 20,
+    "direction": 16384
+   },
+   "dict": {
+    "type": "rumble",
+    "id": 3,
+    "direction": 16384,
+    "length": 0,
+    "delay": 20,
+    "strong": 1234,
+    "weak": 40000
+   }
+  },
+  {
+   "kind": "periodic",
+   "params": {
+    "id": 1,
+    "magnitude": 16384,
+    "offset": 0,
+    "waveform": 90,
+    "period": 50,
+    "length": 100
+   },
+   "dict": {
+    "type": "periodic",
+    "id": 1,
+    "direction": 0,
+    "length": 100,
+    "delay": 0,
+    "strong": 32768,
+    "weak": 32768,
+    "waveform": "sine",
+    "period": 50,
+    "magnitude": 16384,
+    "offset": 0
+   }
+  },
+  {
+   "kind": "periodic",
+   "params": {
+    "id": 2,
+    "magnitude": -32768,
+    "offset": 32767,
+    "waveform": 88
+   },
+   "dict": {
+    "type": "periodic",
+    "id": 2,
+    "direction": 0,
+    "length": 0,
+    "delay": 0,
+    "strong": 65535,
+    "weak": 65535,
+    "waveform": "square",
+    "period": 100,
+    "magnitude": -32768,
+    "offset": 32767
+   }
+  },
+  {
+   "kind": "periodic",
+   "params": {
+    "id": 4,
+    "magnitude": 100,
+    "offset": -101,
+    "waveform": 92
+   },
+   "dict": {
+    "type": "periodic",
+    "id": 4,
+    "direction": 0,
+    "length": 0,
+    "delay": 0,
+    "strong": 301,
+    "weak": 301,
+    "waveform": "saw_down",
+    "period": 100,
+    "magnitude": 100,
+    "offset": -101
+   }
+  },
+  {
+   "kind": "periodic",
+   "params": {
+    "id": 5,
+    "magnitude": 1,
+    "offset": 0,
+    "waveform": 153
+   },
+   "dict": {
+    "type": "periodic",
+    "id": 5,
+    "direction": 0,
+    "length": 0,
+    "delay": 0,
+    "strong": 2,
+    "weak": 2,
+    "waveform": 153,
+    "period": 100,
+    "magnitude": 1,
+    "offset": 0
+   }
+  },
+  {
+   "kind": "constant",
+   "params": {
+    "id": 6,
+    "level": -32768,
+    "length": 250
+   },
+   "dict": {
+    "type": "constant",
+    "id": 6,
+    "direction": 0,
+    "length": 250,
+    "delay": 0,
+    "strong": 65535,
+    "weak": 65535,
+    "level": -32768
+   }
+  },
+  {
+   "kind": "constant",
+   "params": {
+    "id": 7,
+    "level": 12345
+   },
+   "dict": {
+    "type": "constant",
+    "id": 7,
+    "direction": 0,
+    "length": 0,
+    "delay": 0,
+    "strong": 24690,
+    "weak": 24690,
+    "level": 12345
+   }
+  },
+  {
+   "kind": "ramp",
+   "params": {
+    "id": 8,
+    "start": -100,
+    "end": 20000
+   },
+   "dict": {
+    "type": "ramp",
+    "id": 8,
+    "direction": 0,
+    "length": 0,
+    "delay": 0,
+    "strong": 40000,
+    "weak": 40000,
+    "start_level": -100,
+    "end_level": 20000
+   }
+  },
+  {
+   "kind": "spring",
+   "params": {
+    "id": 9,
+    "length": 10
+   },
+   "dict": {
+    "type": "spring",
+    "id": 9,
+    "direction": 0,
+    "length": 10,
+    "delay": 0,
+    "strong": 0,
+    "weak": 0
+   }
+  }
+ ],
+ "mixer": {
+  "single_timed": [
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 0,
+     "strong": 40000,
+     "weak": 1000,
+     "length": 100,
+     "delay": 0
+    }
+   },
+   {
+    "op": "play",
+    "id": 0,
+    "count": 1,
+    "now": 0.0
+   },
+   {
+    "op": "levels",
+    "now": 0.0,
+    "result": [
+     40000,
+     1000
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 0.05,
+    "result": [
+     40000,
+     1000
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 0.05,
+    "result": 0.1
+   },
+   {
+    "op": "levels",
+    "now": 0.1,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 0.2,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 0.2,
+    "result": null
+   }
+  ],
+  "delay_and_repeat": [
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 1,
+     "strong": 1000,
+     "weak": 2000,
+     "length": 30,
+     "delay": 50
+    }
+   },
+   {
+    "op": "play",
+    "id": 1,
+    "count": 3,
+    "now": 1.0
+   },
+   {
+    "op": "levels",
+    "now": 1.0,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 1.0,
+    "result": 1.05
+   },
+   {
+    "op": "levels",
+    "now": 1.049,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 1.05,
+    "result": [
+     1000,
+     2000
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 1.05,
+    "result": 1.1400000000000001
+   },
+   {
+    "op": "levels",
+    "now": 1.139,
+    "result": [
+     1000,
+     2000
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 1.14,
+    "result": [
+     1000,
+     2000
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 1.2,
+    "result": [
+     0,
+     0
+    ]
+   }
+  ],
+  "mix_saturate_and_gain": [
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 0,
+     "strong": 50000,
+     "weak": 10,
+     "length": 0,
+     "delay": 0
+    }
+   },
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 1,
+     "strong": 50000,
+     "weak": 3,
+     "length": 0,
+     "delay": 0
+    }
+   },
+   {
+    "op": "play",
+    "id": 0,
+    "count": 1,
+    "now": 0.0
+   },
+   {
+    "op": "play",
+    "id": 1,
+    "count": 1,
+    "now": 0.0
+   },
+   {
+    "op": "levels",
+    "now": 0.0,
+    "result": [
+     65535,
+     13
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 0.0,
+    "result": null
+   },
+   {
+    "op": "gain",
+    "gain": 32768,
+    "result": 32768
+   },
+   {
+    "op": "levels",
+    "now": 1.0,
+    "result": [
+     32768,
+     6
+    ]
+   },
+   {
+    "op": "gain",
+    "gain": 70000,
+    "result": 65535
+   },
+   {
+    "op": "levels",
+    "now": 1.0,
+    "result": [
+     65535,
+     13
+    ]
+   },
+   {
+    "op": "gain",
+    "gain": -5,
+    "result": 0
+   },
+   {
+    "op": "levels",
+    "now": 1.0,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "gain",
+    "gain": 1,
+    "result": 1
+   },
+   {
+    "op": "levels",
+    "now": 1.0,
+    "result": [
+     1,
+     0
+    ]
+   },
+   {
+    "op": "gain",
+    "gain": 65535,
+    "result": 65535
+   },
+   {
+    "op": "play",
+    "id": 1,
+    "count": 0,
+    "now": 2.0
+   },
+   {
+    "op": "levels",
+    "now": 2.0,
+    "result": [
+     50000,
+     10
+    ]
+   },
+   {
+    "op": "erase",
+    "id": 0
+   },
+   {
+    "op": "levels",
+    "now": 2.0,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 2.0,
+    "result": null
+   }
+  ],
+  "replace_and_unknown": [
+   {
+    "op": "play",
+    "id": 7,
+    "count": 1,
+    "now": 0.0
+   },
+   {
+    "op": "levels",
+    "now": 0.0,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 0,
+     "strong": 100,
+     "weak": 100,
+     "length": 1000,
+     "delay": 0
+    }
+   },
+   {
+    "op": "play",
+    "id": 0,
+    "count": 1,
+    "now": 0.0
+   },
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 0,
+     "strong": 9,
+     "weak": 8,
+     "length": 1000,
+     "delay": 0
+    }
+   },
+   {
+    "op": "levels",
+    "now": 0.5,
+    "result": [
+     9,
+     8
+    ]
+   },
+   {
+    "op": "play",
+    "id": 0,
+    "count": 1,
+    "now": 0.9
+   },
+   {
+    "op": "levels",
+    "now": 1.5,
+    "result": [
+     9,
+     8
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 1.5,
+    "result": 1.9
+   },
+   {
+    "op": "erase",
+    "id": 42
+   },
+   {
+    "op": "stop_all"
+   },
+   {
+    "op": "levels",
+    "now": 1.5,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 1.5,
+    "result": null
+   }
+  ],
+  "float_edges": [
+   {
+    "op": "upload",
+    "effect": {
+     "type": "rumble",
+     "id": 0,
+     "strong": 1,
+     "weak": 65535,
+     "length": 1,
+     "delay": 1
+    }
+   },
+   {
+    "op": "play",
+    "id": 0,
+    "count": 7,
+    "now": 0.1
+   },
+   {
+    "op": "levels",
+    "now": 0.101,
+    "result": [
+     1,
+     65535
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 0.1009999,
+    "result": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 0.108,
+    "result": [
+     1,
+     65535
+    ]
+   },
+   {
+    "op": "levels",
+    "now": 0.10799999999,
+    "result": [
+     1,
+     65535
+    ]
+   },
+   {
+    "op": "deadline",
+    "now": 0.0,
+    "result": 0.101
+   }
+  ]
+ }
+}

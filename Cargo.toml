@@ -1,0 +1,27 @@
+[workspace]
+resolver = "2"
+members = ["crates/*", "spikes/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/GiftSibiya/padlink"
+rust-version = "1.85"
+
+[workspace.dependencies]
+# 0.13.2 (latest release) encodes UI_SET_PHYS with the wrong size -> EINVAL. Pinned to
+# 0.13.2 + the one-commit upstream fix (7fee138); return to crates.io once a release has it.
+evdev = { git = "https://github.com/emberian/evdev", rev = "7fee138a341f73b81b9c4f8c59e3527c6a169ea3" }
+clap = { version = "4.6.7", features = ["derive"] }
+flate2 = "1.1.10"
+libc = "0.2.190"
+roxmltree = "0.21.1"
+tar = "0.4.46"
+udev = "0.9.3"
+serde = { version = "1", features = ["derive"] }
+# maintained fork of serde_yaml (Lutris game configs)
+serde_norway = "0.9.42"
+# preserve_order: Python dicts keep insertion order, and some outputs depend on it.
+# float_roundtrip: parse floats exactly (the default parser can be 1 ulp off).
+serde_json = { version = "1", features = ["preserve_order", "float_roundtrip"] }
