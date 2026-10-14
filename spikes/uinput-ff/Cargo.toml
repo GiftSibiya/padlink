@@ -1,0 +1,10 @@
+[package]
+name = "uinput-ff-spike"
+description = "Phase 0 spike: virtual Xbox 360 pad with force feedback through the evdev crate"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+evdev.workspace = true

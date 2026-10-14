@@ -1,0 +1,15 @@
+[package]
+name = "padlink-cli"
+description = "padlink command line (Rust port, installed as padlink-rs until cut-over)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "padlink-rs"
+path = "src/main.rs"
+
+[dependencies]
+padlink-core = { path = "../padlink-core" }

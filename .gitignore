@@ -3,3 +3,9 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+
+# Rust
+/target/
+
+# local MCP config (contains a bearer token)
+.mcp.json

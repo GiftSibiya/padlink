@@ -1,0 +1,13 @@
+[package]
+name = "padlink-core"
+description = "padlink core: HID parsing, profiles, personas, input translation, force feedback"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+
+[dev-dependencies]
+serde_json.workspace = true

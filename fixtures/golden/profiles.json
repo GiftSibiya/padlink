@@ -1,0 +1,1659 @@
+{
+ "render": [
+  {
+   "rows": [
+    {
+     "hex": "05 00 00 00 00 00 00 00",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 00 ff 00 00 00 00",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 00 00 00 00 00",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 00 ff 00 00 00 00",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 00 00 00 00 00",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 00 ff 00 00 00 00",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 01 ff 00 00 00 00",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 01 ff 00 00 00 00",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 01 ff 00 00 00 00",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 01 ff 00 00 00 00",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 7f 00 00 00 00 00",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 7f 01 00 00 00 00",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 7f ff 00 00 00 00",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 80 00 00 00 00 00",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 80 01 00 00 00 00",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 80 ff 00 00 00 00",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 80 00 00 00 00 00",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 80 01 00 00 00 00",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 80 ff 00 00 00 00",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 bf 00 00 00 00 00",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 bf 01 00 00 00 00",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 bf ff 00 00 00 00",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 ff 00 00 00 00 00",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 ff 01 00 00 00 00",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff ff 00 00 00 00",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 ff 00 00 00 00 00",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 ff 01 00 00 00 00",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff ff 00 00 00 00",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     5,
+     0,
+     "strong",
+     "weak",
+     0,
+     0,
+     0,
+     0
+    ],
+    "scale": 255,
+    "stop": null,
+    "swap": false,
+    "transport": "hidraw"
+   }
+  },
+  {
+   "rows": [
+    {
+     "hex": "05 00 00 00 00 00 00 00",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 00 00 00 00 00",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 00 00 00 00 00",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 00 00 00 00 00",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 00 00 00 00 00",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 00 00 00 00 00",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 00 00 00 00 00",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 01 00 00 00 00",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 01 00 00 00 00",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 01 00 00 00 00",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 01 00 00 00 00",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 01 00 00 00 00",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 01 00 00 00 00",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 7f 00 00 00 00",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 7f 00 00 00 00",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 7f 00 00 00 00",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 80 00 00 00 00",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 80 00 00 00 00",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 80 00 00 00 00",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 80 00 00 00 00",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 80 00 00 00 00",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff 80 00 00 00 00",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 bf 00 00 00 00",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 bf 00 00 00 00",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff bf 00 00 00 00",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 ff 00 00 00 00",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 ff 00 00 00 00",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff ff 00 00 00 00",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "05 00 00 ff 00 00 00 00",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "05 00 01 ff 00 00 00 00",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "05 00 ff ff 00 00 00 00",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     5,
+     0,
+     "strong",
+     "weak",
+     0,
+     0,
+     0,
+     0
+    ],
+    "scale": 255,
+    "stop": null,
+    "swap": true,
+    "transport": "hidraw"
+   }
+  },
+  {
+   "rows": [
+    {
+     "hex": "03 00 00 00 00 00 00 00",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 00 01 00 00 ff 00",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 00 ff 00 00 ff 00",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 00 00 00 00 ff 00",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 00 01 00 00 ff 00",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 00 ff 00 00 ff 00",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 00 00 00 00 ff 00",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 00 01 00 00 ff 00",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 00 ff 00 00 ff 00",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 01 00 00 00 ff 00",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 01 01 00 00 ff 00",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 01 ff 00 00 ff 00",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 01 00 00 00 ff 00",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 01 01 00 00 ff 00",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 01 ff 00 00 ff 00",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 01 00 00 00 ff 00",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 01 01 00 00 ff 00",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 01 ff 00 00 ff 00",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 01 00 00 00 ff 00",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 01 01 00 00 ff 00",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 01 ff 00 00 ff 00",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 7f 00 00 00 ff 00",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 7f 01 00 00 ff 00",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 7f ff 00 00 ff 00",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 80 00 00 00 ff 00",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 80 01 00 00 ff 00",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 80 ff 00 00 ff 00",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f 80 00 00 00 ff 00",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f 80 01 00 00 ff 00",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f 80 ff 00 00 ff 00",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f bf 00 00 00 ff 00",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f bf 01 00 00 ff 00",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f bf ff 00 00 ff 00",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f ff 00 00 00 ff 00",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f ff 01 00 00 ff 00",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f ff ff 00 00 ff 00",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "03 0f ff 00 00 00 ff 00",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "03 0f ff 01 00 00 ff 00",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "03 0f ff ff 00 00 ff 00",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     3,
+     15,
+     "strong",
+     "weak",
+     0,
+     0,
+     255,
+     0
+    ],
+    "scale": 255,
+    "stop": [
+     3,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "swap": false,
+    "transport": "hidraw"
+   }
+  },
+  {
+   "rows": [
+    {
+     "hex": "00 08 00 00 00 00",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 00 00 01 2c",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 00 00 ff ff",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 00 01 00 00",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 00 01 01 2c",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 00 01 ff ff",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 00 80 00 00",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 00 80 01 2c",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 00 80 ff ff",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 00 81 00 00",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 00 81 01 2c",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 00 81 ff ff",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 00 ff 00 00",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 00 ff 01 2c",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 00 ff ff ff",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 01 00 00 00",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 01 00 01 2c",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 01 00 ff ff",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 01 01 00 00",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 01 01 01 2c",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 01 01 ff ff",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 7f ff 00 00",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 7f ff 01 2c",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 7f ff ff ff",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 80 00 00 00",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 80 00 01 2c",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 80 00 ff ff",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 80 80 00 00",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 80 80 01 2c",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 80 80 ff ff",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 bf ff 00 00",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 bf ff 01 2c",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 bf ff ff ff",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 ff fe 00 00",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 ff fe 01 2c",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 ff fe ff ff",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "00 08 ff ff 00 00",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "00 08 ff ff 01 2c",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "00 08 ff ff ff ff",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     0,
+     8,
+     "strong_hi",
+     "strong_lo",
+     "weak_hi",
+     "weak_lo"
+    ],
+    "scale": 65535,
+    "stop": null,
+    "swap": false,
+    "transport": "hidraw"
+   }
+  },
+  {
+   "rows": [
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "01 00 00 ff ff",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "01 32 64 ff ff",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "01 32 64 ff ff",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "01 32 64 ff ff",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "01 32 64 ff ff",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "01 32 64 ff ff",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "01 32 64 ff ff",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "01 4b 64 ff ff",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "01 4b 64 ff ff",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "01 64 64 ff ff",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     1,
+     "max",
+     "any",
+     511,
+     -1
+    ],
+    "scale": 100,
+    "stop": null,
+    "swap": false,
+    "transport": "hidraw"
+   }
+  },
+  {
+   "rows": [
+    {
+     "hex": "00 00",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "00 00",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "00 01",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "01 00",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "01 01",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "01 00",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "01 01",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "01 00",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "01 01",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "01 00",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "01 01",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "01 00",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "01 00",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "01 01",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     "strong",
+     "weak"
+    ],
+    "scale": 1,
+    "stop": null,
+    "swap": false,
+    "transport": "hidraw"
+   }
+  },
+  {
+   "rows": [
+    {
+     "hex": "00 00",
+     "strong": 0,
+     "weak": 0
+    },
+    {
+     "hex": "00 05",
+     "strong": 0,
+     "weak": 300
+    },
+    {
+     "hex": "00 e8",
+     "strong": 0,
+     "weak": 65535
+    },
+    {
+     "hex": "00 00",
+     "strong": 1,
+     "weak": 0
+    },
+    {
+     "hex": "00 05",
+     "strong": 1,
+     "weak": 300
+    },
+    {
+     "hex": "00 e8",
+     "strong": 1,
+     "weak": 65535
+    },
+    {
+     "hex": "02 00",
+     "strong": 128,
+     "weak": 0
+    },
+    {
+     "hex": "02 05",
+     "strong": 128,
+     "weak": 300
+    },
+    {
+     "hex": "02 e8",
+     "strong": 128,
+     "weak": 65535
+    },
+    {
+     "hex": "02 00",
+     "strong": 129,
+     "weak": 0
+    },
+    {
+     "hex": "02 05",
+     "strong": 129,
+     "weak": 300
+    },
+    {
+     "hex": "02 e8",
+     "strong": 129,
+     "weak": 65535
+    },
+    {
+     "hex": "04 00",
+     "strong": 255,
+     "weak": 0
+    },
+    {
+     "hex": "04 05",
+     "strong": 255,
+     "weak": 300
+    },
+    {
+     "hex": "04 e8",
+     "strong": 255,
+     "weak": 65535
+    },
+    {
+     "hex": "04 00",
+     "strong": 256,
+     "weak": 0
+    },
+    {
+     "hex": "04 05",
+     "strong": 256,
+     "weak": 300
+    },
+    {
+     "hex": "04 e8",
+     "strong": 256,
+     "weak": 65535
+    },
+    {
+     "hex": "04 00",
+     "strong": 257,
+     "weak": 0
+    },
+    {
+     "hex": "04 05",
+     "strong": 257,
+     "weak": 300
+    },
+    {
+     "hex": "04 e8",
+     "strong": 257,
+     "weak": 65535
+    },
+    {
+     "hex": "f4 00",
+     "strong": 32767,
+     "weak": 0
+    },
+    {
+     "hex": "f4 05",
+     "strong": 32767,
+     "weak": 300
+    },
+    {
+     "hex": "f4 e8",
+     "strong": 32767,
+     "weak": 65535
+    },
+    {
+     "hex": "f4 00",
+     "strong": 32768,
+     "weak": 0
+    },
+    {
+     "hex": "f4 05",
+     "strong": 32768,
+     "weak": 300
+    },
+    {
+     "hex": "f4 e8",
+     "strong": 32768,
+     "weak": 65535
+    },
+    {
+     "hex": "f6 00",
+     "strong": 32896,
+     "weak": 0
+    },
+    {
+     "hex": "f6 05",
+     "strong": 32896,
+     "weak": 300
+    },
+    {
+     "hex": "f6 e8",
+     "strong": 32896,
+     "weak": 65535
+    },
+    {
+     "hex": "ee 00",
+     "strong": 49151,
+     "weak": 0
+    },
+    {
+     "hex": "ee 05",
+     "strong": 49151,
+     "weak": 300
+    },
+    {
+     "hex": "ee e8",
+     "strong": 49151,
+     "weak": 65535
+    },
+    {
+     "hex": "e8 00",
+     "strong": 65534,
+     "weak": 0
+    },
+    {
+     "hex": "e8 05",
+     "strong": 65534,
+     "weak": 300
+    },
+    {
+     "hex": "e8 e8",
+     "strong": 65534,
+     "weak": 65535
+    },
+    {
+     "hex": "e8 00",
+     "strong": 65535,
+     "weak": 0
+    },
+    {
+     "hex": "e8 05",
+     "strong": 65535,
+     "weak": 300
+    },
+    {
+     "hex": "e8 e8",
+     "strong": 65535,
+     "weak": 65535
+    }
+   ],
+   "spec": {
+    "interface": null,
+    "keepalive_ms": 0,
+    "min_interval_ms": 8,
+    "report": [
+     "strong",
+     "weak"
+    ],
+    "scale": 1000,
+    "stop": null,
+    "swap": false,
+    "transport": "hidraw"
+   }
+  }
+ ],
+ "roundtrip": [
+  {
+   "filename": "3537_1041.json",
+   "input": {
+    "input_map": null,
+    "name": "GameSir T4N Lite (HID mode)",
+    "notes": "",
+    "product": "1041",
+    "rumble": {
+     "interface": null,
+     "keepalive_ms": 0,
+     "min_interval_ms": 8,
+     "report": [
+      5,
+      0,
+      "strong",
+      "weak",
+      0,
+      0,
+      0,
+      0
+     ],
+     "scale": 255,
+     "stop": null,
+     "swap": false,
+     "transport": "hidraw"
+    },
+    "vendor": "3537"
+   },
+   "product": 4161,
+   "saved_text": "{\n  \"name\": \"GameSir T4N Lite (HID mode)\",\n  \"vendor\": \"3537\",\n  \"product\": \"1041\",\n  \"rumble\": {\n    \"transport\": \"hidraw\",\n    \"interface\": null,\n    \"report\": [\n      5,\n      0,\n      \"strong\",\n      \"weak\",\n      0,\n      0,\n      0,\n      0\n    ],\n    \"stop\": null,\n    \"scale\": 255,\n    \"keepalive_ms\": 0,\n    \"min_interval_ms\": 8,\n    \"swap\": false\n  },\n  \"input_map\": null,\n  \"notes\": \"\"\n}\n",
+   "to_dict": {
+    "input_map": null,
+    "name": "GameSir T4N Lite (HID mode)",
+    "notes": "",
+    "product": "1041",
+    "rumble": {
+     "interface": null,
+     "keepalive_ms": 0,
+     "min_interval_ms": 8,
+     "report": [
+      5,
+      0,
+      "strong",
+      "weak",
+      0,
+      0,
+      0,
+      0
+     ],
+     "scale": 255,
+     "stop": null,
+     "swap": false,
+     "transport": "hidraw"
+    },
+    "vendor": "3537"
+   },
+   "vendor": 13623
+  },
+  {
+   "filename": "045e_028e.json",
+   "input": {
+    "product": "28e",
+    "vendor": "045E"
+   },
+   "product": 654,
+   "saved_text": "{\n  \"name\": \"\",\n  \"vendor\": \"045e\",\n  \"product\": \"028e\",\n  \"rumble\": null,\n  \"input_map\": null,\n  \"notes\": \"\"\n}\n",
+   "to_dict": {
+    "input_map": null,
+    "name": "",
+    "notes": "",
+    "product": "028e",
+    "rumble": null,
+    "vendor": "045e"
+   },
+   "vendor": 1118
+  },
+  {
+   "filename": "054c_09cc.json",
+   "input": {
+    "input_map": {
+     "axes": {
+      "ABS_Y": {
+       "invert": true,
+       "to": "ABS_Y"
+      }
+     },
+     "dpad_buttons": false,
+     "key_to_axis": {},
+     "keys": {
+      "BTN_SOUTH": "BTN_A"
+     }
+    },
+    "name": "partial rumble",
+    "notes": "free text",
+    "product": "09cc",
+    "rumble": {
+     "report": [],
+     "transport": "evdev"
+    },
+    "vendor": "054c"
+   },
+   "product": 2508,
+   "saved_text": "{\n  \"name\": \"partial rumble\",\n  \"vendor\": \"054c\",\n  \"product\": \"09cc\",\n  \"rumble\": {\n    \"transport\": \"evdev\",\n    \"interface\": null,\n    \"report\": [],\n    \"stop\": null,\n    \"scale\": 255,\n    \"keepalive_ms\": 0,\n    \"min_interval_ms\": 8,\n    \"swap\": false\n  },\n  \"input_map\": {\n    \"keys\": {\n      \"BTN_SOUTH\": \"BTN_A\"\n    },\n    \"axes\": {\n      \"ABS_Y\": {\n        \"to\": \"ABS_Y\",\n        \"invert\": true\n      }\n    },\n    \"key_to_axis\": {},\n    \"dpad_buttons\": false\n  },\n  \"notes\": \"free text\"\n}\n",
+   "to_dict": {
+    "input_map": {
+     "axes": {
+      "ABS_Y": {
+       "invert": true,
+       "to": "ABS_Y"
+      }
+     },
+     "dpad_buttons": false,
+     "key_to_axis": {},
+     "keys": {
+      "BTN_SOUTH": "BTN_A"
+     }
+    },
+    "name": "partial rumble",
+    "notes": "free text",
+    "product": "09cc",
+    "rumble": {
+     "interface": null,
+     "keepalive_ms": 0,
+     "min_interval_ms": 8,
+     "report": [],
+     "scale": 255,
+     "stop": null,
+     "swap": false,
+     "transport": "evdev"
+    },
+    "vendor": "054c"
+   },
+   "vendor": 1356
+  }
+ ],
+ "unknown_token_error": "unknown template token 'loud'"
+}

@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = ["crates/*", "spikes/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/GiftSibiya/padlink"
+rust-version = "1.85"
+
+[workspace.dependencies]
+# 0.13.2 (latest release) encodes UI_SET_PHYS with the wrong size -> EINVAL. Pinned to
+# 0.13.2 + the one-commit upstream fix (7fee138); return to crates.io once a release has it.
+evdev = { git = "https://github.com/emberian/evdev", rev = "7fee138a341f73b81b9c4f8c59e3527c6a169ea3" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

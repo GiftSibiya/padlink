@@ -1,0 +1,215 @@
+{
+ "candidates": {
+  "045e:028e": [
+   "xbox360",
+   "xbox"
+  ],
+  "045e:02ea": [
+   "xboxone",
+   "xbox"
+  ],
+  "045e:0b12": [
+   "xboxseries",
+   "xbox"
+  ],
+  "045e:9999": [
+   "xbox"
+  ],
+  "054c:05c4": [
+   "ds4",
+   "playstation"
+  ],
+  "054c:09cc": [
+   "ds4",
+   "playstation"
+  ],
+  "054c:0ce6": [
+   "dualsense",
+   "playstation"
+  ],
+  "054c:1234": [
+   "playstation"
+  ],
+  "057e:2006": [
+   "nintendo"
+  ],
+  "057e:2009": [
+   "switchpro",
+   "nintendo"
+  ],
+  "3537:1041": [
+   "xbox"
+  ]
+ },
+ "families": [
+  "xbox",
+  "playstation",
+  "nintendo"
+ ],
+ "optional_ids": [
+  "touchpad",
+  "btn-capture"
+ ],
+ "required_ids": [
+  "body",
+  "btn-south",
+  "btn-east",
+  "btn-west",
+  "btn-north",
+  "btn-lb",
+  "btn-rb",
+  "btn-select",
+  "btn-start",
+  "btn-home",
+  "dpad-up",
+  "dpad-down",
+  "dpad-left",
+  "dpad-right",
+  "lt",
+  "rt",
+  "ls-ring",
+  "ls-knob",
+  "rs-ring",
+  "rs-knob"
+ ],
+ "stick_travel": [
+  {
+   "knob": [
+    0,
+    0,
+    30,
+    30
+   ],
+   "result": 15.0,
+   "ring": [
+    0,
+    0,
+    60,
+    60
+   ]
+  },
+  {
+   "knob": [
+    0,
+    0,
+    20,
+    30
+   ],
+   "result": 10.0,
+   "ring": [
+    0,
+    0,
+    60,
+    40
+   ]
+  },
+  {
+   "knob": [
+    0,
+    0,
+    30,
+    30
+   ],
+   "result": 0.0,
+   "ring": [
+    0,
+    0,
+    10,
+    10
+   ]
+  }
+ ],
+ "templates": {
+  "nintendo": {
+   "check": [
+    [
+     "ok",
+     "all 20 required elements present"
+    ],
+    [
+     "warn",
+     "contains live <text>; convert text to outlines so it looks the same everywhere"
+    ]
+   ],
+   "file": "data/art-templates/nintendo.svg",
+   "matches_template_svg": true,
+   "viewbox": [
+    0.0,
+    0.0,
+    800.0,
+    520.0
+   ]
+  },
+  "playstation": {
+   "check": [
+    [
+     "ok",
+     "all 20 required elements present"
+    ],
+    [
+     "ok",
+     "optional #touchpad present"
+    ],
+    [
+     "warn",
+     "contains live <text>; convert text to outlines so it looks the same everywhere"
+    ]
+   ],
+   "file": "data/art-templates/playstation.svg",
+   "matches_template_svg": true,
+   "viewbox": [
+    0.0,
+    0.0,
+    800.0,
+    520.0
+   ]
+  },
+  "xbox": {
+   "check": [
+    [
+     "ok",
+     "all 20 required elements present"
+    ],
+    [
+     "warn",
+     "contains live <text>; convert text to outlines so it looks the same everywhere"
+    ]
+   ],
+   "file": "data/art-templates/xbox.svg",
+   "matches_template_svg": true,
+   "viewbox": [
+    0.0,
+    0.0,
+    800.0,
+    520.0
+   ]
+  }
+ },
+ "viewbox": {
+  "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 0 10\" width=\"20px\" height=\"10px\"/>": [
+   0.0,
+   0.0,
+   20.0,
+   10.0
+  ],
+  "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 260\"/>": [
+   0.0,
+   0.0,
+   400.0,
+   260.0
+  ],
+  "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0,0, 10.5 7\"/>": [
+   0.0,
+   0.0,
+   10.5,
+   7.0
+  ],
+  "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"50\"/>": [
+   0.0,
+   0.0,
+   100.0,
+   50.0
+  ],
+  "<svg xmlns=\"http://www.w3.org/2000/svg\"/>": null
+ }
+}
