@@ -1,12 +1,28 @@
+# Cargo workspace (root target dir; crate sources stay tracked)
+/target/
+**/*.rs.bk
+
+# Python reference core (tests and fixture generators)
 __pycache__/
-*.pyc
+*.py[cod]
 *.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
 build/
 dist/
 
-# Rust
-/target/
+# makepkg (PKGBUILD). Anchored so crates/*/src is not ignored.
+/pkg/
+/src/
+/*.pkg.tar*
+/*.src.tar*
 
-# local MCP config (contains a bearer token)
+# Local MCP config (bearer token)
 .mcp.json
-.cursor/
+.cursor/mcp.json

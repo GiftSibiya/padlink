@@ -36,5 +36,7 @@ package() {
   install -Dm755 target/release/padlink-gtk "$pkgdir/usr/bin/padlink-gtk"
   install -Dm644 data/padlink.desktop "$pkgdir/usr/share/applications/padlink.desktop"
   install -Dm644 data/70-padlink.rules "$pkgdir/usr/lib/udev/rules.d/70-padlink.rules"
+  install -d "$pkgdir/usr/share/padlink/art"
+  install -m644 data/art-templates/*.svg "$pkgdir/usr/share/padlink/art/"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

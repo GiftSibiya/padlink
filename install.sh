@@ -6,7 +6,8 @@ set -eu
 REPO="$(cd "$(dirname "$0")" && pwd)"
 BIN="$HOME/.local/bin"
 APPS="$HOME/.local/share/applications"
-mkdir -p "$BIN" "$APPS"
+ART="$HOME/.local/share/padlink/art"
+mkdir -p "$BIN" "$APPS" "$ART"
 
 command -v cargo >/dev/null 2>&1 || {
     echo "cargo not found (Arch: sudo pacman -S rustup && rustup default stable)"
@@ -16,7 +17,10 @@ cargo build --release --manifest-path "$REPO/Cargo.toml" -p padlink-cli -p padli
 install -m755 "$REPO/target/release/padlink" "$BIN/padlink"
 install -m755 "$REPO/target/release/padlink-gtk" "$BIN/padlink-gtk"
 install -m644 "$REPO/data/padlink.desktop" "$APPS/padlink.desktop"
-echo "installed: $BIN/padlink, $BIN/padlink-gtk, $APPS/padlink.desktop"
+for f in "$REPO"/data/art-templates/*.svg; do
+    install -m644 "$f" "$ART/$(basename "$f")"
+done
+echo "installed: $BIN/padlink, $BIN/padlink-gtk, $APPS/padlink.desktop, $ART"
 
 if [ ! -e /etc/udev/rules.d/70-padlink.rules ]; then
     echo
