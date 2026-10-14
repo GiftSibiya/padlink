@@ -63,7 +63,13 @@ def code_of(name: str) -> int:
     return value
 
 
-def heuristic_map(keys: set[int], abses: set[int]) -> dict:
+# Drivers that follow Documentation/input/gamepad.rst: BTN_NORTH (0x133) is the
+# *top* face button and BTN_WEST (0x134) the left one. xpad (and SDL's mapping
+# for 045e:028e) and Android-layout HID dongles use 0x133 for the *left* (X) button.
+SPEC_LAYOUT_DRIVERS = {"playstation", "hid-playstation", "sony", "hid-sony", "nintendo", "hid-nintendo"}
+
+
+def heuristic_map(keys: set[int], abses: set[int], driver: str | None = None) -> dict:
     """Guess an xpad mapping from the source's evdev capabilities.
 
     Matches the Linux gamepad convention and the Android HID layout most
@@ -71,7 +77,9 @@ def heuristic_map(keys: set[int], abses: set[int]) -> dict:
     analog triggers on BRAKE/GAS).
     """
     m: dict = {"keys": {}, "axes": {}, "key_to_axis": {}, "dpad_buttons": False}
-    gamepad_keys = {E.BTN_A: "BTN_A", E.BTN_B: "BTN_B", E.BTN_X: "BTN_X", E.BTN_Y: "BTN_Y",
+    spec = (driver or "") in SPEC_LAYOUT_DRIVERS
+    gamepad_keys = {E.BTN_A: "BTN_A", E.BTN_B: "BTN_B",
+                    E.BTN_X: "BTN_Y" if spec else "BTN_X", E.BTN_Y: "BTN_X" if spec else "BTN_Y",
                     E.BTN_TL: "BTN_TL", E.BTN_TR: "BTN_TR", E.BTN_SELECT: "BTN_SELECT",
                     E.BTN_START: "BTN_START", E.BTN_MODE: "BTN_MODE", E.BTN_THUMBL: "BTN_THUMBL",
                     E.BTN_THUMBR: "BTN_THUMBR"}
@@ -165,6 +173,14 @@ class Translator:
         return []
 
 
+def mapping_for(ctrl: Controller, keys: set[int], abses: set[int]) -> tuple[dict, str]:
+    """The input map the bridge would use for ctrl, and where it came from."""
+    profile = profiles.load(ctrl.vendor, ctrl.product)
+    if profile and profile.input_map:
+        return profile.input_map, "profile"
+    return heuristic_map(keys, abses, ctrl.driver), "heuristic"
+
+
 def pick_hidraw(ctrl: Controller, spec: profiles.RumbleSpec) -> str | None:
     if not ctrl.hidraw:
         return None
@@ -238,7 +254,7 @@ class Bridge:
             self.translator = None
         else:
             mapping = self.mapping_override or (profile.input_map if profile and profile.input_map else None) \
-                or heuristic_map(keys, set(absinfo))
+                or heuristic_map(keys, set(absinfo), self.ctrl.driver)
             self.translator = Translator(mapping, absinfo)
             events = {E.EV_KEY: XPAD_KEYS, E.EV_ABS: list(XPAD_ABS.items()), E.EV_FF: FF_CAPS}
             self.ui = UInput(events, name=self.name or "Microsoft X-Box 360 pad",

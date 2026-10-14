@@ -8,11 +8,12 @@ import time
 from evdev import InputDevice, ecodes as E
 
 from padlink.core import doctor, hiddesc, integration, profiles, prober
-from padlink.core.bridge import Bridge, code_name
+from padlink.core.bridge import Bridge, Translator, code_name, mapping_for
 from padlink.core.discovery import Controller
 from padlink.core.hidraw import HidrawDevice, hexstr
 from padlink.core.logger import NullLog, SessionLog, format_record, list_logs, read_log
 from padlink.core.paths import LOG_DIR
+from padlink.gtk.padview import PadView, family_for
 from padlink.gtk.util import (Adw, Gio, GLib, Gtk, append_text, clear_group, copy_button, esc, mono_view,
                               run_bg, status_icon)
 
@@ -146,13 +147,24 @@ class LivePage(Page):
         bar.append(self.status)
         self.append(bar)
 
+        self.pad = PadView()
+        self.append(self.pad)
+        self.map_label = Gtk.Label(xalign=0.5, wrap=True)
+        self.map_label.add_css_class("dim-label")
+        self.map_label.add_css_class("caption")
+        self.append(self.map_label)
+
+        raw = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8, margin_top=6)
         self.buttons = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, max_children_per_line=12,
                                    column_spacing=6, row_spacing=6)
-        self.append(self.buttons)
+        raw.append(self.buttons)
         self.axes_box = Gtk.Grid(column_spacing=12, row_spacing=4)
-        self.append(self.axes_box)
-        sw, self.view = mono_view(200)
+        raw.append(self.axes_box)
+        self.raw_expander = Gtk.Expander(label="Raw evdev values", child=raw)
+        self.append(self.raw_expander)
+        sw, self.view = mono_view(120)
         self.append(sw)
+        self.translator = None
         self.watches: list[int] = []
         self.devs: list = []
         self.btn_widgets: dict[int, Gtk.Label] = {}
@@ -164,6 +176,8 @@ class LivePage(Page):
         self.stop()
         super().set_controller(ctrl)
         self.status.set_text(f"{ctrl.primary_event.path}" if ctrl and ctrl.primary_event else "")
+        self.pad.configure(family_for(ctrl.vendor) if ctrl else "xbox")
+        self.map_label.set_text("")
 
     def toggle(self, _b):
         if self.watches:
@@ -184,6 +198,7 @@ class LivePage(Page):
         self.log = SessionLog(ctrl.id_str, "live", {"device": ctrl.to_dict()}) if self.log_switch.get_active() \
             else NullLog()
         self._build_widgets(dev)
+        self._build_translator(ctrl, dev)
         self.watches.append(GLib.io_add_watch(dev.fd, GLib.PRIORITY_DEFAULT, GLib.IO_IN | GLib.IO_HUP | GLib.IO_ERR,
                                               self._on_evdev, dev))
         if self.raw_switch.get_active():
@@ -211,6 +226,9 @@ class LivePage(Page):
         self.devs.clear()
         self.log.close()
         self.log = NullLog()
+        self.translator = None
+        self.pad.reset()
+        self.pad.set_active(False)
         self.start_btn.set_label("Start")
         self.start_btn.remove_css_class("destructive-action")
         self.start_btn.add_css_class("suggested-action")
@@ -242,6 +260,32 @@ class LivePage(Page):
             self.axis_widgets[code] = (bar, val, info)
             self._set_axis(code, info.value)
 
+    def _build_translator(self, ctrl, dev: InputDevice):
+        caps = dev.capabilities(absinfo=True)
+        absinfo = {code: info for code, info in caps.get(E.EV_ABS, [])}
+        self.pad.reset()
+        if ctrl.is_padlink:  # already an Xbox 360 layout
+            mapping, source = ({"keys": {code_name(E.EV_KEY, k): code_name(E.EV_KEY, k) for k in caps.get(E.EV_KEY, [])},
+                                "axes": {code_name(E.EV_ABS, a): {"to": code_name(E.EV_ABS, a)} for a in absinfo}},
+                               "virtual pad")
+        else:
+            mapping, source = mapping_for(ctrl, set(caps.get(E.EV_KEY, [])), set(absinfo))
+        self.translator = Translator(mapping, absinfo)
+        for code, info in absinfo.items():
+            for t, c, v in self.translator.translate(E.EV_ABS, code, info.value):
+                self.pad.apply(t, c, v)
+        unmapped = [code_name(E.EV_KEY, k) for k in caps.get(E.EV_KEY, [])
+                    if not self.translator.translate(E.EV_KEY, k, 0) and k not in (E.BTN_TL2, E.BTN_TR2)]
+        hint = {"profile": "from your profile", "heuristic": f"guessed for driver {ctrl.driver or '?'}",
+                "virtual pad": "padlink virtual pad"}[source]
+        text = f"Drawing uses the bridge's input map ({hint})."
+        if unmapped:
+            text += f" Not shown on the drawing: {', '.join(unmapped)}."
+        if source != "virtual pad":
+            text += f" Wrong buttons? Fix it with: padlink map {ctrl.id_str}"
+        self.map_label.set_text(text)
+        self.pad.set_active(True)
+
     def _set_axis(self, code, value):
         bar, val, info = self.axis_widgets[code]
         span = max(1, info.max - info.min)
@@ -262,6 +306,12 @@ class LivePage(Page):
             self.stop()
             return False
         for ev in events:
+            if self.translator and ev.type in (E.EV_KEY, E.EV_ABS):
+                out = self.translator.translate(ev.type, ev.code, ev.value)
+                if not out and ev.type == E.EV_KEY and ev.code in (E.BTN_TL2, E.BTN_TR2):
+                    out = [(ev.type, ev.code, ev.value)]  # digital trigger click next to an analog axis
+                for t, c, v in out:
+                    self.pad.apply(t, c, v)
             if ev.type == E.EV_KEY and ev.code in self.btn_widgets:
                 (self.btn_widgets[ev.code].add_css_class if ev.value else
                  self.btn_widgets[ev.code].remove_css_class)("pressed")
@@ -273,6 +323,7 @@ class LivePage(Page):
                 if ev.type == E.EV_KEY:
                     append_text(self.view, f"{ev.timestamp():.3f} {code_name(ev.type, ev.code)} "
                                            f"{'press' if ev.value else 'release'}")
+        self.pad.queue_draw()
         return True
 
     def _on_hid(self, _fd, cond, hd):

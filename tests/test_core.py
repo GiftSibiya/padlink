@@ -150,6 +150,15 @@ class TranslatorTests(unittest.TestCase):
         self.assertEqual(t.translate(E.EV_KEY, E.BTN_DPAD_RIGHT, 1), [(E.EV_ABS, E.ABS_HAT0X, 0)])
         self.assertEqual(t.translate(E.EV_KEY, E.BTN_DPAD_LEFT, 0), [(E.EV_ABS, E.ABS_HAT0X, 1)])
 
+    def test_spec_driver_face_buttons(self):
+        keys = {E.BTN_SOUTH, E.BTN_EAST, E.BTN_NORTH, E.BTN_WEST}
+        ds4 = Translator(heuristic_map(keys, set(), "playstation"), {})
+        # hid-playstation: triangle (top) = BTN_NORTH -> xpad Y (0x134); square (left) = BTN_WEST -> xpad X (0x133)
+        self.assertEqual(ds4.translate(E.EV_KEY, E.BTN_NORTH, 1), [(E.EV_KEY, 0x134, 1)])
+        self.assertEqual(ds4.translate(E.EV_KEY, E.BTN_WEST, 1), [(E.EV_KEY, 0x133, 1)])
+        generic = Translator(heuristic_map(keys, set(), "hid-generic"), {})
+        self.assertEqual(generic.translate(E.EV_KEY, 0x133, 1), [(E.EV_KEY, 0x133, 1)])
+
     def test_invert(self):
         t = Translator({"axes": {"ABS_Y": {"to": "ABS_Y", "invert": True}}}, self.absinfo)
         self.assertEqual(t.translate(E.EV_ABS, E.ABS_Y, 0), [(E.EV_ABS, E.ABS_Y, 32767)])

@@ -65,7 +65,7 @@ Run `padlink-gtk`. The sidebar lists controllers and updates live on hotplug. It
 | Tab | What it does |
 |---|---|
 | Device | Identity, driver, nodes and permissions, battery, FF capabilities, parsed HID descriptors |
-| Input | Live buttons and axes, plus optional raw HID reports with change detection. Can log to JSONL |
+| Input | A controller drawing (Xbox, PlayStation or Nintendo layout) where pressed buttons light up, sticks move and triggers fill. It shows input through the bridge's input map, so it's also how games will see the pad. Raw evdev values and HID reports are below it. Can log to JSONL |
 | Rumble | Strength and duration test. Uses kernel FF or the hidraw profile |
 | Probe | The probe wizard (stage 1: find the report, stage 2: find each motor's byte) |
 | Bridge | Start and stop the bridge, see FF traffic from games live, apply Lutris env vars, install autostart |
