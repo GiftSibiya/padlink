@@ -4,6 +4,84 @@ A companion app for wireless game controllers on Linux. It detects controllers, 
 
 Its first target is the **GameSir T4N Lite** on its Zikway 2.4G dongle (`3537:1041`). In HID mode, Linux binds `hid-generic`, which has no force feedback. Games in Lutris/Wine/Proton therefore see a gamepad with no rumble, and their rumble requests are dropped.
 
+## Install
+
+Prebuilt packages are on the [releases page](https://github.com/GiftSibiya/padlink/releases) (x86_64). Follow one guide, then open **padlink** from the application menu or run `padlink-gtk`. You can stop here.
+
+### Ubuntu and Debian
+
+Ubuntu 24.04 or Debian 13 and newer. Download `padlink_<version>-1_amd64.deb`, then:
+
+```sh
+sudo apt install ./padlink_*.deb
+```
+
+This installs the command line, the GTK app, the desktop entry, and the udev rule that lets your user write rumble to the GameSir dongle. Unplug the dongle and plug it back in.
+
+### Arch Linux
+
+Download `padlink-aur-<version>.tar.gz` (a PKGBUILD, not a binary package), then:
+
+```sh
+mkdir -p padlink-aur && tar -C padlink-aur -xf padlink-aur-*.tar.gz
+cd padlink-aur
+makepkg -si
+```
+
+`makepkg -si` builds the release and installs it, including the udev rule. Unplug the dongle and plug it back in.
+
+To build the latest `main` from a checkout of this repo instead, run `makepkg -si` in the repo root (`PKGBUILD` is `padlink-git`).
+
+### Other Linux
+
+Needs GTK 4.12+ and libadwaita 1.4+. Download `padlink-<version>-x86_64-linux.tar.gz`, then:
+
+```sh
+tar xf padlink-*-x86_64-linux.tar.gz
+cd padlink-*-x86_64-linux
+./install.sh
+```
+
+That installs into `~/.local`. `~/.local/bin` needs to be on your `PATH`.
+
+For a system-wide install, which also installs the udev rule:
+
+```sh
+sudo ./install.sh --prefix /usr/local
+```
+
+A user install does not install the udev rule. Rumble on the HID-mode dongle needs it:
+
+```sh
+sudo install -m644 lib/udev/rules.d/70-padlink.rules /etc/udev/rules.d/
+sudo udevadm control --reload && sudo udevadm trigger
+```
+
+Unplug the dongle and plug it back in. Remove a copy with `./install.sh --uninstall` (add `--prefix` if you used one).
+
+### From source
+
+```sh
+./install.sh
+```
+
+This builds `padlink` and `padlink-gtk` and installs both into `~/.local/bin`, plus the desktop entry and artwork. `~/.local/bin` needs to be on your `PATH`.
+
+Building needs a Rust toolchain (Arch: `rustup`), libudev (part of systemd), and the GTK stack (`gtk4`, `libadwaita`, `librsvg`). There is no Python dependency.
+
+`./install.sh` does not install the udev rule. Rumble on the HID-mode dongle needs it:
+
+```sh
+sudo install -m644 data/70-padlink.rules /etc/udev/rules.d/
+sudo udevadm control --reload && sudo udevadm trigger
+```
+
+Unplug the dongle and plug it back in.
+
+`cargo install --path crates/padlink-cli --locked` and `cargo install --path crates/padlink-gtk --locked` install only the binaries, into `~/.cargo/bin`.
+
+For a device other than the GameSir/Zikway dongle, print a rule with `padlink udev-rule <vid:pid>` and install that the same way.
+
 ## How the fix works
 
 ```
@@ -18,43 +96,6 @@ Its first target is the **GameSir T4N Lite** on its Zikway 2.4G dongle (`3537:10
 3. `padlink lutris-env` hides the physical pad from SDL so games only use the virtual pad.
 
 Every step writes JSONL logs, so you can study what a game sends and how the controller responds later.
-
-## Install
-
-Prebuilt packages are on the [releases page](https://github.com/GiftSibiya/padlink/releases) (x86_64):
-
-| System | Package | Install |
-|---|---|---|
-| Ubuntu 24.04+, Debian 13+ | `padlink_<version>-1_amd64.deb` | `sudo apt install ./padlink_*.deb` (includes the udev rule) |
-| Arch | `padlink-aur-<version>.tar.gz` (PKGBUILD) | unpack, then `makepkg -si` |
-| Any (GTK 4.12+, libadwaita 1.4+) | `padlink-<version>-x86_64-linux.tar.gz` | unpack, then `./install.sh` (into `~/.local`) or `sudo ./install.sh --prefix /usr/local` |
-
-From source:
-
-```sh
-./install.sh            # builds padlink and padlink-gtk, installs both into ~/.local/bin
-```
-
-The command line, the bridge, and the GTK app are Rust. Building needs a Rust toolchain (Arch: `rustup`), libudev (part of systemd), and the GTK stack (`gtk4`, `libadwaita`, `librsvg`). padlink is written entirely in Rust; there is no Python dependency.
-
-Arch can also build the latest `main` from a checkout of this repo:
-
-```sh
-makepkg -si          # PKGBUILD (padlink-git): binaries, desktop file, udev rule
-```
-
-Releases: bump the version in `Cargo.toml`, add a `CHANGELOG.md` section, merge, then push a `v<version>` tag. `.github/workflows/release.yml` builds and publishes everything (`scripts/package.sh`, `scripts/render-pkgbuild.sh`).
-
-`cargo install --path crates/padlink-cli --locked` and `cargo install --path crates/padlink-gtk --locked` install only the binaries, into `~/.cargo/bin`.
-
-Rumble on the HID-mode dongle needs write access to its hidraw node:
-
-```sh
-sudo install -m644 data/70-padlink.rules /etc/udev/rules.d/
-sudo udevadm control --reload && sudo udevadm trigger      # then replug the dongle
-```
-
-For other devices, generate a rule with `padlink udev-rule <vid:pid>`.
 
 ## GameSir T4N Lite quick start
 
@@ -242,6 +283,8 @@ Run `padlink logs export` to bundle the logs and profiles into a tarball for sha
 ```sh
 cargo test   # unit tests, golden fixtures and the live bridge tests (these need /dev/uinput and skip themselves otherwise)
 ```
+
+Releases: bump the version in `Cargo.toml`, add a `CHANGELOG.md` section, merge, then push a `v<version>` tag. `.github/workflows/release.yml` builds and publishes everything (`scripts/package.sh`, `scripts/render-pkgbuild.sh`).
 
 The live tests create a fake source pad and run the bridge. They check input translation and have a "game" upload and play a rumble effect, which must arrive as `ff_upload`/`ff_play`/`rumble_out`. Don't run them while a game is open: it hot-plugs the test's virtual pads.
 
