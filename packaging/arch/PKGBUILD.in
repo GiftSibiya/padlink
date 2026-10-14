@@ -1,0 +1,46 @@
+# Maintainer: Gift Sibiya <https://github.com/GiftSibiya>
+pkgname=padlink
+pkgver=@VERSION@
+pkgrel=1
+pkgdesc='Detect, debug and bridge rumble for wireless game controllers'
+arch=('x86_64')
+url='https://github.com/GiftSibiya/padlink'
+license=('MIT')
+depends=('gtk4' 'libadwaita' 'librsvg' 'systemd-libs')
+makedepends=('cargo')
+conflicts=('padlink-git')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/GiftSibiya/padlink/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('@SHA256@')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release -p padlink-cli -p padlink-gtk
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  # unit tests and golden fixtures; the live bridge tests need /dev/uinput
+  cargo test --frozen --release -p padlink-core --lib --test golden
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/padlink "$pkgdir/usr/bin/padlink"
+  install -Dm755 target/release/padlink-gtk "$pkgdir/usr/bin/padlink-gtk"
+  install -Dm644 data/padlink.desktop "$pkgdir/usr/share/applications/padlink.desktop"
+  install -Dm644 data/70-padlink.rules "$pkgdir/usr/lib/udev/rules.d/70-padlink.rules"
+  install -d "$pkgdir/usr/share/padlink/art"
+  install -m644 data/art-templates/*.svg "$pkgdir/usr/share/padlink/art/"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md CHANGELOG.md -t "$pkgdir/usr/share/doc/$pkgname/"
+}

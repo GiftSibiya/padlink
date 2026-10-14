@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+# pick up the udev rule for the GameSir/Zikway dongle's hidraw nodes
+if [ "$1" = "configure" ] && command -v udevadm >/dev/null 2>&1; then
+    udevadm control --reload || true
+fi
+#DEBHELPER#
