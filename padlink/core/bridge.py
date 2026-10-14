@@ -7,10 +7,12 @@ padlink forwards them to the real controller:
   - native FF device: evdev FF on the real node (useful for testing with a DS4)
   - otherwise:        log only, which still shows what the game asked for
 
-Two personalities:
-  xpad   (default) an Xbox 360 pad (045e:028e). Every game and SDL knows it.
-         Input is translated with an input map (heuristic, or from the profile).
-  mirror clone the source's capabilities 1:1 and add FF.
+What the virtual pad looks like (mode):
+  <persona>  spoof a known controller (see personas.py): xbox360 (default), xboxone,
+             xboxseries, ds4, dualsense, switchpro. Input is translated with an
+             input map (heuristic, or from the profile) into canonical Xbox 360
+             events, then re-encoded the way that controller's Linux driver would.
+  mirror     clone the source's capabilities 1:1 and add FF.
 
 Hide the physical device from games (SDL_GAMECONTROLLER_IGNORE_DEVICES, see
 `padlink lutris-env`) so they only see the virtual pad. The bridge also grabs
@@ -28,13 +30,11 @@ import time
 from evdev import AbsInfo, InputDevice, UInput, UInputError, ecodes
 
 from padlink.core import ff as fflib
-from padlink.core import profiles
+from padlink.core import personas, profiles
 from padlink.core.discovery import PADLINK_VIRTUAL_PHYS, Controller
 
 E = ecodes
 
-XPAD_KEYS = [E.BTN_A, E.BTN_B, E.BTN_X, E.BTN_Y, E.BTN_TL, E.BTN_TR, E.BTN_SELECT, E.BTN_START,
-             E.BTN_MODE, E.BTN_THUMBL, E.BTN_THUMBR]
 STICK = AbsInfo(value=0, min=-32768, max=32767, fuzz=16, flat=128, resolution=0)
 TRIGGER = AbsInfo(value=0, min=0, max=255, fuzz=0, flat=0, resolution=0)
 HAT = AbsInfo(value=0, min=-1, max=1, fuzz=0, flat=0, resolution=0)
@@ -210,12 +210,13 @@ def make_sink(ctrl: Controller, profile: profiles.Profile | None, log) -> tuple[
 class Bridge:
     """Run with start()/stop() (thread) or run() (blocking)."""
 
-    def __init__(self, ctrl: Controller, log, mode: str = "xpad", grab: bool = True,
+    def __init__(self, ctrl: Controller, log, mode: str = personas.DEFAULT, grab: bool = True,
                  log_input: bool = False, mapping: dict | None = None,
                  vendor: int | None = None, product: int | None = None, name: str | None = None):
         self.ctrl = ctrl
         self.log = log
         self.mode = mode
+        self.persona = None if mode == "mirror" else personas.get(mode)
         self.grab = grab
         self.log_input = log_input
         self.mapping_override = mapping
@@ -243,8 +244,8 @@ class Bridge:
         absinfo = {code: info for code, info in caps.get(E.EV_ABS, [])}
         profile = profiles.load(self.ctrl.vendor, self.ctrl.product)
 
-        tag = f"{PADLINK_VIRTUAL_PHYS}/{self.ctrl.id_str}"
-        if self.mode == "mirror":
+        tag = f"{PADLINK_VIRTUAL_PHYS}/{self.ctrl.id_str}/{self.persona.id if self.persona else 'mirror'}"
+        if self.persona is None:
             events = {t: c for t, c in caps.items() if t not in (E.EV_SYN, E.EV_FF)}
             events[E.EV_FF] = FF_CAPS
             self.ui = UInput(events, name=self.name or f"{self.src.name} (padlink)",
@@ -256,11 +257,15 @@ class Bridge:
             mapping = self.mapping_override or (profile.input_map if profile and profile.input_map else None) \
                 or heuristic_map(keys, set(absinfo), self.ctrl.driver)
             self.translator = Translator(mapping, absinfo)
-            events = {E.EV_KEY: XPAD_KEYS, E.EV_ABS: list(XPAD_ABS.items()), E.EV_FF: FF_CAPS}
-            self.ui = UInput(events, name=self.name or "Microsoft X-Box 360 pad",
-                             vendor=self.vendor if self.vendor is not None else 0x045E,
-                             product=self.product if self.product is not None else 0x028E,
-                             version=0x0110, bustype=E.BUS_USB, phys=tag, max_effects=16)
+            p = self.persona
+            events = {**p.capabilities(), E.EV_FF: FF_CAPS}
+            self.ui = UInput(events, name=self.name or p.name,
+                             vendor=self.vendor if self.vendor is not None else p.vendor,
+                             product=self.product if self.product is not None else p.product,
+                             version=p.version, bustype=p.bustype, phys=tag, max_effects=16)
+            if (self.vendor or p.vendor, self.product or p.product) == (self.ctrl.vendor, self.ctrl.product):
+                self.log.write("note", text="virtual pad has the same vendor:product as the physical one; "
+                                            "SDL_GAMECONTROLLER_IGNORE_DEVICES would hide both. Pick another persona.")
             self.log.write("note", text="input map", mapping=mapping,
                            source="override" if self.mapping_override else
                            ("profile" if profile and profile.input_map else "heuristic"))
@@ -276,7 +281,8 @@ class Bridge:
             except OSError as exc:
                 self.log.write("note", text=f"could not grab {node.path}: {exc}")
         self.log.write("note", text="bridge up", source=node.path, virtual=self.virtual_path,
-                       mode=self.mode, sink=sink.name)
+                       mode=self.mode, persona=self.persona.label if self.persona else "mirror",
+                       spoofing=f"{self.ui.vendor:04x}:{self.ui.product:04x}", sink=sink.name)
 
     # -- event handling ---------------------------------------------------
     def _handle_source(self) -> None:
@@ -294,7 +300,8 @@ class Bridge:
                     self.ui.write(ev.type, ev.code, ev.value)
             else:
                 for t, c, v in self.translator.translate(ev.type, ev.code, ev.value):
-                    self.ui.write(t, c, v)
+                    for t2, c2, v2 in self.persona.convert(t, c, v):
+                        self.ui.write(t2, c2, v2)
 
     def _handle_uinput(self) -> None:
         assert self.ui and self.driver

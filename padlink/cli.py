@@ -10,7 +10,7 @@ import sys
 import time
 
 from padlink import __version__
-from padlink.core import discovery, doctor, hiddesc, integration, profiles
+from padlink.core import discovery, doctor, hiddesc, integration, personas, profiles
 from padlink.core.hidraw import HidrawDevice, hexstr, parse_hex
 from padlink.core.logger import NullLog, SessionLog, format_record, list_logs, read_log
 from padlink.core.paths import LOG_DIR, PROFILE_DIR
@@ -455,7 +455,9 @@ def cmd_bridge(args) -> int:
 
         signal.signal(signal.SIGINT, on_sig)
         signal.signal(signal.SIGTERM, on_sig)
-        print(bold(f"Bridging {x.name} [{x.id_str}] -> virtual pad ({args.mode}). Ctrl+C to stop."))
+        target = "mirror of the source" if args.mode == "mirror" else \
+            f"{personas.get(args.mode).label} [{personas.get(args.mode).id_str}]"
+        print(bold(f"Bridging {x.name} [{x.id_str}] -> virtual {target}. Ctrl+C to stop."))
         if not args.no_grab:
             env = integration.lutris_env(x)
             print(dim("Hide the physical pad from games: " + " ".join(f"{k}={v}" for k, v in env.items())))
@@ -605,12 +607,23 @@ def cmd_udev_rule(args) -> int:
     return 0
 
 
+def cmd_personas(args) -> int:
+    for p in personas.PERSONAS.values():
+        default = dim(" (default)") if p.id == personas.DEFAULT else ""
+        print(f"{bold(p.id):24s} {p.label} [{p.id_str}]{default}")
+        print(f"    {dim(p.name)}")
+        print(f"    {p.description}")
+    print(f"{bold('mirror'):24s} clone the physical controller's own buttons/axes (+ rumble)")
+    print(dim("\nuse: padlink bridge <dev> --as <persona>"))
+    return 0
+
+
 def cmd_service(args) -> int:
     if args.action == "show":
-        print(integration.systemd_unit(args.device))
+        print(integration.systemd_unit(args.device, args.mode))
         return 0
     if args.action == "install":
-        path = integration.install_service(args.device)
+        path = integration.install_service(args.device, args.mode)
         print(f"wrote {path}")
         print("enable with: systemctl --user daemon-reload && systemctl --user enable --now padlink-bridge")
         return 0
@@ -744,7 +757,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("bridge", help="virtual pad with rumble, forwarded to the real controller")
     dev_arg(sp)
-    sp.add_argument("--mode", choices=["xpad", "mirror"], default="xpad")
+    sp.add_argument("--mode", "--as", dest="mode", default=personas.DEFAULT,
+                    choices=list(personas.PERSONAS) + ["mirror", "xpad"],
+                    help="what the virtual pad pretends to be (see `padlink personas`); default xbox360")
     sp.add_argument("--wait", action="store_true", help="wait for the controller and re-bridge after reconnects")
     sp.add_argument("--log", action="store_true", help="write a JSONL session log")
     sp.add_argument("-v", "--verbose", action="store_true", help="print input and output traffic too")
@@ -778,7 +793,12 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("service", help="systemd --user unit that keeps the bridge running")
     sp.add_argument("action", choices=["show", "install"])
     sp.add_argument("device", help="vid:pid to bridge, e.g. 3537:1041")
+    sp.add_argument("--as", dest="mode", default=personas.DEFAULT,
+                    choices=list(personas.PERSONAS) + ["mirror"], help="persona for the virtual pad")
     sp.set_defaults(func=cmd_service)
+
+    sp = sub.add_parser("personas", help="list the controllers the bridge can spoof")
+    sp.set_defaults(func=cmd_personas)
 
     sp = sub.add_parser("logs", help="list/show/export session logs")
     sp.add_argument("action", choices=["list", "show", "export", "path"])

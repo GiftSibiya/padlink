@@ -7,8 +7,8 @@ import time
 
 from evdev import InputDevice, ecodes as E
 
-from padlink.core import doctor, hiddesc, integration, profiles, prober
-from padlink.core.bridge import Bridge, Translator, code_name, mapping_for
+from padlink.core import doctor, hiddesc, integration, personas, profiles, prober, settings
+from padlink.core.bridge import Bridge, Translator, code_name, heuristic_map, mapping_for
 from padlink.core.discovery import Controller
 from padlink.core.hidraw import HidrawDevice, hexstr
 from padlink.core.logger import NullLog, SessionLog, format_record, list_logs, read_log
@@ -142,26 +142,40 @@ class LivePage(Page):
         bar.append(self.raw_switch)
         bar.append(Gtk.Label(label="Log to file"))
         bar.append(self.log_switch)
-        self.status = Gtk.Label(xalign=0, hexpand=True)
+        self.status = Gtk.Label(xalign=0, hexpand=True, ellipsize=3)
         self.status.add_css_class("dim-label")
         bar.append(self.status)
+
+        # Drawing vs. the raw evdev view; the choice is remembered
+        self.views = Gtk.Stack(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        self.view_toggle = Adw.ToggleGroup(valign=Gtk.Align.CENTER)
+        self.view_toggle.add(Adw.Toggle(name="drawing", label="Drawing", tooltip="Controller illustration"))
+        self.view_toggle.add(Adw.Toggle(name="raw", label="Raw values", tooltip="Every evdev button and axis"))
+        bar.append(self.view_toggle)
         self.append(bar)
 
+        drawing = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.pad = PadView()
-        self.append(self.pad)
+        drawing.append(self.pad)
         self.map_label = Gtk.Label(xalign=0.5, wrap=True)
         self.map_label.add_css_class("dim-label")
         self.map_label.add_css_class("caption")
-        self.append(self.map_label)
+        drawing.append(self.map_label)
+        self.views.add_named(drawing, "drawing")
 
-        raw = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8, margin_top=6)
+        raw = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         self.buttons = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, max_children_per_line=12,
-                                   column_spacing=6, row_spacing=6)
+                                   column_spacing=6, row_spacing=6, valign=Gtk.Align.START)
         raw.append(self.buttons)
         self.axes_box = Gtk.Grid(column_spacing=12, row_spacing=4)
         raw.append(self.axes_box)
-        self.raw_expander = Gtk.Expander(label="Raw evdev values", child=raw)
-        self.append(self.raw_expander)
+        self.views.add_named(raw, "raw")
+        self.append(self.views)
+
+        initial = settings.get("input_view", "drawing")
+        self.views.set_visible_child_name(initial if initial in ("drawing", "raw") else "drawing")
+        self.view_toggle.set_active_name(self.views.get_visible_child_name())
+        self.view_toggle.connect("notify::active-name", self._on_view_toggle)
         sw, self.view = mono_view(120)
         self.append(sw)
         self.translator = None
@@ -171,6 +185,12 @@ class LivePage(Page):
         self.axis_widgets: dict[int, tuple[Gtk.LevelBar, Gtk.Label, object]] = {}
         self.last_raw: dict = {}
         self.log = NullLog()
+
+    def _on_view_toggle(self, group, _pspec):
+        name = group.get_active_name()
+        if name:
+            self.views.set_visible_child_name(name)
+            settings.set("input_view", name)
 
     def set_controller(self, ctrl):
         self.stop()
@@ -199,6 +219,14 @@ class LivePage(Page):
             else NullLog()
         self._build_widgets(dev)
         self._build_translator(ctrl, dev)
+        try:  # buttons already held down when monitoring starts
+            for code in dev.active_keys():
+                if code in self.btn_widgets:
+                    self.btn_widgets[code].add_css_class("pressed")
+                for t, c, v in self.translator.translate(E.EV_KEY, code, 1):
+                    self.pad.apply(t, c, v)
+        except OSError:
+            pass
         self.watches.append(GLib.io_add_watch(dev.fd, GLib.PRIORITY_DEFAULT, GLib.IO_IN | GLib.IO_HUP | GLib.IO_ERR,
                                               self._on_evdev, dev))
         if self.raw_switch.get_active():
@@ -264,10 +292,10 @@ class LivePage(Page):
         caps = dev.capabilities(absinfo=True)
         absinfo = {code: info for code, info in caps.get(E.EV_ABS, [])}
         self.pad.reset()
-        if ctrl.is_padlink:  # already an Xbox 360 layout
-            mapping, source = ({"keys": {code_name(E.EV_KEY, k): code_name(E.EV_KEY, k) for k in caps.get(E.EV_KEY, [])},
-                                "axes": {code_name(E.EV_ABS, a): {"to": code_name(E.EV_ABS, a)} for a in absinfo}},
-                               "virtual pad")
+        if ctrl.is_padlink:  # decode it the way the spoofed controller's driver would be decoded
+            persona = personas.from_phys(ctrl.phys)
+            driver = "playstation" if persona and persona.spec_layout else None
+            mapping, source = heuristic_map(set(caps.get(E.EV_KEY, [])), set(absinfo), driver), "virtual pad"
         else:
             mapping, source = mapping_for(ctrl, set(caps.get(E.EV_KEY, [])), set(absinfo))
         self.translator = Translator(mapping, absinfo)
@@ -611,10 +639,18 @@ class BridgePage(Page):
         page = Adw.PreferencesPage()
         self.append(page)
         g = Adw.PreferencesGroup(title="Rumble bridge",
-                                 description="Creates a virtual Xbox 360 pad with force feedback. Games see it, "
-                                             "and their rumble is forwarded to this controller.")
+                                 description="Creates a virtual controller with force feedback. Games see it, "
+                                             "and their rumble is forwarded to this controller. It can "
+                                             "impersonate other controllers for games that expect one.")
         page.add(g)
-        self.mode = Adw.ComboRow(title="Virtual pad", model=Gtk.StringList.new(["Xbox 360 (xpad)", "Mirror source"]))
+        # persona ids in combo order; "mirror" last
+        self.mode_ids = list(personas.PERSONAS) + ["mirror"]
+        labels = [p.label for p in personas.PERSONAS.values()] + ["Mirror real controller"]
+        self.mode = Adw.ComboRow(title="Appear to games as", model=Gtk.StringList.new(labels))
+        saved = settings.get("bridge_persona", personas.DEFAULT)
+        self.mode.set_selected(self.mode_ids.index(saved) if saved in self.mode_ids else 0)
+        self.mode.connect("notify::selected", self._on_mode)
+        self._on_mode(self.mode, None)
         self.grab = Adw.SwitchRow(title="Grab physical device", subtitle="so games only get input via the virtual pad",
                                   active=True)
         self.logsw = Adw.SwitchRow(title="Write JSONL log", active=True)
@@ -652,6 +688,7 @@ class BridgePage(Page):
 
     def set_controller(self, ctrl):
         super().set_controller(ctrl)
+        self._on_mode(self.mode, None)
         for r in self.lutris_rows:
             self.lutris.remove(r)
         self.lutris_rows.clear()
@@ -685,10 +722,26 @@ class BridgePage(Page):
         except Exception as exc:
             self.toast(f"Failed: {exc}")
 
+    def _mode_id(self) -> str:
+        return self.mode_ids[self.mode.get_selected()]
+
+    def _on_mode(self, _row, _pspec):
+        mid = self._mode_id()
+        if mid == "mirror":
+            sub = "Same buttons, axes and IDs as the real controller, plus rumble support"
+        else:
+            p = personas.get(mid)
+            sub = f"{p.description}. Shows up as “{p.name}” [{p.id_str}]"
+            if self.ctrl and (p.vendor, p.product) == (self.ctrl.vendor, self.ctrl.product):
+                sub += ". ⚠ Same IDs as the real controller, so hiding it from games would hide this too"
+        self.mode.set_subtitle(esc(sub))
+        if _pspec is not None:
+            settings.set("bridge_persona", mid)
+
     def install_service(self, _b):
         if not self.ctrl:
             return
-        path = integration.install_service(self.ctrl.id_str)
+        path = integration.install_service(self.ctrl.id_str, self._mode_id())
         self.toast(f"Wrote {path}. Enable: systemctl --user enable --now padlink-bridge")
 
     def toggle(self, _b):
@@ -705,9 +758,10 @@ class BridgePage(Page):
             else NullLog()
         t0 = time.time()
         self.log.listeners.append(lambda rec: GLib.idle_add(self._on_record, rec, t0))
-        mode = "mirror" if self.mode.get_selected() == 1 else "xpad"
+        mode = self._mode_id()
         self.bridge = Bridge(ctrl, self.log, mode=mode, grab=self.grab.get_active())
         self.bridge.start()
+        self.mode.set_sensitive(False)
         self.toggle_btn.set_label("Stop")
         self.toggle_btn.remove_css_class("suggested-action")
         self.toggle_btn.add_css_class("destructive-action")
@@ -718,6 +772,7 @@ class BridgePage(Page):
             self.bridge.stop()
         if self.log:
             self.log.close()
+        self.mode.set_sensitive(True)
         self.toggle_btn.set_label("Start")
         self.toggle_btn.remove_css_class("destructive-action")
         self.toggle_btn.add_css_class("suggested-action")

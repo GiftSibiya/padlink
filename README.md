@@ -65,10 +65,10 @@ Run `padlink-gtk`. The sidebar lists controllers and updates live on hotplug. It
 | Tab | What it does |
 |---|---|
 | Device | Identity, driver, nodes and permissions, battery, FF capabilities, parsed HID descriptors |
-| Input | A controller drawing (Xbox, PlayStation or Nintendo layout) where pressed buttons light up, sticks move and triggers fill. It shows input through the bridge's input map, so it's also how games will see the pad. Raw evdev values and HID reports are below it. Can log to JSONL |
+| Input | Switch between **Drawing** and **Raw values**. Drawing is a controller illustration (Xbox, PlayStation or Nintendo layout) where pressed buttons light up, sticks move and triggers fill. It shows input through the bridge's input map, so it's also how games will see the pad. Raw evdev values and HID reports are below it. Can log to JSONL |
 | Rumble | Strength and duration test. Uses kernel FF or the hidraw profile |
 | Probe | The probe wizard (stage 1: find the report, stage 2: find each motor's byte) |
-| Bridge | Start and stop the bridge, see FF traffic from games live, apply Lutris env vars, install autostart |
+| Bridge | Choose which controller the virtual pad pretends to be, start and stop the bridge, see FF traffic from games live, apply Lutris env vars, install autostart |
 | Doctor | All checks with copyable fixes |
 | Logs | Browse session logs and filter by kind |
 
@@ -84,15 +84,43 @@ Run `padlink-gtk`. The sidebar lists controllers and updates live on hotplug. It
 | `hid-feature get/set <dev> ...` | Read or write feature reports |
 | `probe <dev> [--blind]` | Rumble discovery wizard |
 | `map <dev>` | Input-map wizard for the bridge |
-| `bridge <dev> [--mode xpad/mirror] [--wait] [--log] [-v]` | The rumble bridge |
+| `bridge <dev> [--as PERSONA] [--wait] [--log] [-v]` | The rumble bridge. `--as` picks which controller to spoof |
+| `personas` | List the controllers the bridge can spoof |
 | `doctor [<dev>] [--json] [--log]` | Diagnostics |
 | `lutris-env <dev> [--apply SLUG] [--remove]` | Hide the physical pad in Lutris game configs. A backup is kept |
 | `udev-rule <dev>` | Print a hidraw access rule |
-| `service show/install <vid:pid>` | systemd user unit |
+| `service show/install <vid:pid> [--as PERSONA]` | systemd user unit |
 | `logs list/show/export/path` | Session logs |
 | `capture <dev>` (root) | usbmon capture of the dongle's USB traffic |
 
 `<dev>` can be an index from `list`, `vid:pid`, a `/dev/...` node, or part of the name.
+
+## Spoofing other controllers (personas)
+
+Some games only accept certain controllers: Xbox only, or PlayStation prompts only. The bridge's virtual pad can impersonate:
+
+| `--as` | Appears as | IDs |
+|---|---|---|
+| `xbox360` (default) | Microsoft X-Box 360 pad | `045e:028e` |
+| `xboxone` | Microsoft X-Box One S pad | `045e:02ea` |
+| `xboxseries` | Microsoft Xbox Series S\|X Controller | `045e:0b12` |
+| `ds4` | Sony DualShock 4 (USB) | `054c:09cc` |
+| `dualsense` | Sony DualSense (USB) | `054c:0ce6` |
+| `switchpro` | Nintendo Switch Pro Controller | `057e:2009` |
+| `mirror` | A copy of the real controller | same as source |
+
+A persona copies more than the name and IDs. It also matches how that controller's Linux driver behaves:
+- **Button numbering:** Xbox drivers put X on `0x133`. The Sony and Nintendo drivers follow the kernel gamepad spec, where `0x133` is the top button.
+- **Axis ranges:** for example, DS4 sticks run 0..255 and Xbox One triggers 0..1023.
+- **Triggers:** analog only, analog plus a click like hid-playstation, or digital only like Switch Pro.
+
+The version numbers are the ones the real drivers report, so SDL selects its built-in mapping for that controller. Rumble works with every persona.
+
+Pick a persona whose IDs differ from your physical controller's. Otherwise the variable that hides the physical controller from games would hide the virtual pad too.
+
+```sh
+padlink bridge 3537:1041 --as ds4      # GameSir shows up to games as a DualShock 4
+```
 
 ## Profiles
 

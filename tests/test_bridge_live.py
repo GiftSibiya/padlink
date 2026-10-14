@@ -105,5 +105,51 @@ class LiveBridgeTest(unittest.TestCase):
         self.assertIn("ff_erase", [r["kind"] for r in self.records])
 
 
+    def test_personas_spoof(self):
+        spec = f"{FAKE_VID:04x}:{FAKE_PID:04x}"
+        ctrl = wait(lambda: next((c for c in discovery.scan() if c.id_str == spec
+                                  and c.primary_event and c.primary_event.readable), None))
+        if ctrl is None:
+            self.skipTest("fake source not visible/readable (udev uaccess?)")
+        # fake source is Android/xpad-style: BTN_NORTH(0x133) is the LEFT button
+        expect = {"xbox360": (0x133, [(E.EV_ABS, E.ABS_RZ, 255)]),
+                  "ds4": (E.BTN_WEST, [(E.EV_ABS, E.ABS_RZ, 255), (E.EV_KEY, E.BTN_TR2, 1)]),
+                  "switchpro": (E.BTN_WEST, [(E.EV_KEY, E.BTN_TR2, 1)])}
+        for pid, (left_code, trigger_events) in expect.items():
+            with self.subTest(persona=pid):
+                from padlink.core import personas
+                persona = personas.get(pid)
+                bridge = Bridge(ctrl, self.log, mode=pid)
+                bridge.start()
+                try:
+                    virt = wait(lambda: next((c for c in discovery.scan() if c.is_padlink
+                                              and c.phys.endswith("/" + pid) and c.primary_event
+                                              and c.primary_event.readable), None))
+                    self.assertIsNotNone(virt, f"{pid}: no virtual pad ({bridge.error})")
+                    self.assertEqual(virt.id_str, persona.id_str)
+                    self.assertEqual(virt.name, persona.name)
+                    pad = InputDevice(virt.primary_event.path)
+                    try:
+                        self.src.write(E.EV_KEY, E.BTN_NORTH, 1)
+                        self.src.write(E.EV_ABS, E.ABS_GAS, 255)
+                        self.src.syn()
+                        got = []
+                        end = time.monotonic() + 2
+                        while time.monotonic() < end and len(got) < 1 + len(trigger_events):
+                            if select.select([pad], [], [], 0.1)[0]:
+                                got += [(e.type, e.code, e.value) for e in pad.read() if e.type != E.EV_SYN]
+                        self.assertIn((E.EV_KEY, left_code, 1), got)
+                        for ev in trigger_events:
+                            self.assertIn(ev, got)
+                    finally:
+                        pad.close()
+                        self.src.write(E.EV_KEY, E.BTN_NORTH, 0)
+                        self.src.write(E.EV_ABS, E.ABS_GAS, 0)
+                        self.src.syn()
+                finally:
+                    bridge.stop()
+                    wait(lambda: not any(c.is_padlink for c in discovery.scan()), 3)
+
+
 if __name__ == "__main__":
     unittest.main()

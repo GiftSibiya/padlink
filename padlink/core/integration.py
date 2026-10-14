@@ -73,7 +73,7 @@ def apply_lutris_env(slug: str, env: dict[str, str], remove: bool = False) -> tu
     return path, backup
 
 
-def systemd_unit(spec: str) -> str:
+def systemd_unit(spec: str, mode: str = "xbox360") -> str:
     exe = shutil.which("padlink")
     if exe:
         cmd = exe
@@ -85,7 +85,7 @@ Description=padlink rumble bridge for {spec}
 After=graphical-session.target
 
 [Service]
-ExecStart={cmd} bridge {spec} --wait --log
+ExecStart={cmd} bridge {spec} --as {mode} --wait --log
 Restart=on-failure
 RestartSec=3
 
@@ -94,8 +94,8 @@ WantedBy=default.target
 """
 
 
-def install_service(spec: str) -> Path:
+def install_service(spec: str, mode: str = "xbox360") -> Path:
     SYSTEMD_USER.mkdir(parents=True, exist_ok=True)
     path = SYSTEMD_USER / "padlink-bridge.service"
-    path.write_text(systemd_unit(spec))
+    path.write_text(systemd_unit(spec, mode))
     return path

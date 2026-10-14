@@ -219,5 +219,43 @@ class LutrisApplyTests(unittest.TestCase):
                 integration.LUTRIS_GAMES = old
 
 
+class PersonaTests(unittest.TestCase):
+    def test_xbox360_identity(self):
+        from padlink.core import personas
+        p = personas.get("xpad")  # alias
+        self.assertEqual(p.id, "xbox360")
+        self.assertEqual(p.convert(E.EV_KEY, 0x133, 1), [(E.EV_KEY, 0x133, 1)])
+        self.assertEqual(p.convert(E.EV_ABS, E.ABS_X, -32768), [(E.EV_ABS, E.ABS_X, -32768)])
+        self.assertEqual(p.convert(E.EV_ABS, E.ABS_Z, 200), [(E.EV_ABS, E.ABS_Z, 200)])
+
+    def test_ds4_layout_and_ranges(self):
+        from padlink.core import personas
+        p = personas.get("ds4")
+        self.assertEqual(p.convert(E.EV_KEY, 0x133, 1), [(E.EV_KEY, E.BTN_WEST, 1)])   # X (left) -> square
+        self.assertEqual(p.convert(E.EV_KEY, 0x134, 1), [(E.EV_KEY, E.BTN_NORTH, 1)])  # Y (top) -> triangle
+        self.assertEqual(p.convert(E.EV_ABS, E.ABS_X, 32767), [(E.EV_ABS, E.ABS_X, 255)])
+        self.assertEqual(p.convert(E.EV_ABS, E.ABS_RZ, 255), [(E.EV_ABS, E.ABS_RZ, 255), (E.EV_KEY, E.BTN_TR2, 1)])
+        caps = p.capabilities()
+        self.assertIn(E.BTN_TL2, caps[E.EV_KEY])
+
+    def test_switch_digital_triggers(self):
+        from padlink.core import personas
+        p = personas.get("switchpro")
+        self.assertEqual(p.convert(E.EV_ABS, E.ABS_Z, 255), [(E.EV_KEY, E.BTN_TL2, 1)])
+        self.assertEqual(p.convert(E.EV_ABS, E.ABS_Z, 10), [(E.EV_KEY, E.BTN_TL2, 0)])
+        self.assertNotIn(E.ABS_Z, dict(p.capabilities()[E.EV_ABS]))
+
+    def test_xboxone_trigger_range(self):
+        from padlink.core import personas
+        self.assertEqual(personas.get("xboxone").convert(E.EV_ABS, E.ABS_RZ, 255), [(E.EV_ABS, E.ABS_RZ, 1023)])
+
+    def test_unknown(self):
+        from padlink.core import personas
+        with self.assertRaises(KeyError):
+            personas.get("nope")
+        self.assertEqual(personas.from_phys("padlink/virtual/3537:1041/ds4").id, "ds4")
+        self.assertIsNone(personas.from_phys("usb-0000:00:14.0-1/input0"))
+
+
 if __name__ == "__main__":
     unittest.main()
