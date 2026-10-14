@@ -618,6 +618,62 @@ def cmd_personas(args) -> int:
     return 0
 
 
+def cmd_art(args) -> int:
+    from padlink.core import art
+
+    if args.action == "template":
+        svg = art.template_svg(args.name or "xbox")
+        if args.output:
+            with open(args.output, "w") as fh:
+                fh.write(svg)
+            print(f"wrote {args.output}")
+        else:
+            sys.stdout.write(svg)
+        return 0
+    if args.action == "init":
+        name = args.name or "xbox"
+        family = name if name in art.FAMILIES else {"xbox360": "xbox", "xboxone": "xbox", "xboxseries": "xbox",
+                                                     "ds4": "playstation", "dualsense": "playstation",
+                                                     "switchpro": "nintendo"}.get(name)
+        if family is None:
+            return die(f"unknown art name {name!r}; use {', '.join(art.FAMILIES)} or a model name")
+        dest = art.USER_ART_DIR / f"{name}.svg"
+        if dest.exists() and not args.force:
+            return die(f"{dest} exists (use --force to overwrite)")
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(art.template_svg(family))
+        print(f"wrote {dest}")
+        print("Open it in Illustrator/Inkscape, draw over the shapes, keep the names, save as SVG.")
+        print("padlink's Input tab reloads it automatically on save.")
+        return 0
+    if args.action == "check":
+        from pathlib import Path
+        target = Path(args.name) if args.name and args.name.endswith(".svg") else None
+        if target is None:
+            name = args.name or "xbox"
+            target = next((d / f"{name}.svg" for d in (art.USER_ART_DIR, art.BUILTIN_ART_DIR)
+                           if (d / f"{name}.svg").exists()), None)
+            if target is None:
+                return die(f"no artwork named {name!r} in {art.USER_ART_DIR} or {art.BUILTIN_ART_DIR}")
+        results = art.check(target)
+        print(bold(str(target)))
+        for status, msg in results:
+            print(f"{STATUS_STYLE.get(status, status)}  {msg}")
+        return 1 if any(st == "fail" for st, _ in results) else 0
+    if args.action == "list":
+        print(f"user art:    {art.USER_ART_DIR}")
+        print(f"shipped art: {art.BUILTIN_ART_DIR}")
+        for d in (art.USER_ART_DIR, art.BUILTIN_ART_DIR):
+            for f in sorted(d.glob("*.svg")) if d.exists() else []:
+                print(f"  {f}")
+        for c in discovery.scan():
+            found = art.find(c.vendor, c.product)
+            print(f"{c.name} [{c.id_str}]: looks for {', '.join(n + '.svg' for n in art.candidates(c.vendor, c.product))}"
+                  f" -> {found or 'built-in drawing'}")
+        return 0
+    return 1
+
+
 def cmd_service(args) -> int:
     if args.action == "show":
         print(integration.systemd_unit(args.device, args.mode))
@@ -796,6 +852,15 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--as", dest="mode", default=personas.DEFAULT,
                     choices=list(personas.PERSONAS) + ["mirror"], help="persona for the virtual pad")
     sp.set_defaults(func=cmd_service)
+
+    sp = sub.add_parser("art", help="controller artwork (SVG) for the Input tab: templates, checks")
+    sp.add_argument("action", choices=["template", "init", "check", "list"],
+                    help="template: print/write a template; init: create an editable copy in "
+                         "~/.config/padlink/art; check: validate a file; list: what each controller uses")
+    sp.add_argument("name", nargs="?", help="xbox | playstation | nintendo (or a model name / .svg path for check)")
+    sp.add_argument("-o", "--output", help="template: write to this file")
+    sp.add_argument("--force", action="store_true", help="init: overwrite an existing file")
+    sp.set_defaults(func=cmd_art)
 
     sp = sub.add_parser("personas", help="list the controllers the bridge can spoof")
     sp.set_defaults(func=cmd_personas)

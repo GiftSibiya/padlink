@@ -196,7 +196,8 @@ class LivePage(Page):
         self.stop()
         super().set_controller(ctrl)
         self.status.set_text(f"{ctrl.primary_event.path}" if ctrl and ctrl.primary_event else "")
-        self.pad.configure(family_for(ctrl.vendor) if ctrl else "xbox")
+        self.pad.configure(family_for(ctrl.vendor) if ctrl else "xbox",
+                           ctrl.vendor if ctrl else None, ctrl.product if ctrl else None)
         self.map_label.set_text("")
 
     def toggle(self, _b):
@@ -311,7 +312,7 @@ class LivePage(Page):
             text += f" Not shown on the drawing: {', '.join(unmapped)}."
         if source != "virtual pad":
             text += f" Wrong buttons? Fix it with: padlink map {ctrl.id_str}"
-        self.map_label.set_text(text)
+        self.map_label.set_text(f"{text}\n{self.pad.art_status}")
         self.pad.set_active(True)
 
     def _set_axis(self, code, value):

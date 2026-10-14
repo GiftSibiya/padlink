@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <g id="guides">
+    <rect x="0.5" y="0.5" width="799" height="519" fill="none" stroke="#cccccc" stroke-dasharray="6 6"/>
+    <text x="400" y="430" font-size="12" fill="#888888" font-family="sans-serif" text-anchor="middle">padlink controller template (xbox). Draw your artwork over these shapes.</text>
+    <text x="400" y="448" font-size="12" fill="#888888" font-family="sans-serif" text-anchor="middle">Keep the object NAMES (they become ids). Interactive parts must be single shapes, not groups.</text>
+    <text x="400" y="466" font-size="12" fill="#888888" font-family="sans-serif" text-anchor="middle">Black (#000000) strokes/fills follow the light/dark theme. Other colours are kept as drawn.</text>
+    <text x="400" y="484" font-size="12" fill="#888888" font-family="sans-serif" text-anchor="middle">Export: SVG, Presentation Attributes, Convert text to outlines, Object IDs = Layer Names, Responsive on.</text>
+    <text x="400" y="502" font-size="12" fill="#888888" font-family="sans-serif" text-anchor="middle">This 'guides' layer is hidden by padlink. Delete it or leave it.</text>
+  </g>
+  <g id="artwork">
+    <path id="body" d="M240 80 L560 80 C680 80 740 140 770 300 C790 420 760 500 700 496 C650 492 620 430 580 394 L220 394 C180 430 150 492 100 496 C40 500 10 420 30 300 C60 140 120 80 240 80 Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="lt" x="176" y="4" width="100" height="44" rx="12" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="btn-lb" x="156" y="56" width="140" height="26" rx="12" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="rt" x="524" y="4" width="100" height="44" rx="12" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="btn-rb" x="504" y="56" width="140" height="26" rx="12" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="ls-ring" cx="250" cy="200" r="48" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="ls-knob" cx="250" cy="200" r="24" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="rs-ring" cx="480" cy="324" r="48" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="rs-knob" cx="480" cy="324" r="24" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="dpad-up" x="306" y="276" width="28" height="34" rx="6" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="dpad-down" x="306" y="338" width="28" height="34" rx="6" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="dpad-left" x="272" y="310" width="34" height="28" rx="6" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="dpad-right" x="334" y="310" width="34" height="28" rx="6" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="btn-south" cx="576" cy="246" r="22" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="btn-east" cx="622" cy="200" r="22" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="btn-west" cx="530" cy="200" r="22" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="btn-north" cx="576" cy="154" r="22" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="btn-select" x="324" y="190" width="40" height="20" rx="10" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <rect id="btn-start" x="436" y="190" width="40" height="20" rx="10" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+    <circle id="btn-home" cx="400" cy="140" r="20" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+  <g id="labels">
+    <text x="576" y="246" font-size="19" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">A</text>
+    <text x="622" y="200" font-size="19" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">B</text>
+    <text x="530" y="200" font-size="19" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">X</text>
+    <text x="576" y="154" font-size="19" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">Y</text>
+    <text x="226" y="26" font-size="17" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">LT</text>
+    <text x="226" y="69" font-size="16" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">LB</text>
+    <text x="574" y="26" font-size="17" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">RT</text>
+    <text x="574" y="69" font-size="16" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">RB</text>
+    <text x="344" y="226" font-size="13" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">View</text>
+    <text x="456" y="226" font-size="13" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">Menu</text>
+    <text x="400" y="140" font-size="12" fill="#000000" font-family="sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">Guide</text>
+  </g>
+</svg>

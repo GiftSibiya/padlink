@@ -19,3 +19,6 @@ padlink-gtk = "padlink.gtk.app:main"
 
 [tool.setuptools.packages.find]
 include = ["padlink*"]
+
+[tool.setuptools.package-data]
+"padlink.gtk" = ["art/*.svg"]

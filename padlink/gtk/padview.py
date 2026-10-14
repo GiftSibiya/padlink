@@ -4,7 +4,10 @@ The view works in xpad terms (BTN_A, ABS_RX, ...): the Input page runs raw
 events through the same Translator the bridge uses, so what you see here is
 also what a game would see through the virtual pad.
 
-Everything is drawn in a 400x260 design space and scaled to fit.
+If artwork exists for the controller (~/.config/padlink/art/*.svg or
+padlink/gtk/art/*.svg, see core/art.py) it is rendered by svgart.SvgArt;
+otherwise the built-in cairo drawing below is used, in a 400x260 design
+space scaled to fit.
 """
 
 from __future__ import annotations
@@ -13,6 +16,7 @@ import math
 
 from evdev import ecodes as E
 
+from padlink.core import art
 from padlink.gtk.util import Adw, Gtk
 
 W, H = 400.0, 260.0
@@ -56,12 +60,27 @@ class PadView(Gtk.DrawingArea):
         self.pressed: set[int] = set()
         self.axes: dict[int, int] = {}
         self.active = False
+        self.art = None  # svgart.SvgArt when artwork exists for this controller
         self.set_draw_func(self._draw)
 
     # -- state -------------------------------------------------------------
-    def configure(self, family: str) -> None:
+    def configure(self, family: str, vendor: int | None = None, product: int | None = None) -> None:
         self.family = family if family in FAMILIES else "xbox"
+        self.art = None
+        if vendor is not None:
+            path = art.find(vendor, product or 0)
+            if path is not None:
+                from padlink.gtk.svgart import SvgArt
+                self.art = SvgArt(path)
         self.reset()
+
+    @property
+    def art_status(self) -> str:
+        if self.art is None:
+            return "built-in drawing"
+        if self.art.error:
+            return f"artwork {self.art.path} failed ({self.art.error}); using built-in drawing"
+        return f"artwork: {self.art.path}"
 
     def reset(self) -> None:
         self.pressed.clear()
@@ -263,6 +282,17 @@ class PadView(Gtk.DrawingArea):
 
     def _draw(self, _area, cr, width, height):
         self.fg, self.accent = self._colors()
+        if self.art is not None:
+            self.art.maybe_reload()
+            if not self.art.error:
+                try:
+                    self.art.render(cr, width, height, self.pressed, self.axes, self.fg, self.accent, self.active)
+                    if not self.active:
+                        self._text(cr, "press Start to watch input", width / 2, height - 8, 12, bold=False)
+                    return
+                except Exception as exc:  # noqa: BLE001 - fall back to the built-in drawing
+                    self.art.error = str(exc)
+                    cr.new_path()
         fam = FAMILIES[self.family]
         pos = fam["pos"]
         scale = min(width / W, height / H)

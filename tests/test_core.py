@@ -257,5 +257,43 @@ class PersonaTests(unittest.TestCase):
         self.assertIsNone(personas.from_phys("usb-0000:00:14.0-1/input0"))
 
 
+class ArtTests(unittest.TestCase):
+    def test_templates_are_valid(self):
+        from padlink.core import art
+        with tempfile.TemporaryDirectory() as tmp:
+            for fam in art.FAMILIES:
+                path = Path(tmp) / f"{fam}.svg"
+                path.write_text(art.template_svg(fam))
+                results = art.check(path)
+                self.assertFalse([m for st, m in results if st == "fail"], fam)
+                self.assertEqual(art.viewbox(path), (0.0, 0.0, 800.0, 520.0))
+
+    def test_check_catches_problems(self):
+        from padlink.core import art
+        svg = art.template_svg("xbox")
+        svg = svg.replace('id="btn-south"', 'id="btn-south_1_"')       # Illustrator duplicate suffix
+        svg = svg.replace('<circle id="btn-east"', '<g id="btn-east"><circle')
+        svg = svg.replace('stroke-linejoin="round"/>\n    <circle id="btn-west"',
+                          'stroke-linejoin="round"/></g>\n    <circle id="btn-west"', 1)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "bad.svg"
+            path.write_text(svg)
+            msgs = " | ".join(m for _, m in art.check(path))
+            self.assertIn("missing #btn-south (found 'btn-south_1_'", msgs)
+            self.assertIn("#btn-east is a <g>", msgs)
+
+    def test_find_prefers_model_and_user_dir(self):
+        from padlink.core import art
+        with tempfile.TemporaryDirectory() as a, tempfile.TemporaryDirectory() as b:
+            user, shipped = Path(a), Path(b)
+            (shipped / "playstation.svg").write_text("x")
+            self.assertEqual(art.find(0x054C, 0x09CC, [user, shipped]), shipped / "playstation.svg")
+            (shipped / "ds4.svg").write_text("x")
+            self.assertEqual(art.find(0x054C, 0x09CC, [user, shipped]), shipped / "ds4.svg")
+            (user / "ds4.svg").write_text("x")
+            self.assertEqual(art.find(0x054C, 0x09CC, [user, shipped]), user / "ds4.svg")
+            self.assertIsNone(art.find(0x3537, 0x1041, [user, shipped]))  # needs xbox.svg
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -86,6 +86,7 @@ Run `padlink-gtk`. The sidebar lists controllers and updates live on hotplug. It
 | `map <dev>` | Input-map wizard for the bridge |
 | `bridge <dev> [--as PERSONA] [--wait] [--log] [-v]` | The rumble bridge. `--as` picks which controller to spoof |
 | `personas` | List the controllers the bridge can spoof |
+| `art template/init/check/list` | Controller artwork for the Input tab |
 | `doctor [<dev>] [--json] [--log]` | Diagnostics |
 | `lutris-env <dev> [--apply SLUG] [--remove]` | Hide the physical pad in Lutris game configs. A backup is kept |
 | `udev-rule <dev>` | Print a hidraw access rule |
@@ -94,6 +95,48 @@ Run `padlink-gtk`. The sidebar lists controllers and updates live on hotplug. It
 | `capture <dev>` (root) | usbmon capture of the dongle's USB traffic |
 
 `<dev>` can be an index from `list`, `vid:pid`, a `/dev/...` node, or part of the name.
+
+## Controller artwork
+
+The Input tab's drawing can come from your own SVG artwork, for example made in Illustrator or Inkscape. padlink uses the most specific file it finds:
+
+1. `~/.config/padlink/art/<name>.svg`: your own files, which take priority.
+2. `padlink/gtk/art/<name>.svg`: artwork shipped with padlink.
+3. The built-in drawing.
+
+Here `<name>` is a model (`xbox360`, `xboxone`, `xboxseries`, `ds4`, `dualsense`, `switchpro`) or a family (`xbox`, `playstation`, `nintendo`). Controllers without their own artwork, such as the GameSir, use `xbox`.
+
+```sh
+padlink art init xbox            # editable template -> ~/.config/padlink/art/xbox.svg
+padlink art check xbox           # validate names / export settings
+padlink art list                 # which file each connected controller uses
+```
+
+Ready-made templates are in [`data/art-templates/`](data/art-templates). The Input tab **reloads the file on save**, so you can keep padlink open while you draw.
+
+**Naming contract.** Object names become SVG ids. Use lowercase with hyphens, because Illustrator turns underscores into `_x5F_`. Interactive parts must be single **shapes**, not groups, so padlink can fill them.
+
+| id | part | behaviour |
+|---|---|---|
+| `body` | outline | theme colour |
+| `btn-south` `btn-east` `btn-west` `btn-north` | face buttons, named by **position** | filled when pressed |
+| `btn-lb` `btn-rb` | bumpers / L1 R1 / L R | filled when pressed |
+| `lt` `rt` | triggers / L2 R2 / ZL ZR | filled bottom-up by how far the trigger is pulled |
+| `ls-ring` `rs-ring` | stick travel area | sets how far the knob can move |
+| `ls-knob` `rs-knob` | stick caps | moved with the stick; filled when the stick is clicked |
+| `dpad-up` `dpad-down` `dpad-left` `dpad-right` | d-pad | filled when pressed |
+| `btn-select` `btn-start` `btn-home` | View/Menu/Guide, Share/Options/PS, −/+/Home | filled when pressed |
+| `touchpad`, `btn-capture` | optional | |
+| `guides` | anything | never shown |
+
+**Colours.** Pure black (`#000000`, or Illustrator's `#231F20`) follows the light/dark theme, and any other colour is kept as drawn. Pressed parts use the desktop accent colour.
+
+**Illustrator export.** Use *File → Export → Export As → SVG* with these settings:
+- Styling: **Presentation Attributes**
+- Font: **Convert to Outlines**
+- Images: none
+- Object IDs: **Layer Names**
+- Responsive: on
 
 ## Spoofing other controllers (personas)
 
