@@ -1,0 +1,7 @@
+# padlink: give the logged-in user access to the GameSir T4N Lite / Zikway 2.4G dongle's
+# hidraw nodes so padlink can send rumble output reports (HID mode has no kernel rumble).
+# Install:  sudo install -m644 data/70-padlink.rules /etc/udev/rules.d/
+#           sudo udevadm control --reload && sudo udevadm trigger
+# For other devices generate a rule with:  padlink udev-rule <vid:pid>
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3537", ATTRS{idProduct}=="1041", TAG+="uaccess"
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", KERNELS=="*:3537:1041.*", TAG+="uaccess"

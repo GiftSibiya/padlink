@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=padlink
+GenericName=Controller companion
+Comment=Detect, debug and fix rumble for wireless controllers
+Exec=padlink-gtk
+Icon=input-gaming
+Categories=Game;Settings;HardwareSettings;
+Keywords=gamepad;controller;rumble;joystick;
+StartupNotify=true
