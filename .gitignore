@@ -2,21 +2,6 @@
 /target/
 **/*.rs.bk
 
-# Python reference core (tests and fixture generators)
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-.coverage.*
-htmlcov/
-.venv/
-venv/
-build/
-dist/
-
 # makepkg (PKGBUILD). Anchored so crates/*/src is not ignored.
 /pkg/
 /src/

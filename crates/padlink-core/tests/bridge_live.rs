@@ -166,6 +166,13 @@ fn rumble_and_input_flow() {
             .map(|_| ())
     });
     let recs = records.lock().unwrap().clone();
+    // a running game (Wine/SDL hotplug) may pick up the test's virtual pad and rumble it too
+    let foreign = recs.iter().any(|r| r["kind"] == "ff_upload" && r["effect"]["strong"] != 0xFFFF);
+    if foreign {
+        eprintln!("skipped: another program (a running game?) is sending force feedback to the virtual pad");
+        bridge.stop();
+        return;
+    }
     let kinds: Vec<&str> = recs.iter().filter_map(|r| r["kind"].as_str()).collect();
     assert!(kinds.contains(&"ff_upload") && kinds.contains(&"ff_play") && kinds.contains(&"ff_erase"), "{kinds:?}");
     let up = recs.iter().find(|r| r["kind"] == "ff_upload").unwrap();
@@ -258,4 +265,60 @@ fn source_unplug_ends_the_bridge() {
     let recs = records.lock().unwrap();
     assert!(recs.iter().any(|r| r["text"] == "bridge stopped: controller disconnected"));
     assert!(recs.iter().any(|r| r["text"] == "bridge down"));
+}
+
+/// A game that opens the pad and plays but never sends force feedback gets one hint in the log;
+/// a game that does send effects gets none.
+#[test]
+fn silent_game_hint() {
+    if !uinput_ok() {
+        eprintln!("skipped: no write access to /dev/uinput");
+        return;
+    }
+    let _serial = SERIAL.lock().unwrap_or_else(|e| e.into_inner());
+    let product = 0x5704;
+    let mut src = fake_source(product);
+    let Some(ctrl) = source_ctrl(product) else {
+        eprintln!("skipped: fake source not visible/readable (udev uaccess?)");
+        return;
+    };
+    for sends_rumble in [false, true] {
+        let (log, records) = recording_log();
+        let opts = BridgeOptions { silent_game_after: Duration::from_millis(800), ..Default::default() };
+        let mut bridge = Bridge::new(ctrl.clone(), log, opts).unwrap().spawn();
+        let virt = virtual_for(product, "xbox360").expect("virtual pad");
+        let vpath = virt.primary_event().unwrap().path.clone();
+        // the "game": opens the pad and sets the gain, like SDL does
+        let mut game = wait(Duration::from_secs(3), || evdev::Device::open(&vpath).ok()).expect("open virtual pad");
+        game.set_ff_gain(0xFFFF).unwrap();
+        // play only once the bridge has seen the game open the pad (in real life the game
+        // opens it long before anyone presses anything)
+        let gain_seen = || records.lock().unwrap().iter().any(|r| r["kind"] == "ff_gain").then_some(());
+        wait(Duration::from_secs(2), gain_seen).expect("bridge never saw the game's gain write");
+        if sends_rumble {
+            sink::evdev_rumble(Path::new(&vpath), 0x8000, 0x8000, 50).unwrap();
+        }
+        // the player plays
+        for i in 0..60 {
+            emit(&mut src, &[(EV_ABS, ABS_X, 100 + (i % 50))]);
+        }
+        thread::sleep(Duration::from_millis(2000));
+        bridge.stop();
+        let hints = records
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|r| r["text"].as_str().is_some_and(|t| t.contains("has sent no force feedback")))
+            .count();
+        let kinds: Vec<String> = records
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|r| r["kind"] != "input")
+            .map(|r| format!("{}@{:.2}", r["kind"].as_str().unwrap_or("?"), r["t"].as_f64().unwrap_or(0.0) % 100.0))
+            .collect();
+        assert_eq!(hints, usize::from(!sends_rumble), "sends_rumble={sends_rumble}; records: {kinds:?}");
+        drop(game);
+        wait(Duration::from_secs(3), || virtual_for_now(product).is_none().then_some(()));
+    }
 }

@@ -464,6 +464,24 @@ mod tests {
     }
 
     #[test]
+    fn find_prefers_model_and_user_dir() {
+        let base = std::env::temp_dir().join(format!("padlink-art-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&base);
+        let (user, shipped) = (base.join("user"), base.join("shipped"));
+        fs::create_dir_all(&user).unwrap();
+        fs::create_dir_all(&shipped).unwrap();
+        let dirs = [user.clone(), shipped.clone()];
+        fs::write(shipped.join("playstation.svg"), "x").unwrap();
+        assert_eq!(find(0x054C, 0x09CC, &dirs), Some(shipped.join("playstation.svg")));
+        fs::write(shipped.join("ds4.svg"), "x").unwrap();
+        assert_eq!(find(0x054C, 0x09CC, &dirs), Some(shipped.join("ds4.svg")));
+        fs::write(user.join("ds4.svg"), "x").unwrap();
+        assert_eq!(find(0x054C, 0x09CC, &dirs), Some(user.join("ds4.svg")));
+        assert_eq!(find(0x3537, 0x1041, &dirs), None); // needs xbox.svg
+        fs::remove_dir_all(&base).unwrap();
+    }
+
+    #[test]
     fn unknown_family() {
         assert!(template_svg("sega").unwrap_err().contains("choose from xbox, playstation, nintendo"));
     }

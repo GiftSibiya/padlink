@@ -3,7 +3,7 @@
 use std::cell::{Cell, RefCell};
 use std::io::Read;
 use std::path::Path;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 use std::sync::mpsc::{self, Receiver, Sender};
 use std::time::Duration;
 
@@ -12,11 +12,11 @@ use adw::prelude::*;
 use padlink_core::bridge::{Bridge, BridgeHandle, BridgeOptions};
 use padlink_core::discovery::Controller;
 use padlink_core::logger::{self, Log};
-use padlink_core::{doctor, integration, personas, settings};
+use padlink_core::{doctor, gamesetup, integration, personas, settings};
 use serde_json::{Map, Value, json};
 
 use super::Page;
-use crate::util::{Toast, append_text, copy_button, mono_view, row, set_sub};
+use crate::util::{Toast, append_text, copy_button, esc, mono_view, row, set_sub, status_icon};
 
 pub struct BridgePage {
     root: gtk::Box,
@@ -27,7 +27,8 @@ pub struct BridgePage {
     state_row: adw::ActionRow,
     toggle_btn: gtk::Button,
     lutris: adw::PreferencesGroup,
-    lutris_rows: RefCell<Vec<adw::ActionRow>>,
+    lutris_rows: RefCell<Vec<gtk::Widget>>,
+    me: RefCell<Weak<BridgePage>>,
     view: gtk::TextView,
     ctrl: RefCell<Option<Controller>>,
     handle: RefCell<Option<BridgeHandle>>,
@@ -118,6 +119,7 @@ impl BridgePage {
             toggle_btn,
             lutris,
             lutris_rows: RefCell::default(),
+            me: RefCell::default(),
             view,
             ctrl: RefCell::default(),
             handle: RefCell::default(),
@@ -128,6 +130,7 @@ impl BridgePage {
             toast,
             applying_mode: Cell::new(false),
         });
+        *this.me.borrow_mut() = Rc::downgrade(&this);
         this.apply_mode(false);
         let t = Rc::clone(&this);
         this.mode.connect_selected_notify(move |_| t.apply_mode(true));
@@ -298,40 +301,95 @@ impl BridgePage {
         }
     }
 
+    /// The Lutris group: the env vars to copy, then each game with what it still needs.
     fn fill_lutris(&self, ctrl: &Controller) {
         for r in self.lutris_rows.borrow_mut().drain(..) {
             self.lutris.remove(&r);
         }
         let env = integration::lutris_env(ctrl);
         let text = env.iter().map(|(k, v)| format!("{k}={v}")).collect::<Vec<_>>().join(" ");
-        let r = row("Environment variable", &text);
+        let r = row("Environment variables", &text);
         r.add_suffix(&copy_button(text, self.toast.clone()));
         self.lutris.add(&r);
-        self.lutris_rows.borrow_mut().push(r);
-        let games = integration::lutris_games(&integration::lutris_games_dir());
-        for (slug, name) in games {
-            let r = row(&name, &slug);
-            let b = gtk::Button::builder()
-                .label("Apply")
-                .valign(gtk::Align::Center)
-                .tooltip_text("Add the variable to this game (a backup is kept)")
-                .build();
-            let env = env.clone();
-            let this_toast = self.toast.clone();
-            b.connect_clicked(move |_| {
-                match integration::apply_lutris_env(&integration::lutris_games_dir(), &slug, &env, false) {
-                    Ok((cfg, backup)) => {
-                        let cfg = cfg.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
-                        let backup = backup.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
-                        this_toast(&format!("Updated {cfg} (backup {backup})"));
-                    }
-                    Err(e) => this_toast(&format!("Failed: {e}")),
-                }
-            });
-            r.add_suffix(&b);
-            self.lutris.add(&r);
-            self.lutris_rows.borrow_mut().push(r);
+        self.lutris_rows.borrow_mut().push(r.upcast());
+        let dir = integration::lutris_games_dir();
+        for (slug, name) in integration::lutris_games(&dir) {
+            let row = self.game_row(ctrl, &dir, &slug, &name);
+            self.lutris.add(&row);
+            self.lutris_rows.borrow_mut().push(row.upcast());
         }
+    }
+
+    /// One game: ready or what to fix, a Set up button, and the DirectInput switch.
+    fn game_row(&self, ctrl: &Controller, dir: &Path, slug: &str, name: &str) -> adw::ExpanderRow {
+        let cfg = integration::find_game_config(dir, slug).ok().and_then(|p| integration::read_game_config(&p).ok());
+        let problems = cfg.as_ref().map(|c| gamesetup::env_problems(c, ctrl)).unwrap_or_default();
+        let prefix = cfg.as_ref().and_then(gamesetup::game_prefix);
+        let mapped = prefix.as_deref().and_then(gamesetup::map_controllers);
+        let summary = if problems.is_empty() {
+            "Ready: the game only sees the virtual pad".to_string()
+        } else {
+            format!("{} thing{} to fix", problems.len(), if problems.len() == 1 { "" } else { "s" })
+        };
+        let exp = adw::ExpanderRow::builder().title(esc(name)).subtitle(esc(&summary)).build();
+        exp.add_prefix(&status_icon(if problems.is_empty() { "ok" } else { "warn" }));
+        for p in &problems {
+            exp.add_row(&row("", p));
+        }
+
+        let setup = gtk::Button::builder()
+            .label("Set up")
+            .valign(gtk::Align::Center)
+            .sensitive(!problems.is_empty())
+            .tooltip_text(
+                "Hide this controller from the game (SDL and Proton) and fix env vars Lutris ignores. Backups are kept",
+            )
+            .build();
+        setup.add_css_class("suggested-action");
+        let (me, ctrl2, slug2) = (self.me.borrow().clone(), ctrl.clone(), slug.to_string());
+        setup.connect_clicked(move |_| {
+            let Some(t) = me.upgrade() else { return };
+            match gamesetup::setup(&integration::lutris_games_dir(), &slug2, &ctrl2, None) {
+                Ok(out) if out.changes.is_empty() => (t.toast)("Nothing to change"),
+                Ok(out) => (t.toast)(&format!("Set up: {}", out.changes.join("; "))),
+                Err(e) => (t.toast)(&format!("Failed: {e}")),
+            }
+            t.fill_lutris(&ctrl2);
+        });
+        exp.add_suffix(&setup);
+
+        let dinput = adw::SwitchRow::builder()
+            .title("DirectInput game")
+            .subtitle(
+                "Older games (e.g. NFS Most Wanted 2005) use DirectInput: Wine only gives them rumble with its XInput \
+                 mapping off. Close the game first",
+            )
+            .active(mapped == Some(false))
+            .sensitive(mapped.is_some())
+            .build();
+        if mapped.is_none() {
+            dinput.set_subtitle("Run the game once so its Wine prefix exists");
+        }
+        let (me, ctrl2) = (self.me.borrow().clone(), ctrl.clone());
+        dinput.connect_active_notify(move |sw| {
+            let Some(t) = me.upgrade() else { return };
+            let Some(prefix) = prefix.as_deref() else { return };
+            let want_on = !sw.is_active();
+            if gamesetup::map_controllers(prefix) == Some(want_on) {
+                return; // already there (e.g. after a refresh)
+            }
+            match gamesetup::set_map_controllers(prefix, want_on) {
+                Ok(_) => (t.toast)(if want_on {
+                    "Wine's XInput mapping is back on for this game"
+                } else {
+                    "DirectInput rumble enabled: start the game again"
+                }),
+                Err(e) => (t.toast)(&format!("Failed: {e}")),
+            }
+            t.fill_lutris(&ctrl2);
+        });
+        exp.add_row(&dinput);
+        exp
     }
 }
 

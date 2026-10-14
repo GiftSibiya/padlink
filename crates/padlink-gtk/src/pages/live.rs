@@ -547,7 +547,26 @@ impl Page for LivePage {
 
     fn set_controller(&self, ctrl: Option<&Controller>) {
         self.stop();
-        self.status.set_text(ctrl.and_then(|c| c.primary_event()).map(|n| n.path.as_str()).unwrap_or(""));
+        let node = ctrl.and_then(|c| c.primary_event());
+        // keyboards, mice and touchpads are root:input on purpose; say so instead of failing on Start
+        match node {
+            Some(n) if !n.readable() => {
+                self.status.set_text(&format!(
+                    "no read access to {} ({}); only game controllers are readable without root",
+                    n.path,
+                    n.role()
+                ));
+                self.start_btn.set_sensitive(false);
+            }
+            Some(n) => {
+                self.status.set_text(&n.path);
+                self.start_btn.set_sensitive(true);
+            }
+            None => {
+                self.status.set_text("");
+                self.start_btn.set_sensitive(false);
+            }
+        }
         match ctrl {
             Some(c) => self.pad.configure(padview::family_for(c.vendor), Some((c.vendor, c.product))),
             None => self.pad.configure(padview::Family::Xbox, None),

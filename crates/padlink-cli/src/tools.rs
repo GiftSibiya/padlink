@@ -13,7 +13,7 @@ use padlink_core::hex::hexstr;
 use padlink_core::hidraw::poll_many;
 use padlink_core::logger::{self, Log};
 use padlink_core::prober::{self, Kind, Motor, Prober};
-use padlink_core::{capture, discovery, doctor, integration, log_write, profiles};
+use padlink_core::{capture, discovery, doctor, gamesetup, integration, log_write, profiles};
 use serde_json::{Map, Value, json};
 
 use crate::style::{bold, dim, green, red, status, yellow};
@@ -331,33 +331,66 @@ pub fn doctor(a: &DoctorArgs) -> Result {
 pub struct LutrisEnvArgs {
     #[command(flatten)]
     dev: DevArgs,
-    /// write the vars into this Lutris game config (with backup)
+    /// set this Lutris game up for the bridge: hide the pad from SDL and Proton, fix env vars
+    /// Lutris would ignore (backups kept)
     #[arg(long, value_name = "GAME_SLUG")]
     apply: Option<String>,
-    /// with --apply: remove the vars instead
+    /// with --apply: undo it instead
     #[arg(long)]
     remove: bool,
+    /// with --apply: the game uses DirectInput, so turn winebus "Map Controllers" off in its prefix
+    /// (otherwise it gets no force feedback); with --remove: turn it back on. The game must be closed
+    #[arg(long)]
+    dinput: bool,
 }
 
 pub fn lutris_env(a: &LutrisEnvArgs) -> Result {
     let x = get_ctrl(&a.dev)?;
-    let env = integration::lutris_env(&x);
     let dir = integration::lutris_games_dir();
     if let Some(slug) = &a.apply {
-        let (cfg, backup) = integration::apply_lutris_env(&dir, slug, &env, a.remove)?;
-        let verb = if a.remove { "removed from" } else { "updated" };
-        println!("{verb} {} (backup: {})", cfg.display(), backup.display());
+        let out = if a.remove {
+            gamesetup::undo(&dir, slug, &x, a.dinput)?
+        } else {
+            gamesetup::setup(&dir, slug, &x, a.dinput.then_some(true))?
+        };
+        if out.changes.is_empty() {
+            println!("{}: nothing to change", out.config.display());
+        } else {
+            println!("{}", out.config.display());
+            for c in &out.changes {
+                println!("  {}", green(c));
+            }
+            for b in out.backup.iter().chain(&out.registry_backup) {
+                println!("{}", dim(&format!("  backup: {}", b.display())));
+            }
+        }
         return Ok(0);
     }
     println!("# Lutris > game > Configure > System options > Environment variables:");
-    for (k, v) in &env {
+    for (k, v) in integration::lutris_env(&x) {
         println!("{k}={v}");
     }
     let games = integration::lutris_games(&dir);
     if !games.is_empty() {
-        println!("\n# or apply automatically to a game:");
+        println!("\n# games (fix with --apply; add --dinput for DirectInput games):");
         for (slug, name) in games {
-            println!("padlink lutris-env {} --apply {slug}    # {name}", x.id_str());
+            let cfg =
+                integration::find_game_config(&dir, &slug).ok().and_then(|p| integration::read_game_config(&p).ok());
+            let problems = cfg.as_ref().map(|c| gamesetup::env_problems(c, &x)).unwrap_or_default();
+            let dinput = cfg
+                .as_ref()
+                .and_then(gamesetup::game_prefix)
+                .and_then(|p| gamesetup::map_controllers(&p))
+                .map_or("", |on| if on { "" } else { "  [DirectInput rumble on]" });
+            let state =
+                if problems.is_empty() { green("ready") } else { yellow(&format!("{} to fix", problems.len())) };
+            println!("{name}  ({slug})  {state}{dinput}");
+            for p in &problems {
+                println!("{}", dim(&format!("    - {p}")));
+            }
+            if cfg.is_some() && !problems.is_empty() {
+                println!("    padlink lutris-env {} --apply {slug}", x.id_str());
+            }
         }
     }
     Ok(0)

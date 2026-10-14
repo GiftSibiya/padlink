@@ -21,8 +21,13 @@ pub fn udev_rule(ctrl: &Controller) -> String {
 }
 
 /// Env vars so games see only padlink's virtual pad, not the physical one.
+/// (Proton hands Sony pads to games through hidraw, which the SDL list doesn't cover.)
 pub fn lutris_env(ctrl: &Controller) -> Vec<(String, String)> {
-    vec![("SDL_GAMECONTROLLER_IGNORE_DEVICES".into(), format!("0x{:04x}/0x{:04x}", ctrl.vendor, ctrl.product))]
+    let id = format!("0x{:04x}/0x{:04x}", ctrl.vendor, ctrl.product);
+    vec![
+        ("SDL_GAMECONTROLLER_IGNORE_DEVICES".into(), id.clone()),
+        ("PROTON_DISABLE_HIDRAW".into(), id.to_uppercase().replace("0X", "0x")),
+    ]
 }
 
 /// A systemd --user unit that keeps the bridge running. `exe` is the padlink binary.
@@ -106,77 +111,24 @@ pub fn find_game_config(dir: &Path, slug: &str) -> io::Result<PathBuf> {
     ))
 }
 
-/// Merge (or remove) env vars into a Lutris game config, keeping a timestamped
-/// backup. Returns (config, backup).
-pub fn apply_lutris_env(
-    dir: &Path,
-    slug: &str,
-    env: &[(String, String)],
-    remove: bool,
-) -> io::Result<(PathBuf, PathBuf)> {
-    use serde_norway::{Mapping, Value};
-    let path = find_game_config(dir, slug)?;
-    let stamp = crate::logger::file_stamp(crate::logger::now());
-    let backup = path.with_extension(format!("yml.padlink-{stamp}.bak"));
-    fs::copy(&path, &backup)?;
-    if let Ok(modified) = fs::metadata(&path).and_then(|m| m.modified()) {
-        let _ = fs::File::options().write(true).open(&backup).and_then(|f| f.set_modified(modified));
-    }
-    let invalid =
-        |e: serde_norway::Error| io::Error::new(io::ErrorKind::InvalidData, format!("{}: {e}", path.display()));
-    let text = fs::read_to_string(&path)?;
-    let mut cfg: Value =
-        if text.trim().is_empty() { Value::Null } else { serde_norway::from_str(&text).map_err(invalid)? };
-    if !cfg.is_mapping() {
-        cfg = Value::Mapping(Mapping::new());
-    }
-    let root = cfg.as_mapping_mut().expect("mapping");
-    let system = root.entry("system".into()).or_insert(Value::Null);
-    if !system.is_mapping() {
-        *system = Value::Mapping(Mapping::new());
-    }
-    let system = system.as_mapping_mut().expect("mapping");
-    let cur = system.entry("env".into()).or_insert(Value::Null);
-    if !cur.is_mapping() {
-        *cur = Value::Mapping(Mapping::new());
-    }
-    let cur = cur.as_mapping_mut().expect("mapping");
-    for (k, v) in env {
-        if remove {
-            cur.remove(k.as_str());
-        } else {
-            cur.insert(k.clone().into(), v.clone().into());
-        }
-    }
-    fs::write(&path, serde_norway::to_string(&cfg).map_err(invalid)?)?;
-    Ok((path, backup))
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn apply_and_remove() {
+    fn finds_games() {
         let dir = std::env::temp_dir().join(format!("padlink-lutris-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         let cfg = dir.join("nfs-123.yml");
         fs::write(&cfg, "game:\n  exe: /x.exe\nsystem:\n  env:\n    FOO: bar\n").unwrap();
-        let var = || vec![("SDL_GAMECONTROLLER_IGNORE_DEVICES".to_string(), "0x3537/0x1041".to_string())];
-        let (path, backup) = apply_lutris_env(&dir, "nfs", &var(), false).unwrap();
-        assert_eq!(path, cfg);
-        assert!(backup.exists());
-        let v = read_game_config(&cfg).unwrap();
+        fs::write(dir.join("other-9.yml"), "name: Other Game\n").unwrap();
+        assert_eq!(find_game_config(&dir, "nfs").unwrap(), cfg);
+        assert_eq!(read_game_config(&cfg).unwrap()["system"]["env"]["FOO"], "bar");
         assert_eq!(
-            v["system"]["env"],
-            serde_json::json!({"FOO": "bar", "SDL_GAMECONTROLLER_IGNORE_DEVICES": "0x3537/0x1041"})
+            lutris_games(&dir),
+            vec![("nfs-123".to_string(), "nfs-123".to_string()), ("other-9".to_string(), "Other Game".to_string())]
         );
-        apply_lutris_env(&dir, "nfs-123", &var(), true).unwrap();
-        let v = read_game_config(&cfg).unwrap();
-        assert_eq!(v["system"]["env"], serde_json::json!({"FOO": "bar"}));
-        assert_eq!(v["game"]["exe"], "/x.exe");
-        assert_eq!(lutris_games(&dir), vec![("nfs-123".to_string(), "nfs-123".to_string())]);
         assert!(find_game_config(&dir, "zzz").is_err());
         fs::remove_dir_all(&dir).unwrap();
     }

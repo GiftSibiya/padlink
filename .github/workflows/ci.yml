@@ -6,22 +6,6 @@ on:
   pull_request:
 
 jobs:
-  python:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.14"
-      # evdev is pinned: code names in the golden fixtures depend on its alias tables
-      - run: pip install evdev==2.0.0 pyudev==0.24.4 PyYAML==6.0.3
-      - name: Reference-core unit tests (the live bridge test is the Rust one)
-        run: python -m unittest discover -s tests -v
-      - name: Golden fixtures and the generated code table are up to date
-        run: |
-          python tools/gen_fixtures.py --check
-          python tools/gen_codes.py --check
-
   rust:
     runs-on: ubuntu-latest
     steps:

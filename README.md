@@ -25,7 +25,7 @@ Every step writes JSONL logs, so you can study what a game sends and how the con
 ./install.sh            # builds padlink and padlink-gtk, installs both into ~/.local/bin
 ```
 
-The command line, the bridge, and the GTK app are Rust. Building needs a Rust toolchain (Arch: `rustup`), libudev (part of systemd), and the GTK stack (`gtk4`, `libadwaita`, `librsvg`). There is no Python runtime dependency for the installed commands.
+The command line, the bridge, and the GTK app are Rust. Building needs a Rust toolchain (Arch: `rustup`), libudev (part of systemd), and the GTK stack (`gtk4`, `libadwaita`, `librsvg`). padlink is written entirely in Rust; there is no Python dependency.
 
 Arch can build a package from a checkout of this repo:
 
@@ -228,13 +228,14 @@ Run `padlink logs export` to bundle the logs and profiles into a tarball for sha
 ## Development
 
 ```sh
-cargo test              # core unit tests; the live bridge test needs /dev/uinput and skips itself otherwise
-python3 -m unittest -v  # the Python core, still used to generate golden fixtures
+cargo test   # unit tests, golden fixtures and the live bridge tests (these need /dev/uinput and skip themselves otherwise)
 ```
 
-The live test creates a fake source pad and runs the bridge. It checks input translation and has a separate "game" process upload and play a rumble effect, which must arrive as `ff_upload`/`ff_play`/`rumble_out`. The test needs `/dev/uinput` access and skips itself otherwise.
+The live tests create a fake source pad and run the bridge. They check input translation and have a "game" upload and play a rumble effect, which must arrive as `ff_upload`/`ff_play`/`rumble_out`. Don't run them while a game is open: it hot-plugs the test's virtual pads.
 
-Code layout: `crates/padlink-core` is the logic, `crates/padlink-cli` is the `padlink` binary, and `crates/padlink-gtk` is the libadwaita UI. `padlink/core/` is the Python reference that still builds the golden fixtures.
+The golden fixtures in `fixtures/golden/` pin behaviour recorded from the original Python implementation (file formats, rounding, what games see). They're frozen; see `fixtures/README.md`.
+
+Code layout: `crates/padlink-core` is the logic, `crates/padlink-cli` is the `padlink` binary, and `crates/padlink-gtk` is the libadwaita UI.
 
 ## Contributing
 

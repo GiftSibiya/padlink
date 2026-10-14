@@ -191,7 +191,7 @@ mod tests {
 
     #[test]
     fn ioctl_numbers_match_linux_hidraw_h() {
-        // values from the kernel headers via `python3 -c "import padlink.core.hidraw as h; ..."`
+        // values from linux/hidraw.h (_IOR/_IOWR('H', nr, size))
         assert_eq!(HIDIOCGRDESCSIZE, 0x80044801);
         assert_eq!(HIDIOCGRDESC, 0x90044802);
         assert_eq!(HIDIOCGRAWINFO, 0x80084803);

@@ -338,6 +338,1684 @@
    ]
   },
   {
+   "name": "ds4_v2_bluetooth_054c_09cc",
+   "hex": "05 01 09 05 a1 01 85 01 09 30 09 31 09 32 09 35 15 00 26 ff 00 75 08 95 04 81 02 09 39 15 00 25 07 75 04 95 01 81 42 05 09 19 01 29 0e 15 00 25 01 75 01 95 0e 81 02 75 06 95 01 81 01 05 01 09 33 09 34 15 00 26 ff 00 75 08 95 02 81 02 06 04 ff 85 02 09 24 95 24 b1 02 85 a3 09 25 95 30 b1 02 85 05 09 26 95 28 b1 02 85 06 09 27 95 34 b1 02 85 07 09 28 95 30 b1 02 85 08 09 29 95 2f b1 02 85 09 09 2a 95 13 b1 02 06 03 ff 85 03 09 21 95 26 b1 02 85 04 09 22 95 2e b1 02 85 f0 09 47 95 3f b1 02 85 f1 09 48 95 3f b1 02 85 f2 09 49 95 0f b1 02 06 00 ff 85 11 09 20 15 00 26 ff 00 75 08 95 4d 81 02 09 21 91 02 85 12 09 22 95 8d 81 02 09 23 91 02 85 13 09 24 95 cd 81 02 09 25 91 02 85 14 09 26 96 0d 01 81 02 09 27 91 02 85 15 09 28 96 4d 01 81 02 09 29 91 02 85 16 09 2a 96 8d 01 81 02 09 2b 91 02 85 17 09 2c 96 cd 01 81 02 09 2d 91 02 85 18 09 2e 96 0d 02 81 02 09 2f 91 02 85 19 09 30 96 22 02 81 02 09 31 91 02 06 80 ff 85 82 09 22 95 3f b1 02 85 83 09 23 b1 02 85 84 09 24 b1 02 85 90 09 30 b1 02 85 91 09 31 b1 02 85 92 09 32 b1 02 85 93 09 33 b1 02 85 a0 09 40 b1 02 85 a4 09 44 b1 02 85 a7 09 45 b1 02 85 a8 09 45 b1 02 85 a9 09 45 b1 02 85 aa 09 45 b1 02 85 ab 09 45 b1 02 85 ac 09 45 b1 02 85 ad 09 45 b1 02 85 b1 09 45 b1 02 85 b2 09 46 b1 02 85 b3 09 45 b1 02 85 b4 09 46 b1 02 c0",
+   "applications": [
+    "Application(Generic Desktop:Gamepad)"
+   ],
+   "uses_report_ids": true,
+   "has_pid": false,
+   "vendor_pages": [
+    65280,
+    65283,
+    65284,
+    65408
+   ],
+   "reports": [
+    {
+     "kind": "input",
+     "report_id": 1,
+     "bits": 72,
+     "payload_len": 9,
+     "wire_len": 10,
+     "usage_pages": [
+      1,
+      9
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 4,
+       "usage_page": 1,
+       "usages": [
+        48,
+        49,
+        50,
+        53
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 4x8bit [0..255] var Generic Desktop: X, Y, Z, Rz"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 32,
+       "size": 4,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [
+        57
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 7,
+       "flags": 66,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 4.0 1x4bit [0..7] var Generic Desktop: Hat switch"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 36,
+       "size": 1,
+       "count": 14,
+       "usage_page": 9,
+       "usages": [],
+       "usage_range": [
+        1,
+        14
+       ],
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 4.4 14x1bit [0..1] var Button: Button 1..Button 14"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 50,
+       "size": 6,
+       "count": 1,
+       "usage_page": 9,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 1,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 6.2 1x6bit [0..1] array padding"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 56,
+       "size": 8,
+       "count": 2,
+       "usage_page": 1,
+       "usages": [
+        51,
+        52
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 7.0 2x8bit [0..255] var Generic Desktop: Rx, Ry"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 17,
+     "bits": 616,
+     "payload_len": 77,
+     "wire_len": 78,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 17,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 77,
+       "usage_page": 65280,
+       "usages": [
+        32
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 77x8bit [0..255] var Vendor 0xff00: 0x20"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 18,
+     "bits": 1128,
+     "payload_len": 141,
+     "wire_len": 142,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 18,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 141,
+       "usage_page": 65280,
+       "usages": [
+        34
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 141x8bit [0..255] var Vendor 0xff00: 0x22"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 19,
+     "bits": 1640,
+     "payload_len": 205,
+     "wire_len": 206,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 19,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 205,
+       "usage_page": 65280,
+       "usages": [
+        36
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 205x8bit [0..255] var Vendor 0xff00: 0x24"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 20,
+     "bits": 2152,
+     "payload_len": 269,
+     "wire_len": 270,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 20,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 269,
+       "usage_page": 65280,
+       "usages": [
+        38
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 269x8bit [0..255] var Vendor 0xff00: 0x26"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 21,
+     "bits": 2664,
+     "payload_len": 333,
+     "wire_len": 334,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 21,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 333,
+       "usage_page": 65280,
+       "usages": [
+        40
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 333x8bit [0..255] var Vendor 0xff00: 0x28"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 22,
+     "bits": 3176,
+     "payload_len": 397,
+     "wire_len": 398,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 22,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 397,
+       "usage_page": 65280,
+       "usages": [
+        42
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 397x8bit [0..255] var Vendor 0xff00: 0x2a"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 23,
+     "bits": 3688,
+     "payload_len": 461,
+     "wire_len": 462,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 23,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 461,
+       "usage_page": 65280,
+       "usages": [
+        44
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 461x8bit [0..255] var Vendor 0xff00: 0x2c"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 24,
+     "bits": 4200,
+     "payload_len": 525,
+     "wire_len": 526,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 24,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 525,
+       "usage_page": 65280,
+       "usages": [
+        46
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 525x8bit [0..255] var Vendor 0xff00: 0x2e"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 25,
+     "bits": 4368,
+     "payload_len": 546,
+     "wire_len": 547,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 25,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 546,
+       "usage_page": 65280,
+       "usages": [
+        48
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 546x8bit [0..255] var Vendor 0xff00: 0x30"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 17,
+     "bits": 616,
+     "payload_len": 77,
+     "wire_len": 78,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 17,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 77,
+       "usage_page": 65280,
+       "usages": [
+        33
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 77x8bit [0..255] var Vendor 0xff00: 0x21"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 18,
+     "bits": 1128,
+     "payload_len": 141,
+     "wire_len": 142,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 18,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 141,
+       "usage_page": 65280,
+       "usages": [
+        35
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 141x8bit [0..255] var Vendor 0xff00: 0x23"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 19,
+     "bits": 1640,
+     "payload_len": 205,
+     "wire_len": 206,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 19,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 205,
+       "usage_page": 65280,
+       "usages": [
+        37
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 205x8bit [0..255] var Vendor 0xff00: 0x25"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 20,
+     "bits": 2152,
+     "payload_len": 269,
+     "wire_len": 270,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 20,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 269,
+       "usage_page": 65280,
+       "usages": [
+        39
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 269x8bit [0..255] var Vendor 0xff00: 0x27"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 21,
+     "bits": 2664,
+     "payload_len": 333,
+     "wire_len": 334,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 21,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 333,
+       "usage_page": 65280,
+       "usages": [
+        41
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 333x8bit [0..255] var Vendor 0xff00: 0x29"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 22,
+     "bits": 3176,
+     "payload_len": 397,
+     "wire_len": 398,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 22,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 397,
+       "usage_page": 65280,
+       "usages": [
+        43
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 397x8bit [0..255] var Vendor 0xff00: 0x2b"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 23,
+     "bits": 3688,
+     "payload_len": 461,
+     "wire_len": 462,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 23,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 461,
+       "usage_page": 65280,
+       "usages": [
+        45
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 461x8bit [0..255] var Vendor 0xff00: 0x2d"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 24,
+     "bits": 4200,
+     "payload_len": 525,
+     "wire_len": 526,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 24,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 525,
+       "usage_page": 65280,
+       "usages": [
+        47
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 525x8bit [0..255] var Vendor 0xff00: 0x2f"
+      }
+     ]
+    },
+    {
+     "kind": "output",
+     "report_id": 25,
+     "bits": 4368,
+     "payload_len": 546,
+     "wire_len": 547,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 25,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 546,
+       "usage_page": 65280,
+       "usages": [
+        49
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 546x8bit [0..255] var Vendor 0xff00: 0x31"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 2,
+     "bits": 288,
+     "payload_len": 36,
+     "wire_len": 37,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 2,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 36,
+       "usage_page": 65284,
+       "usages": [
+        36
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 36x8bit [0..255] var Vendor 0xff04: 0x24"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 3,
+     "bits": 304,
+     "payload_len": 38,
+     "wire_len": 39,
+     "usage_pages": [
+      65283
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 3,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 38,
+       "usage_page": 65283,
+       "usages": [
+        33
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 38x8bit [0..255] var Vendor 0xff03: 0x21"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 4,
+     "bits": 368,
+     "payload_len": 46,
+     "wire_len": 47,
+     "usage_pages": [
+      65283
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 4,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 46,
+       "usage_page": 65283,
+       "usages": [
+        34
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 46x8bit [0..255] var Vendor 0xff03: 0x22"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 5,
+     "bits": 320,
+     "payload_len": 40,
+     "wire_len": 41,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 5,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 40,
+       "usage_page": 65284,
+       "usages": [
+        38
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 40x8bit [0..255] var Vendor 0xff04: 0x26"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 6,
+     "bits": 416,
+     "payload_len": 52,
+     "wire_len": 53,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 6,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 52,
+       "usage_page": 65284,
+       "usages": [
+        39
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 52x8bit [0..255] var Vendor 0xff04: 0x27"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 7,
+     "bits": 384,
+     "payload_len": 48,
+     "wire_len": 49,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 7,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 48,
+       "usage_page": 65284,
+       "usages": [
+        40
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 48x8bit [0..255] var Vendor 0xff04: 0x28"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 8,
+     "bits": 376,
+     "payload_len": 47,
+     "wire_len": 48,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 8,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 47,
+       "usage_page": 65284,
+       "usages": [
+        41
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 47x8bit [0..255] var Vendor 0xff04: 0x29"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 9,
+     "bits": 152,
+     "payload_len": 19,
+     "wire_len": 20,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 9,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 19,
+       "usage_page": 65284,
+       "usages": [
+        42
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 19x8bit [0..255] var Vendor 0xff04: 0x2a"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 130,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 130,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        34
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x22"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 131,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 131,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        35
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x23"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 132,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 132,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        36
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x24"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 144,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 144,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        48
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x30"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 145,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 145,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        49
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x31"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 146,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 146,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        50
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x32"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 147,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 147,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        51
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x33"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 160,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 160,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        64
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x40"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 163,
+     "bits": 384,
+     "payload_len": 48,
+     "wire_len": 49,
+     "usage_pages": [
+      65284
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 163,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 48,
+       "usage_page": 65284,
+       "usages": [
+        37
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 48x8bit [0..255] var Vendor 0xff04: 0x25"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 164,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 164,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        68
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x44"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 167,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 167,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 168,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 168,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 169,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 169,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 170,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 170,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 171,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 171,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 172,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 172,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 173,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 173,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 177,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 177,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 178,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 178,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        70
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x46"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 179,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 179,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        69
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 180,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65408
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 180,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65408,
+       "usages": [
+        70
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x46"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 240,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65283
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 240,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65283,
+       "usages": [
+        71
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff03: 0x47"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 241,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
+     "usage_pages": [
+      65283
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 241,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65283,
+       "usages": [
+        72
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff03: 0x48"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 242,
+     "bits": 120,
+     "payload_len": 15,
+     "wire_len": 16,
+     "usage_pages": [
+      65283
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 242,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 15,
+       "usage_page": 65283,
+       "usages": [
+        73
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 15x8bit [0..255] var Vendor 0xff03: 0x49"
+      }
+     ]
+    }
+   ],
+   "summary": [
+    "applications: Application(Generic Desktop:Gamepad)",
+    "report ids: yes  PID force feedback page: no  vendor pages: 0xff00, 0xff03, 0xff04, 0xff80",
+    "input   report id 0x01  9 bytes payload (10 on the wire)",
+    "    byte 0.0 4x8bit [0..255] var Generic Desktop: X, Y, Z, Rz",
+    "    byte 4.0 1x4bit [0..7] var Generic Desktop: Hat switch",
+    "    byte 4.4 14x1bit [0..1] var Button: Button 1..Button 14",
+    "    byte 6.2 1x6bit [0..1] array padding",
+    "    byte 7.0 2x8bit [0..255] var Generic Desktop: Rx, Ry",
+    "input   report id 0x11  77 bytes payload (78 on the wire)",
+    "    byte 0.0 77x8bit [0..255] var Vendor 0xff00: 0x20",
+    "input   report id 0x12  141 bytes payload (142 on the wire)",
+    "    byte 0.0 141x8bit [0..255] var Vendor 0xff00: 0x22",
+    "input   report id 0x13  205 bytes payload (206 on the wire)",
+    "    byte 0.0 205x8bit [0..255] var Vendor 0xff00: 0x24",
+    "input   report id 0x14  269 bytes payload (270 on the wire)",
+    "    byte 0.0 269x8bit [0..255] var Vendor 0xff00: 0x26",
+    "input   report id 0x15  333 bytes payload (334 on the wire)",
+    "    byte 0.0 333x8bit [0..255] var Vendor 0xff00: 0x28",
+    "input   report id 0x16  397 bytes payload (398 on the wire)",
+    "    byte 0.0 397x8bit [0..255] var Vendor 0xff00: 0x2a",
+    "input   report id 0x17  461 bytes payload (462 on the wire)",
+    "    byte 0.0 461x8bit [0..255] var Vendor 0xff00: 0x2c",
+    "input   report id 0x18  525 bytes payload (526 on the wire)",
+    "    byte 0.0 525x8bit [0..255] var Vendor 0xff00: 0x2e",
+    "input   report id 0x19  546 bytes payload (547 on the wire)",
+    "    byte 0.0 546x8bit [0..255] var Vendor 0xff00: 0x30",
+    "output  report id 0x11  77 bytes payload (78 on the wire)",
+    "    byte 0.0 77x8bit [0..255] var Vendor 0xff00: 0x21",
+    "output  report id 0x12  141 bytes payload (142 on the wire)",
+    "    byte 0.0 141x8bit [0..255] var Vendor 0xff00: 0x23",
+    "output  report id 0x13  205 bytes payload (206 on the wire)",
+    "    byte 0.0 205x8bit [0..255] var Vendor 0xff00: 0x25",
+    "output  report id 0x14  269 bytes payload (270 on the wire)",
+    "    byte 0.0 269x8bit [0..255] var Vendor 0xff00: 0x27",
+    "output  report id 0x15  333 bytes payload (334 on the wire)",
+    "    byte 0.0 333x8bit [0..255] var Vendor 0xff00: 0x29",
+    "output  report id 0x16  397 bytes payload (398 on the wire)",
+    "    byte 0.0 397x8bit [0..255] var Vendor 0xff00: 0x2b",
+    "output  report id 0x17  461 bytes payload (462 on the wire)",
+    "    byte 0.0 461x8bit [0..255] var Vendor 0xff00: 0x2d",
+    "output  report id 0x18  525 bytes payload (526 on the wire)",
+    "    byte 0.0 525x8bit [0..255] var Vendor 0xff00: 0x2f",
+    "output  report id 0x19  546 bytes payload (547 on the wire)",
+    "    byte 0.0 546x8bit [0..255] var Vendor 0xff00: 0x31",
+    "feature report id 0x02  36 bytes payload (37 on the wire)",
+    "    byte 0.0 36x8bit [0..255] var Vendor 0xff04: 0x24",
+    "feature report id 0x03  38 bytes payload (39 on the wire)",
+    "    byte 0.0 38x8bit [0..255] var Vendor 0xff03: 0x21",
+    "feature report id 0x04  46 bytes payload (47 on the wire)",
+    "    byte 0.0 46x8bit [0..255] var Vendor 0xff03: 0x22",
+    "feature report id 0x05  40 bytes payload (41 on the wire)",
+    "    byte 0.0 40x8bit [0..255] var Vendor 0xff04: 0x26",
+    "feature report id 0x06  52 bytes payload (53 on the wire)",
+    "    byte 0.0 52x8bit [0..255] var Vendor 0xff04: 0x27",
+    "feature report id 0x07  48 bytes payload (49 on the wire)",
+    "    byte 0.0 48x8bit [0..255] var Vendor 0xff04: 0x28",
+    "feature report id 0x08  47 bytes payload (48 on the wire)",
+    "    byte 0.0 47x8bit [0..255] var Vendor 0xff04: 0x29",
+    "feature report id 0x09  19 bytes payload (20 on the wire)",
+    "    byte 0.0 19x8bit [0..255] var Vendor 0xff04: 0x2a",
+    "feature report id 0x82  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x22",
+    "feature report id 0x83  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x23",
+    "feature report id 0x84  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x24",
+    "feature report id 0x90  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x30",
+    "feature report id 0x91  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x31",
+    "feature report id 0x92  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x32",
+    "feature report id 0x93  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x33",
+    "feature report id 0xa0  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x40",
+    "feature report id 0xa3  48 bytes payload (49 on the wire)",
+    "    byte 0.0 48x8bit [0..255] var Vendor 0xff04: 0x25",
+    "feature report id 0xa4  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x44",
+    "feature report id 0xa7  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xa8  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xa9  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xaa  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xab  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xac  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xad  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xb1  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xb2  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x46",
+    "feature report id 0xb3  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x45",
+    "feature report id 0xb4  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff80: 0x46",
+    "feature report id 0xf0  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff03: 0x47",
+    "feature report id 0xf1  63 bytes payload (64 on the wire)",
+    "    byte 0.0 63x8bit [0..255] var Vendor 0xff03: 0x48",
+    "feature report id 0xf2  15 bytes payload (16 on the wire)",
+    "    byte 0.0 15x8bit [0..255] var Vendor 0xff03: 0x49"
+   ]
+  },
+  {
    "name": "elan1203_touchpad_04f3_307a",
    "hex": "05 01 09 02 a1 01 85 01 09 01 a1 00 05 09 19 01 29 02 15 00 25 01 75 01 95 02 81 02 95 06 81 03 05 01 09 30 09 31 09 38 15 81 25 7f 75 08 95 03 81 06 05 0c 0a 38 02 95 01 81 06 75 08 95 03 81 03 c0 c0 05 0d 09 05 a1 01 85 04 09 22 a1 02 15 00 25 01 09 47 09 42 95 02 75 01 81 02 05 09 09 02 09 03 15 00 25 01 75 01 95 02 81 02 05 0d 95 01 75 04 25 0f 09 51 81 02 05 01 15 00 26 a2 0c 75 10 55 0e 65 13 09 30 35 00 46 94 01 95 01 81 02 46 cf 00 26 7d 06 26 7d 06 09 31 81 02 05 0d 15 00 25 64 95 03 c0 55 0c 66 01 10 47 ff ff 00 00 27 ff ff 00 00 75 10 95 01 09 56 81 02 09 54 25 7f 95 01 75 08 81 02 25 01 75 01 95 08 81 03 09 c5 75 08 95 04 81 03 05 0d 85 02 09 55 09 59 75 04 95 02 25 0f b1 02 85 07 09 60 75 01 95 01 15 00 25 01 b1 02 95 0f b1 03 06 00 ff 06 00 ff 85 06 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02 85 0d 09 c4 15 00 26 ff 00 75 08 95 04 b1 02 85 0c 09 c6 96 e4 01 75 08 b1 02 85 0b 09 c7 95 80 75 08 b1 02 c0 05 0d 09 0e a1 01 85 03 09 22 a1 00 09 52 15 00 25 0a 75 10 95 01 b1 02 c0 09 22 a1 00 85 05 09 57 09 58 15 00 75 01 95 02 25 03 b1 02 95 0e b1 03 c0 c0",
    "applications": [

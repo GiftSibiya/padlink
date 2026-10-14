@@ -8,7 +8,7 @@ use std::path::{Path, PathBuf};
 use serde_json::{Map, Value, json};
 
 use crate::discovery::{self, Controller};
-use crate::{hiddesc, integration, profiles, py};
+use crate::{gamesetup, hiddesc, integration, profiles, py};
 
 pub const OK: &str = "ok";
 pub const INFO: &str = "info";
@@ -340,9 +340,11 @@ pub fn winebus_keys(prefix: &Path) -> Option<(PathBuf, Map<String, Value>)> {
     None
 }
 
-/// The `"name"=value` lines of the `[System\\CurrentControlSet\\Services\\winebus]` section.
+/// The `"name"=value` lines of the `[System\\ControlSet001\\Services\\winebus]` section.
 pub fn parse_winebus(text: &str) -> Map<String, Value> {
-    const HEADER: &str = r"[System\\CurrentControlSet\\Services\\winebus]";
+    // Wine stores the key under ControlSet001 (CurrentControlSet is a link to it)
+    const HEADERS: [&str; 2] =
+        [r"[System\\ControlSet001\\Services\\winebus]", r"[System\\CurrentControlSet\\Services\\winebus]"];
     let mut keys = Map::new();
     let mut line_start = 0;
     let body = loop {
@@ -350,7 +352,7 @@ pub fn parse_winebus(text: &str) -> Map<String, Value> {
             return keys;
         }
         let rest = &text[line_start..];
-        if rest.starts_with(HEADER) {
+        if HEADERS.iter().any(|h| rest.starts_with(h)) {
             // the rest of the header line, then the body up to a blank line or the end
             let Some(nl) = rest.find('\n') else { return keys };
             let body = &rest[nl + 1..];
@@ -399,13 +401,17 @@ pub fn lutris_checks(ctrl: Option<&Controller>, games_dir: &Path) -> Vec<Check> 
         let env = get(&get(&cfg, "system"), "env");
         let prefix = game.get("prefix").filter(|p| !p.is_null()).map(py::str_of);
         let mut parts = Vec::new();
+        let mut hints: Vec<String> = Vec::new();
         let mut status = INFO;
-        let ignore = env.get("SDL_GAMECONTROLLER_IGNORE_DEVICES").map(py::str_of).unwrap_or_default();
-        if let Some(c) = ctrl.filter(|c| !c.is_padlink()) {
-            if ignore.to_lowercase().contains(&format!("0x{:04x}/0x{:04x}", c.vendor, c.product)) {
-                parts.push("physical pad hidden from SDL (ok for bridge)".to_string());
+        let mut fixes: Vec<String> = Vec::new();
+        let pad = ctrl.filter(|c| !c.is_padlink());
+        if let Some(c) = pad {
+            let problems = gamesetup::env_problems(&cfg, c);
+            if problems.is_empty() {
+                parts.push("physical pad hidden from SDL and Proton (ok for bridge)".to_string());
             } else {
-                parts.push("physical pad NOT hidden (game may pick the rumble-less device)".to_string());
+                parts.extend(problems);
+                fixes.push(format!("padlink lutris-env {} --apply {stem}", c.id_str()));
                 status = WARN;
             }
         }
@@ -413,11 +419,29 @@ pub fn lutris_checks(ctrl: Option<&Controller>, games_dir: &Path) -> Vec<Check> 
             match winebus_keys(Path::new(&prefix)) {
                 None => parts.push(format!("prefix {prefix}: no system.reg (not created yet?)")),
                 Some((_, keys)) => {
-                    let shown =
-                        if keys.is_empty() { "defaults".to_string() } else { py::repr(&Value::Object(keys.clone())) };
-                    parts.push(format!("winebus keys: {shown}"));
+                    // only the options that change how controllers reach the game
+                    let opts: Vec<String> = WINEBUS_OPTIONS
+                        .iter()
+                        .filter_map(|k| keys.get(*k).map(|v| format!("{k}={}", dword(v))))
+                        .collect();
+                    let shown = if opts.is_empty() { "defaults".to_string() } else { opts.join(", ") };
+                    parts.push(format!("winebus: {shown}"));
                     if keys.get("DisableInput").and_then(Value::as_str).is_some_and(|v| v.ends_with('1')) {
                         status = WARN;
+                    }
+                    if keys.get("Map Controllers").and_then(Value::as_str).is_none_or(|v| !v.ends_with('0')) {
+                        parts.push(
+                            "pads are XInput-mapped (Map Controllers on), so DirectInput-only games get no force \
+                             feedback"
+                                .to_string(),
+                        );
+                        if let Some(c) = pad {
+                            hints.push(format!(
+                                "if the game uses DirectInput (no rumble even through the bridge): padlink lutris-env \
+                                 {} --apply {stem} --dinput",
+                                c.id_str()
+                            ));
+                        }
                     }
                 }
             }
@@ -427,9 +451,12 @@ pub fn lutris_checks(ctrl: Option<&Controller>, games_dir: &Path) -> Vec<Check> 
             parts.push(format!("env: {}", vars.join(", ")));
         }
         let name = cfg.get("name").filter(|n| py::truthy(n)).map_or_else(|| stem.clone(), py::str_of);
-        let fix = match ctrl {
-            Some(c) if status == WARN => format!("padlink lutris-env {} --apply {stem}", c.id_str()),
-            _ => String::new(),
+        // the --dinput hint rides along with the main fix, or stands alone
+        let fix = match (fixes.first(), hints.first()) {
+            (Some(f), Some(_)) => format!("{f} (add --dinput if the game uses DirectInput)"),
+            (Some(f), None) => f.clone(),
+            (None, Some(h)) => h.clone(),
+            (None, None) => String::new(),
         };
         checks
             .push(Check::new("lutris_game", format!("Lutris: {name}"), status, parts.join("; "), fix).scoped("lutris"));
@@ -437,9 +464,94 @@ pub fn lutris_checks(ctrl: Option<&Controller>, games_dir: &Path) -> Vec<Check> 
     checks
 }
 
+/// winebus options (HKLM\\System\\CurrentControlSet\\Services\\winebus) that affect controllers.
+const WINEBUS_OPTIONS: [&str; 5] = ["DisableHidraw", "DisableInput", "Enable SDL", "Map Controllers", "Enable Hidraw"];
+
+/// `dword:00000001` -> `1`; other registry values unchanged.
+fn dword(v: &Value) -> String {
+    let s = py::str_of(v);
+    match s.strip_prefix("dword:").and_then(|h| u32::from_str_radix(h, 16).ok()) {
+        Some(n) => n.to_string(),
+        None => s,
+    }
+}
+
+/// Run a short command and return its stdout; None if it's missing, fails or takes over 3 s.
+fn command_output(program: &str, args: &[&str]) -> Option<String> {
+    use std::process::{Command, Stdio};
+    let mut child = Command::new(program).args(args).stdout(Stdio::piped()).stderr(Stdio::null()).spawn().ok()?;
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(3);
+    loop {
+        match child.try_wait().ok()? {
+            Some(status) if status.success() => break,
+            Some(_) => return None,
+            None if std::time::Instant::now() > deadline => {
+                let _ = child.kill();
+                return None;
+            }
+            None => std::thread::sleep(std::time::Duration::from_millis(20)),
+        }
+    }
+    let mut out = String::new();
+    std::io::Read::read_to_string(&mut child.stdout.take()?, &mut out).ok()?;
+    Some(out)
+}
+
+/// A Bluetooth gamepad bluez reports as connected.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BtPad {
+    pub mac: String,
+    pub name: String,
+}
+
+/// Connected gamepads (icon `input-gaming`) according to bluez; empty without bluetoothctl.
+pub fn bluetooth_pads() -> Vec<BtPad> {
+    let Some(list) = command_output("bluetoothctl", &["devices", "Connected"]) else { return Vec::new() };
+    list.lines()
+        .filter_map(|l| {
+            let mut parts = l.splitn(3, ' ');
+            (parts.next()? == "Device").then_some(())?;
+            Some((parts.next()?.to_string(), parts.next().unwrap_or("").to_string()))
+        })
+        .filter(|(mac, _)| {
+            command_output("bluetoothctl", &["info", mac])
+                .is_some_and(|info| info.lines().any(|l| l.trim() == "Icon: input-gaming"))
+        })
+        .map(|(mac, name)| BtPad { mac, name })
+        .collect()
+}
+
+/// Pads bluez calls connected but that have no input device: bluez dropped their HID
+/// channel while the link stayed up (e.g. after "BT socket write error" on rumble output).
+pub fn half_connected<'a>(pads: &'a [BtPad], controllers: &[Controller]) -> Vec<&'a BtPad> {
+    pads.iter().filter(|p| !controllers.iter().any(|c| c.uniq.eq_ignore_ascii_case(&p.mac))).collect()
+}
+
+pub fn bluetooth_checks() -> Vec<Check> {
+    let pads = bluetooth_pads();
+    if pads.is_empty() {
+        return Vec::new();
+    }
+    let controllers = discovery::scan(true).unwrap_or_default();
+    half_connected(&pads, &controllers)
+        .into_iter()
+        .map(|p| {
+            Check::new(
+                "bt_half_connected",
+                format!("{} is connected over Bluetooth but has no input device", p.name),
+                FAIL,
+                "bluez dropped its HID channel and kept the link up, so no program can see it (this happens when \
+                 rumble output overflows the link: \"BT socket write error\" in `journalctl -u bluetooth`)",
+                format!("bluetoothctl disconnect {}, then press the controller's home/PS button", p.mac),
+            )
+        })
+        .collect()
+}
+
 /// Every check: system, then each controller (or just `ctrl`), then Lutris.
 pub fn run(ctrl: Option<&Controller>, all_devices: bool) -> Vec<Check> {
     let mut checks = system_checks();
+    checks.extend(bluetooth_checks());
     let controllers = discovery::scan(false).unwrap_or_default();
     if controllers.is_empty() {
         checks.push(Check::new(
@@ -461,4 +573,98 @@ pub fn run(ctrl: Option<&Controller>, all_devices: bool) -> Vec<Check> {
         checks.push(Check::new("lutris_bin", "lutris not on PATH", INFO, "", "").scoped("lutris"));
     }
     checks
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ds4() -> Controller {
+        Controller {
+            key: "/sys/x".into(),
+            name: "Wireless Controller".into(),
+            vendor: 0x054C,
+            product: 0x09CC,
+            version: 0,
+            bustype: 5,
+            driver: Some("playstation".into()),
+            uniq: String::new(),
+            phys: String::new(),
+            virtual_: false,
+            events: vec![],
+            joysticks: vec![],
+            hidraw: vec![],
+            battery: None,
+            index: 0,
+        }
+    }
+
+    /// (status, detail, fix) of the one Lutris check for a game with this env block.
+    fn check_env(env: &str) -> (&'static str, String, String) {
+        let dir = std::env::temp_dir().join(format!("padlink-doctor-{}-{}", std::process::id(), env.len()));
+        fs::create_dir_all(&dir).unwrap();
+        fs::write(dir.join("nfs.yml"), format!("game:\n  exe: /x.exe\nsystem:\n  env:\n{env}")).unwrap();
+        let c = lutris_checks(Some(&ds4()), &dir).pop().unwrap();
+        fs::remove_dir_all(&dir).unwrap();
+        (c.status, c.detail, c.fix)
+    }
+
+    #[test]
+    fn sdl_ignore_alone_is_enough_for_non_sony_pads_only() {
+        let (status, detail, fix) = check_env("    SDL_GAMECONTROLLER_IGNORE_DEVICES: 0x054c/0x09cc\n");
+        assert_eq!(status, WARN, "{detail}");
+        assert!(detail.contains("through hidraw"), "{detail}");
+        assert_eq!(fix, "padlink lutris-env 054c:09cc --apply nfs");
+    }
+
+    #[test]
+    fn proton_sdl_mode_undoes_the_ignore_list() {
+        let (status, detail, fix) = check_env(
+            "    PROTON_PREFER_SDL: '1'\n    SDL_GAMECONTROLLER_IGNORE_DEVICES: 0x054c/0x09cc\n    PROTON_DISABLE_HIDRAW: 0x054C/0x09CC\n",
+        );
+        assert_eq!(status, WARN, "{detail}");
+        assert!(detail.contains("PROTON_PREFER_SDL"), "{detail}");
+        assert_eq!(fix, "padlink lutris-env 054c:09cc --apply nfs");
+        // "0" means off in Proton
+        let (status, _, _) = check_env(
+            "    PROTON_PREFER_SDL: '0'\n    SDL_GAMECONTROLLER_IGNORE_DEVICES: 0x054c/0x09cc\n    PROTON_DISABLE_HIDRAW: 0x054C/0x09CC\n",
+        );
+        assert_eq!(status, INFO);
+    }
+
+    #[test]
+    fn half_connected_pads() {
+        let pads = vec![
+            BtPad { mac: "DA:71:77:4C:5F:95".into(), name: "Wireless Controller".into() },
+            BtPad { mac: "AA:BB:CC:DD:EE:FF".into(), name: "Other Pad".into() },
+        ];
+        let mut c = ds4();
+        c.uniq = "da:71:77:4c:5f:95".into();
+        let missing = half_connected(&pads, &[c]);
+        assert_eq!(missing, vec![&pads[1]]);
+        assert_eq!(half_connected(&pads, &[]).len(), 2);
+    }
+
+    #[test]
+    fn hidden_everywhere_is_ok() {
+        for hidraw in ["0x054C/0x09CC", "1", "0x045E/0x028E,0x054c/0x09cc"] {
+            let (status, detail, fix) = check_env(&format!(
+                "    SDL_GAMECONTROLLER_IGNORE_DEVICES: 0x054c/0x09cc\n    PROTON_DISABLE_HIDRAW: '{hidraw}'\n"
+            ));
+            assert_eq!((status, fix.as_str()), (INFO, ""), "{hidraw}: {detail}");
+            assert!(detail.contains("ok for bridge"), "{detail}");
+        }
+    }
+}
+
+#[cfg(test)]
+mod bt_live {
+    /// Needs bluez with a gamepad connected: `cargo test -p padlink-core bt_live -- --ignored --nocapture`
+    #[test]
+    #[ignore]
+    fn lists_connected_pads() {
+        let pads = super::bluetooth_pads();
+        println!("connected pads: {pads:?}");
+        assert!(!pads.is_empty());
+    }
 }

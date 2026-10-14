@@ -1,4 +1,6 @@
-//! Replays the golden fixtures from the Python implementation (`tools/gen_fixtures.py`).
+//! Replays the golden fixtures: expected values recorded from the original Python
+//! implementation, now frozen. A failure here means behaviour (and so file formats or
+//! what games see) changed; update a fixture only on purpose.
 //! Every expected value in `fixtures/golden/*.json` must be reproduced exactly.
 
 use std::collections::{BTreeSet, HashMap};

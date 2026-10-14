@@ -25,7 +25,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use std::thread::{self, JoinHandle};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use evdev::raw_stream::RawDevice;
 use evdev::uinput::VirtualDevice;
@@ -48,6 +48,10 @@ use crate::{driver::RumbleDriver, log_write, logger::Log};
 /// The force-feedback capabilities every virtual pad advertises.
 pub const FF_CAPS: [u16; 8] = [FF_RUMBLE, FF_PERIODIC, FF_SQUARE, FF_TRIANGLE, FF_SINE, FF_CONSTANT, FF_RAMP, FF_GAIN];
 const MAX_EFFECTS: u32 = 16;
+/// Minimum time between rumble writes to a Bluetooth controller (30/s).
+pub const BLUETOOTH_MIN_INTERVAL_MS: u64 = 33;
+/// Rumble changes smaller than this (2% of full scale) aren't worth a write.
+pub const RUMBLE_DEADBAND: u32 = 1311;
 
 /// The hidraw node a rumble profile targets.
 pub fn pick_hidraw<'a>(ctrl: &'a Controller, spec: &RumbleSpec) -> Option<&'a str> {
@@ -97,6 +101,8 @@ pub struct BridgeOptions {
     pub vendor: Option<u16>,
     pub product: Option<u16>,
     pub name: Option<String>,
+    /// How long a game may play without sending force feedback before the bridge logs why that may be.
+    pub silent_game_after: Duration,
 }
 
 impl Default for BridgeOptions {
@@ -109,6 +115,7 @@ impl Default for BridgeOptions {
             vendor: None,
             product: None,
             name: None,
+            silent_game_after: SILENT_GAME_AFTER,
         }
     }
 }
@@ -135,7 +142,20 @@ struct Running {
     driver: RumbleDriver,
     translator: Option<Translator>,
     persona: Option<&'static Persona>,
+    /// Set when a game opens the virtual pad (it writes the FF gain then).
+    opened: Option<Opened>,
 }
+
+/// A game opened the virtual pad: when, and the counters at that moment.
+struct Opened {
+    at: Instant,
+    inputs: u64,
+    uploads: u64,
+    hinted: bool,
+}
+
+/// Default for `BridgeOptions::silent_game_after`.
+pub const SILENT_GAME_AFTER: Duration = Duration::from_secs(60);
 
 /// One bridge session. `run()` blocks; `spawn()` runs it on a thread.
 pub struct Bridge {
@@ -310,7 +330,15 @@ impl Bridge {
                 if let Some(s) = src.supported_switches() {
                     b = b.with_switches(s)?;
                 }
-                (b.with_ff(&ff)?.with_ff_effects_max(MAX_EFFECTS).build()?, None)
+                let ui = b.with_ff(&ff)?.with_ff_effects_max(MAX_EFFECTS).build()?;
+                let ids =
+                    (self.opts.vendor.unwrap_or(self.ctrl.vendor), self.opts.product.unwrap_or(self.ctrl.product));
+                if ids == (self.ctrl.vendor, self.ctrl.product) {
+                    log_write!(self.log, "note", {"text": "mirror keeps the physical pad's vendor:product, so \
+                        SDL_GAMECONTROLLER_IGNORE_DEVICES would hide the virtual pad too. Use a persona \
+                        (e.g. --as xbox360) if games should see only the virtual pad."});
+                }
+                (ui, None)
             }
             Some(p) => {
                 let (mapping, source) = match (&self.opts.mapping, profile.as_ref().and_then(|p| p.input_map.clone())) {
@@ -358,9 +386,17 @@ impl Bridge {
         };
 
         let (sink, spec) = make_sink(&self.ctrl, profile.as_ref(), &self.log)?;
-        let (keepalive, min_interval) =
+        let (keepalive, mut min_interval) =
             spec.map_or((0, 8), |s| (s.keepalive_ms.max(0) as u64, s.min_interval_ms.max(0) as u64));
-        let driver = RumbleDriver::start(sink, self.log.clone(), keepalive, min_interval);
+        if self.ctrl.bus() == "bluetooth" && min_interval < BLUETOOTH_MIN_INTERVAL_MS {
+            // every rumble change is an output report over the air; bursts of ~100/s fill the
+            // L2CAP buffer, bluez gets EAGAIN and drops the controller's HID device
+            min_interval = BLUETOOTH_MIN_INTERVAL_MS;
+            log_write!(self.log, "note", {"text": format!(
+                "Bluetooth controller: rumble updates capped at {}/s (faster bursts can make bluez drop the controller)",
+                1000 / BLUETOOTH_MIN_INTERVAL_MS)});
+        }
+        let driver = RumbleDriver::start(sink, self.log.clone(), keepalive, min_interval, RUMBLE_DEADBAND);
         if self.opts.grab {
             if let Err(e) = src.grab() {
                 log_write!(self.log, "note", {"text": format!("could not grab {node}: {e}")});
@@ -373,7 +409,7 @@ impl Bridge {
         });
         set_nonblocking(src.as_raw_fd())?;
         set_nonblocking(ui.as_raw_fd())?;
-        Ok(Running { node, src, ui, driver, translator, persona: self.persona })
+        Ok(Running { node, src, ui, driver, translator, persona: self.persona, opened: None })
     }
 
     fn handle_source(&self, r: &mut Running) -> io::Result<()> {
@@ -459,6 +495,9 @@ impl Bridge {
                 EventSummary::ForceFeedback(_, FFEffectCode::FF_GAIN, value) => {
                     r.driver.set_gain(value as i64);
                     log_write!(self.log, "ff_gain", {"gain": value});
+                    // SDL (and so Wine/Proton) writes the gain when a game opens the pad
+                    let s = self.status.lock().expect("status").stats;
+                    r.opened = Some(Opened { at: Instant::now(), inputs: s.inputs, uploads: s.uploads, hinted: false });
                 }
                 EventSummary::ForceFeedback(_, code, value) => {
                     r.driver.play(code.0 as i32, value);
@@ -471,6 +510,24 @@ impl Bridge {
         Ok(())
     }
 
+    /// A game opened the pad and is being played, but has sent no force feedback:
+    /// say once what usually causes that.
+    fn check_silent_game(&self, r: &mut Running) {
+        let after = self.opts.silent_game_after;
+        let Some(o) = r.opened.as_mut().filter(|o| !o.hinted && o.at.elapsed() >= after) else { return };
+        let s = self.status.lock().expect("status").stats;
+        if s.uploads > o.uploads || s.inputs < o.inputs + 50 {
+            return; // it did send effects, or nobody is playing
+        }
+        o.hinted = true;
+        log_write!(self.log, "note", {"text": format!(
+            "a game opened the virtual pad {}s ago and is getting input, but has sent no force feedback. If rumble \
+             is on in the game and it runs under Wine/Proton, it is probably a DirectInput game: Wine gives \
+             XInput-mapped pads no DirectInput force feedback. Fix: close the game, run `padlink lutris-env {} \
+             --apply <game> --dinput`, restart it (padlink doctor lists the games)",
+            after.as_secs(), self.ctrl.id_str())});
+    }
+
     /// Bridge until stopped or the controller goes away. Errors end up in `status().error`.
     pub fn run(&mut self) {
         let mut running: Option<Running> = None;
@@ -478,7 +535,8 @@ impl Bridge {
             let r = running.insert(self.open()?);
             loop {
                 let fds = [r.src.as_raw_fd(), r.ui.as_raw_fd(), self.stop.read_fd()];
-                let ready = poll_many(&fds, None)?;
+                let ready = poll_many(&fds, Some(Duration::from_secs(1)))?;
+                self.check_silent_game(r);
                 if ready.contains(&2) {
                     return Ok(());
                 }

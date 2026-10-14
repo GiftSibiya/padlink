@@ -218,7 +218,10 @@ impl Window {
             keys.push(c.key.clone());
         }
         if sel_index.is_none() && !ctrls.is_empty() {
-            sel_index = Some(ctrls.iter().position(|c| !c.is_padlink()).unwrap_or(0));
+            // with "show all" the list also has keyboards and touchpads: prefer a real gamepad
+            let gamepad = |c: &Controller| !c.is_padlink() && c.primary_event().is_some_and(|n| n.is_joystick());
+            sel_index =
+                ctrls.iter().position(gamepad).or_else(|| ctrls.iter().position(|c| !c.is_padlink())).or(Some(0));
         }
         *self.controllers.borrow_mut() = ctrls;
         *self.row_keys.borrow_mut() = keys;

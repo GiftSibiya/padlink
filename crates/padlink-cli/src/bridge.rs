@@ -108,6 +108,7 @@ pub fn bridge(a: &BridgeArgs) -> Result {
             vendor,
             product,
             name: a.name.clone(),
+            ..BridgeOptions::default()
         };
         let target = if a.mode == "mirror" {
             "mirror of the source".to_string()

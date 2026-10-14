@@ -246,3 +246,27 @@ pub fn load_or_new(vendor: u16, product: u16, name: &str) -> io::Result<Profile>
     Ok(load(vendor, product, None)?
         .unwrap_or_else(|| Profile { name: name.to_string(), ..Profile::new(vendor, product) }))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn save_and_load_roundtrip() {
+        let dir = std::env::temp_dir().join(format!("padlink-profiles-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let p = Profile {
+            name: "pad".into(),
+            rumble: Some(RumbleSpec { report: vec![json!(5), json!("strong")], ..RumbleSpec::default() }),
+            input_map: Some(json!({"keys": {}})),
+            ..Profile::new(0x3537, 0x1041)
+        };
+        let path = p.save(Some(&dir)).unwrap();
+        assert_eq!(path.file_name().unwrap(), "3537_1041.json");
+        let q = load(0x3537, 0x1041, Some(&dir)).unwrap().expect("saved profile");
+        assert_eq!(q, p);
+        assert_eq!(q.rumble.unwrap().report, vec![json!(5), json!("strong")]);
+        assert!(load(0x1234, 0x5678, Some(&dir)).unwrap().is_none());
+        fs::remove_dir_all(&dir).unwrap();
+    }
+}
