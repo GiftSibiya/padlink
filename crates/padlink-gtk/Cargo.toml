@@ -1,0 +1,22 @@
+[package]
+name = "padlink-gtk"
+description = "padlink GTK4/libadwaita app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "padlink-gtk"
+path = "src/main.rs"
+
+[dependencies]
+adw = { package = "libadwaita", version = "0.9.2", features = ["v1_7", "gtk_v4_18"] }
+evdev.workspace = true
+glib-unix = "0.22.8"
+libc.workspace = true
+padlink-core = { path = "../padlink-core" }
+rsvg = { package = "librsvg-rebind", version = "0.3.0" }
+serde_json.workspace = true
+udev.workspace = true

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import shutil
-import sys
 import time
 from pathlib import Path
 
@@ -74,12 +73,13 @@ def apply_lutris_env(slug: str, env: dict[str, str], remove: bool = False) -> tu
 
 
 def systemd_unit(spec: str, mode: str = "xbox360") -> str:
-    exe = shutil.which("padlink")
-    if exe:
-        cmd = exe
-    else:
-        repo = Path(__file__).resolve().parents[2]
-        cmd = f"/usr/bin/env PYTHONPATH={repo} {sys.executable} -m padlink"
+    """The unit runs the Rust `padlink` binary: the installed one if there is one."""
+    from padlink.core import rsbridge
+
+    installed = shutil.which("padlink")
+    cmd = installed if installed and rsbridge._is_native(Path(installed)) else rsbridge.find_binary()
+    if cmd is None:
+        raise FileNotFoundError("padlink binary not found; run ./install.sh first")
     return f"""[Unit]
 Description=padlink rumble bridge for {spec}
 After=graphical-session.target

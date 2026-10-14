@@ -3,7 +3,8 @@
     python3 tools/gen_fixtures.py            # writes fixtures/golden/*.json
     python3 tools/gen_fixtures.py --check    # exit 1 if the files would change
 
-Every file is deterministic (no timestamps, sorted keys) so the Python side
+Every file is deterministic (no timestamps; dict keys keep Python's insertion
+order, which some outputs depend on, e.g. format_record) so the Python side
 can be re-run in CI and a diff means behaviour changed. The Rust tests load
 the same files and must reproduce every expected value.
 
@@ -16,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import tempfile
 from dataclasses import asdict
 from pathlib import Path
 
@@ -393,6 +395,24 @@ def gen_art() -> dict:
         p = ROOT / "data" / "art-templates" / f"{fam}.svg"
         templates[fam] = {"file": str(p.relative_to(ROOT)), "matches_template_svg": art.template_svg(fam) == p.read_text(),
                           "viewbox": list(art.viewbox(p)), "check": [list(c) for c in art.check(p)]}
+    checks = {}
+    shapes = "".join(f'<rect id="{i}"/>' for i in art.REQUIRED_IDS if i not in ("btn-south", "lt", "body"))
+    for name, svg in {
+        "minimal_ok": f'<svg xmlns="{art.SVG_NS}" viewBox="0 0 10 10"><g id="body"/>'
+                      + "".join(f'<rect id="{i}"/>' for i in art.REQUIRED_IDS if i != "body") + "</svg>",
+        "missing_and_mangled": f'<svg xmlns="{art.SVG_NS}" width="10" height="10"><path id="body"/>{shapes}'
+                               '<circle id="btn-south_1_"/><g id="lt"><rect/></g><rect id="touchpad"/></svg>',
+        "groups_style_image_text": f'<svg xmlns="{art.SVG_NS}"><style>.a{{}}</style><image/><text>x</text>'
+                                   '<g id="body"/>' + "".join(f'<g id="{i}"/>' for i in art.REQUIRED_IDS
+                                                             if i != "body") + '<rect id="btn-capture"/></svg>',
+        "illustrator_x5F": f'<svg xmlns="{art.SVG_NS}" viewBox="0 0 1 1"><rect id="body"/>'
+                           + "".join(f'<rect id="{i.replace("_", "_x5F_")}_2_"/>' if i == "btn-lb" else f'<rect id="{i}"/>'
+                                     for i in art.REQUIRED_IDS if i != "body") + "</svg>",
+        "no_namespace": '<svg viewBox="0 0 1 1"><style/><rect id="body"/></svg>',
+    }.items():
+        path = Path(tempfile.mkdtemp()) / f"{name}.svg"
+        path.write_text(svg)
+        checks[name] = {"svg": svg, "check": [list(c) for c in art.check(path)]}
     viewboxes = {}
     for svg in ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260"/>',
                 '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0, 10.5 7"/>',
@@ -404,14 +424,85 @@ def gen_art() -> dict:
     return {
         "families": list(art.FAMILIES), "required_ids": art.REQUIRED_IDS, "optional_ids": art.OPTIONAL_IDS,
         "candidates": {f"{v:04x}:{p:04x}": art.candidates(v, p) for v, p in ids},
-        "templates": templates, "viewbox": viewboxes,
+        "templates": templates, "viewbox": viewboxes, "check": checks,
         "stick_travel": [{"ring": r, "knob": k, "result": art.stick_travel(r, k)} for r, k in [
             ((0, 0, 60, 60), (0, 0, 30, 30)), ((0, 0, 60, 40), (0, 0, 20, 30)), ((0, 0, 10, 10), (0, 0, 30, 30))]],
     }
 
 
+# ---------------------------------------------------------------- prober / capture / doctor parsing
+def gen_prober() -> dict:
+    from padlink.core import prober
+    from padlink.core.discovery import Controller, HidrawNode
+
+    def cand_json(c) -> dict:
+        return {"label": c.label, "report_id": c.report_id, "template": c.template, "scale": c.scale,
+                "stop": c.stop, "meta": c.meta, "on": hexstr(c.on_bytes()), "off": hexstr(c.off_bytes()),
+                "spec": c.spec().to_dict()}
+
+    cases = []
+    for name, raw in hid_cases():
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "report_descriptor").write_bytes(raw)
+        node = HidrawNode(path="/dev/hidraw99", sys_path=str(tmp), hid_sys_path=str(tmp), interface="01")
+        ctrl = Controller(key="/sys/x", name="x", vendor=1, product=2, version=0, bustype=3, driver=None, uniq="",
+                          phys="", virtual=False, hidraw=[node])
+        for blind in (False, True):
+            cands = prober.stage1_candidates(ctrl, blind=blind)
+            case = {"descriptor": name, "blind": blind, "stage1": [cand_json(c) for c in cands]}
+            hit = next((c for c in cands if c.meta.get("kind") == "all_ff"), None)
+            if hit:
+                case["stage2"] = [cand_json(c) for c in prober.stage2_byte_candidates(hit)]
+                length = hit.meta["length"]
+                maps = [m for m in ({}, {0: "strong"}, {0: "strong", 1: "weak"}, {length - 1: "both", 0: "weak"})
+                        if all(0 <= k < length for k in m)]
+                case["build"] = [{"motors": {str(k): v for k, v in m.items()},
+                                  "result": cand_json(prober.build_from_bytes(hit, m))} for m in maps]
+            cases.append(case)
+    fits = [{"payload": p, "length": n, "result": prober._fit(list(p), n)}
+            for p in ([1, 2, 3], [1, 0, 0], [1, 2, 0], ["strong", "weak"]) for n in (0, 2, 3, 5)]
+    return {"known_layouts": [list(x) for x in prober.KNOWN_LAYOUTS], "cases": cases, "fit": fits}
+
+
+def gen_capture() -> dict:
+    from padlink.core import capture
+    lines = [
+        "ffff8a1f c1a3e2c0 3575215 S Io:3:005:2 -115:8 8 = 0500ff00 00000000",
+        "ffff8a1f c1a3e2c0 3575290 C Io:3:005:2 0 8 >",
+        "ffff8a1f 3575300 C Ii:3:005:1 0:8 20 = 01020304 05060708 090a0b0c 0d0e0f10 11121314",
+        "ffff8a1f 3575400 S Co:3:005:0 s 21 09 0205 0000 0003 3 = 05ff00",
+        "ffff8a1f 3575400 S Ci:3:005:0 s a1 01 0105 0000 0040 64 <",
+        "ffff8a1f 3575500 E Bo:1:002:3 -32 0",
+        "ffff8a1f 3575600 S Zi:2:009:4 -115 256 <",
+        "short line",
+        "ffff 1 S Xo:bad:005:2 0 0",
+        "",
+    ]
+    return {"lines": [{"line": l, "record": capture.parse_line(l)} for l in lines]}
+
+
+def gen_winebus() -> dict:
+    from padlink.core import doctor
+    regs = {
+        "none": "WINE REGISTRY Version 2\n\n[Software\\\\Wine] 1700000000\n\"Version\"=\"win10\"\n",
+        "keys": "WINE REGISTRY Version 2\n\n[System\\\\CurrentControlSet\\\\Services\\\\winebus] 1700000000\n"
+                "#time=1da\n\"DisableHidraw\"=dword:00000001\n\"DisableInput\"=dword:00000001\n"
+                "\"Enable SDL\"=dword:00000000\n\n[System\\\\Other] 1\n\"X\"=\"y\"\n",
+        "at_end": "[System\\\\CurrentControlSet\\\\Services\\\\winebus] 1\n\"Map Controllers\"=dword:00000000",
+        "empty_section": "[System\\\\CurrentControlSet\\\\Services\\\\winebus] 1\n\n\"After\"=1\n",
+    }
+    out = {}
+    for name, text in regs.items():
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "system.reg").write_text(text)
+        res = doctor._winebus_keys(tmp)
+        out[name] = {"text": text, "keys": res["keys"] if res else None}
+    return {"cases": out}
+
+
 GENERATORS = {"hiddesc": gen_hiddesc, "profiles": gen_profiles, "personas": gen_personas,
-              "translator": gen_translator, "ff": gen_ff, "misc": gen_misc, "art": gen_art}
+              "translator": gen_translator, "ff": gen_ff, "misc": gen_misc, "art": gen_art,
+              "prober": gen_prober, "capture": gen_capture, "winebus": gen_winebus}
 
 
 def main() -> int:
@@ -421,7 +512,7 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     changed = []
     for name, fn in GENERATORS.items():
-        text = json.dumps(fn(), indent=1, sort_keys=True, ensure_ascii=False) + "\n"
+        text = json.dumps(fn(), indent=1, ensure_ascii=False) + "\n"
         path = OUT / f"{name}.json"
         if not path.exists() or path.read_text() != text:
             changed.append(path.relative_to(ROOT))

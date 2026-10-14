@@ -1,4 +1,35 @@
 {
+ "families": [
+  "xbox",
+  "playstation",
+  "nintendo"
+ ],
+ "required_ids": [
+  "body",
+  "btn-south",
+  "btn-east",
+  "btn-west",
+  "btn-north",
+  "btn-lb",
+  "btn-rb",
+  "btn-select",
+  "btn-start",
+  "btn-home",
+  "dpad-up",
+  "dpad-down",
+  "dpad-left",
+  "dpad-right",
+  "lt",
+  "rt",
+  "ls-ring",
+  "ls-knob",
+  "rs-ring",
+  "rs-knob"
+ ],
+ "optional_ids": [
+  "touchpad",
+  "btn-capture"
+ ],
  "candidates": {
   "045e:028e": [
    "xbox360",
@@ -30,97 +61,27 @@
   "054c:1234": [
    "playstation"
   ],
-  "057e:2006": [
-   "nintendo"
-  ],
   "057e:2009": [
    "switchpro",
+   "nintendo"
+  ],
+  "057e:2006": [
    "nintendo"
   ],
   "3537:1041": [
    "xbox"
   ]
  },
- "families": [
-  "xbox",
-  "playstation",
-  "nintendo"
- ],
- "optional_ids": [
-  "touchpad",
-  "btn-capture"
- ],
- "required_ids": [
-  "body",
-  "btn-south",
-  "btn-east",
-  "btn-west",
-  "btn-north",
-  "btn-lb",
-  "btn-rb",
-  "btn-select",
-  "btn-start",
-  "btn-home",
-  "dpad-up",
-  "dpad-down",
-  "dpad-left",
-  "dpad-right",
-  "lt",
-  "rt",
-  "ls-ring",
-  "ls-knob",
-  "rs-ring",
-  "rs-knob"
- ],
- "stick_travel": [
-  {
-   "knob": [
-    0,
-    0,
-    30,
-    30
-   ],
-   "result": 15.0,
-   "ring": [
-    0,
-    0,
-    60,
-    60
-   ]
-  },
-  {
-   "knob": [
-    0,
-    0,
-    20,
-    30
-   ],
-   "result": 10.0,
-   "ring": [
-    0,
-    0,
-    60,
-    40
-   ]
-  },
-  {
-   "knob": [
-    0,
-    0,
-    30,
-    30
-   ],
-   "result": 0.0,
-   "ring": [
-    0,
-    0,
-    10,
-    10
-   ]
-  }
- ],
  "templates": {
-  "nintendo": {
+  "xbox": {
+   "file": "data/art-templates/xbox.svg",
+   "matches_template_svg": true,
+   "viewbox": [
+    0.0,
+    0.0,
+    800.0,
+    520.0
+   ],
    "check": [
     [
      "ok",
@@ -130,17 +91,17 @@
      "warn",
      "contains live <text>; convert text to outlines so it looks the same everywhere"
     ]
-   ],
-   "file": "data/art-templates/nintendo.svg",
+   ]
+  },
+  "playstation": {
+   "file": "data/art-templates/playstation.svg",
    "matches_template_svg": true,
    "viewbox": [
     0.0,
     0.0,
     800.0,
     520.0
-   ]
-  },
-  "playstation": {
+   ],
    "check": [
     [
      "ok",
@@ -154,17 +115,17 @@
      "warn",
      "contains live <text>; convert text to outlines so it looks the same everywhere"
     ]
-   ],
-   "file": "data/art-templates/playstation.svg",
+   ]
+  },
+  "nintendo": {
+   "file": "data/art-templates/nintendo.svg",
    "matches_template_svg": true,
    "viewbox": [
     0.0,
     0.0,
     800.0,
     520.0
-   ]
-  },
-  "xbox": {
+   ],
    "check": [
     [
      "ok",
@@ -174,24 +135,10 @@
      "warn",
      "contains live <text>; convert text to outlines so it looks the same everywhere"
     ]
-   ],
-   "file": "data/art-templates/xbox.svg",
-   "matches_template_svg": true,
-   "viewbox": [
-    0.0,
-    0.0,
-    800.0,
-    520.0
    ]
   }
  },
  "viewbox": {
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 0 10\" width=\"20px\" height=\"10px\"/>": [
-   0.0,
-   0.0,
-   20.0,
-   10.0
-  ],
   "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 260\"/>": [
    0.0,
    0.0,
@@ -204,6 +151,12 @@
    10.5,
    7.0
   ],
+  "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 0 10\" width=\"20px\" height=\"10px\"/>": [
+   0.0,
+   0.0,
+   20.0,
+   10.0
+  ],
   "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"50\"/>": [
    0.0,
    0.0,
@@ -211,5 +164,271 @@
    50.0
   ],
   "<svg xmlns=\"http://www.w3.org/2000/svg\"/>": null
- }
+ },
+ "check": {
+  "minimal_ok": {
+   "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><g id=\"body\"/><rect id=\"btn-south\"/><rect id=\"btn-east\"/><rect id=\"btn-west\"/><rect id=\"btn-north\"/><rect id=\"btn-lb\"/><rect id=\"btn-rb\"/><rect id=\"btn-select\"/><rect id=\"btn-start\"/><rect id=\"btn-home\"/><rect id=\"dpad-up\"/><rect id=\"dpad-down\"/><rect id=\"dpad-left\"/><rect id=\"dpad-right\"/><rect id=\"lt\"/><rect id=\"rt\"/><rect id=\"ls-ring\"/><rect id=\"ls-knob\"/><rect id=\"rs-ring\"/><rect id=\"rs-knob\"/></svg>",
+   "check": [
+    [
+     "ok",
+     "all 20 required elements present"
+    ]
+   ]
+  },
+  "missing_and_mangled": {
+   "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"10\" height=\"10\"><path id=\"body\"/><rect id=\"btn-east\"/><rect id=\"btn-west\"/><rect id=\"btn-north\"/><rect id=\"btn-lb\"/><rect id=\"btn-rb\"/><rect id=\"btn-select\"/><rect id=\"btn-start\"/><rect id=\"btn-home\"/><rect id=\"dpad-up\"/><rect id=\"dpad-down\"/><rect id=\"dpad-left\"/><rect id=\"dpad-right\"/><rect id=\"rt\"/><rect id=\"ls-ring\"/><rect id=\"ls-knob\"/><rect id=\"rs-ring\"/><rect id=\"rs-knob\"/><circle id=\"btn-south_1_\"/><g id=\"lt\"><rect/></g><rect id=\"touchpad\"/></svg>",
+   "check": [
+    [
+     "fail",
+     "missing #btn-south (found 'btn-south_1_': rename it, Illustrator added a suffix)"
+    ],
+    [
+     "warn",
+     "#lt is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "ok",
+     "optional #touchpad present"
+    ]
+   ]
+  },
+  "groups_style_image_text": {
+   "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\"><style>.a{}</style><image/><text>x</text><g id=\"body\"/><g id=\"btn-south\"/><g id=\"btn-east\"/><g id=\"btn-west\"/><g id=\"btn-north\"/><g id=\"btn-lb\"/><g id=\"btn-rb\"/><g id=\"btn-select\"/><g id=\"btn-start\"/><g id=\"btn-home\"/><g id=\"dpad-up\"/><g id=\"dpad-down\"/><g id=\"dpad-left\"/><g id=\"dpad-right\"/><g id=\"lt\"/><g id=\"rt\"/><g id=\"ls-ring\"/><g id=\"ls-knob\"/><g id=\"rs-ring\"/><g id=\"rs-knob\"/><rect id=\"btn-capture\"/></svg>",
+   "check": [
+    [
+     "fail",
+     "no viewBox (or width/height); export with 'Responsive' on"
+    ],
+    [
+     "warn",
+     "#btn-south is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-east is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-west is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-north is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-lb is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-rb is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-select is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-start is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#btn-home is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#dpad-up is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#dpad-down is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#dpad-left is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#dpad-right is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#lt is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#rt is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#ls-ring is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#ls-knob is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#rs-ring is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "warn",
+     "#rs-knob is a <g>: name the shape itself, not a group, or it can't be filled"
+    ],
+    [
+     "ok",
+     "optional #btn-capture present"
+    ],
+    [
+     "warn",
+     "uses a <style> block (Illustrator 'Internal CSS'); export with 'Presentation Attributes' so theme recolouring works"
+    ],
+    [
+     "warn",
+     "contains embedded raster images; these won't recolour or scale crisply"
+    ],
+    [
+     "warn",
+     "contains live <text>; convert text to outlines so it looks the same everywhere"
+    ]
+   ]
+  },
+  "illustrator_x5F": {
+   "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1 1\"><rect id=\"body\"/><rect id=\"btn-south\"/><rect id=\"btn-east\"/><rect id=\"btn-west\"/><rect id=\"btn-north\"/><rect id=\"btn-lb_2_\"/><rect id=\"btn-rb\"/><rect id=\"btn-select\"/><rect id=\"btn-start\"/><rect id=\"btn-home\"/><rect id=\"dpad-up\"/><rect id=\"dpad-down\"/><rect id=\"dpad-left\"/><rect id=\"dpad-right\"/><rect id=\"lt\"/><rect id=\"rt\"/><rect id=\"ls-ring\"/><rect id=\"ls-knob\"/><rect id=\"rs-ring\"/><rect id=\"rs-knob\"/></svg>",
+   "check": [
+    [
+     "fail",
+     "missing #btn-lb (found 'btn-lb_2_': rename it, Illustrator added a suffix)"
+    ]
+   ]
+  },
+  "no_namespace": {
+   "svg": "<svg viewBox=\"0 0 1 1\"><style/><rect id=\"body\"/></svg>",
+   "check": [
+    [
+     "fail",
+     "missing #btn-south"
+    ],
+    [
+     "fail",
+     "missing #btn-east"
+    ],
+    [
+     "fail",
+     "missing #btn-west"
+    ],
+    [
+     "fail",
+     "missing #btn-north"
+    ],
+    [
+     "fail",
+     "missing #btn-lb"
+    ],
+    [
+     "fail",
+     "missing #btn-rb"
+    ],
+    [
+     "fail",
+     "missing #btn-select"
+    ],
+    [
+     "fail",
+     "missing #btn-start"
+    ],
+    [
+     "fail",
+     "missing #btn-home"
+    ],
+    [
+     "fail",
+     "missing #dpad-up"
+    ],
+    [
+     "fail",
+     "missing #dpad-down"
+    ],
+    [
+     "fail",
+     "missing #dpad-left"
+    ],
+    [
+     "fail",
+     "missing #dpad-right"
+    ],
+    [
+     "fail",
+     "missing #lt"
+    ],
+    [
+     "fail",
+     "missing #rt"
+    ],
+    [
+     "fail",
+     "missing #ls-ring"
+    ],
+    [
+     "fail",
+     "missing #ls-knob"
+    ],
+    [
+     "fail",
+     "missing #rs-ring"
+    ],
+    [
+     "fail",
+     "missing #rs-knob"
+    ]
+   ]
+  }
+ },
+ "stick_travel": [
+  {
+   "ring": [
+    0,
+    0,
+    60,
+    60
+   ],
+   "knob": [
+    0,
+    0,
+    30,
+    30
+   ],
+   "result": 15.0
+  },
+  {
+   "ring": [
+    0,
+    0,
+    60,
+    40
+   ],
+   "knob": [
+    0,
+    0,
+    20,
+    30
+   ],
+   "result": 10.0
+  },
+  {
+   "ring": [
+    0,
+    0,
+    10,
+    10
+   ],
+   "knob": [
+    0,
+    0,
+    30,
+    30
+   ],
+   "result": 0.0
+  }
+ ]
 }

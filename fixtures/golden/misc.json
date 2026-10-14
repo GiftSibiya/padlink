@@ -1,102 +1,24 @@
 {
- "format_record": [
-  {
-   "record": {
-    "command": "bridge",
-    "kind": "session",
-    "label": "x",
-    "t": 1000.0,
-    "version": "0.1.0"
-   },
-   "relative": "+    0.000s session    {\"version\": \"0.1.0\", \"command\": \"bridge\", \"label\": \"x\"}"
+ "parse_hex": {
+  "05 ff 00": "05 ff 00",
+  "05ff00": "05 ff 00",
+  "0x05,0xff,0x00": "05 ff 00",
+  "5:f:0": "05 0f 00",
+  "  0X1  ff ": "01 ff",
+  "abc": {
+   "error": "byte must be in range(0, 256)"
   },
-  {
-   "record": {
-    "code": 304,
-    "kind": "input",
-    "name": "BTN_SOUTH",
-    "node": "/dev/input/event5",
-    "t": 1000.5,
-    "type": 1,
-    "value": 1
-   },
-   "relative": "+    0.500s input      /dev/input/event5 BTN_SOUTH = 1"
-  },
-  {
-   "record": {
-    "hex": "05 00 ff 00",
-    "kind": "hid_tx",
-    "node": "/dev/hidraw3",
-    "ok": true,
-    "t": 1001.25
-   },
-   "relative": "+    1.250s hid_tx     /dev/hidraw3 05 00 ff 00"
-  },
-  {
-   "record": {
-    "error": "EPIPE",
-    "hex": "05",
-    "kind": "hid_tx",
-    "node": "/dev/hidraw3",
-    "ok": false,
-    "t": 1001.5
-   },
-   "relative": "+    1.500s hid_tx     /dev/hidraw3 05  ERROR EPIPE"
-  },
-  {
-   "record": {
-    "id": 0,
-    "kind": "ff_play",
-    "t": 1002.0,
-    "value": 1
-   },
-   "relative": "+    2.000s ff_play    effect 0 PLAY x1"
-  },
-  {
-   "record": {
-    "id": 0,
-    "kind": "ff_play",
-    "t": 1002.0,
-    "value": 0
-   },
-   "relative": "+    2.000s ff_play    effect 0 STOP"
-  },
-  {
-   "record": {
-    "kind": "rumble_out",
-    "sink": "log-only",
-    "strong": 65535,
-    "t": 1003.0,
-    "weak": 0
-   },
-   "relative": "+    3.000s rumble_out strong=65535 weak=0"
-  },
-  {
-   "record": {
-    "data": {
-     "b": [
-      1,
-      2
-     ]
-    },
-    "kind": "note",
-    "t": 1004.0,
-    "text": "unicode ✓"
-   },
-   "relative": "+    4.000s note       {\"text\": \"unicode \\u2713\", \"data\": {\"b\": [1, 2]}}"
-  },
-  {
-   "record": {
-    "kind": "corrupt",
-    "line": "{oops"
-   },
-   "relative": "+-1000.000s corrupt    {\"line\": \"{oops\"}"
-  }
- ],
+  "": "",
+  "0102 3": "01 02 03"
+ },
  "long_bits": 64,
  "parse_bitmask": {
   "": [],
   "0": [],
+  "3": [
+   0,
+   1
+  ],
   "1 0": [
    64
   ],
@@ -123,10 +45,6 @@
    131,
    132
   ],
-  "3": [
-   0,
-   1
-  ],
   "8000000000000000": [
    63
   ],
@@ -148,16 +66,98 @@
    207
   ]
  },
- "parse_hex": {
-  "": "",
-  "  0X1  ff ": "01 ff",
-  "0102 3": "01 02 03",
-  "05 ff 00": "05 ff 00",
-  "05ff00": "05 ff 00",
-  "0x05,0xff,0x00": "05 ff 00",
-  "5:f:0": "05 0f 00",
-  "abc": {
-   "error": "byte must be in range(0, 256)"
+ "format_record": [
+  {
+   "record": {
+    "t": 1000.0,
+    "kind": "session",
+    "version": "0.1.0",
+    "command": "bridge",
+    "label": "x"
+   },
+   "relative": "+    0.000s session    {\"version\": \"0.1.0\", \"command\": \"bridge\", \"label\": \"x\"}"
+  },
+  {
+   "record": {
+    "t": 1000.5,
+    "kind": "input",
+    "node": "/dev/input/event5",
+    "type": 1,
+    "code": 304,
+    "value": 1,
+    "name": "BTN_SOUTH"
+   },
+   "relative": "+    0.500s input      /dev/input/event5 BTN_SOUTH = 1"
+  },
+  {
+   "record": {
+    "t": 1001.25,
+    "kind": "hid_tx",
+    "node": "/dev/hidraw3",
+    "hex": "05 00 ff 00",
+    "ok": true
+   },
+   "relative": "+    1.250s hid_tx     /dev/hidraw3 05 00 ff 00"
+  },
+  {
+   "record": {
+    "t": 1001.5,
+    "kind": "hid_tx",
+    "node": "/dev/hidraw3",
+    "hex": "05",
+    "ok": false,
+    "error": "EPIPE"
+   },
+   "relative": "+    1.500s hid_tx     /dev/hidraw3 05  ERROR EPIPE"
+  },
+  {
+   "record": {
+    "t": 1002.0,
+    "kind": "ff_play",
+    "id": 0,
+    "value": 1
+   },
+   "relative": "+    2.000s ff_play    effect 0 PLAY x1"
+  },
+  {
+   "record": {
+    "t": 1002.0,
+    "kind": "ff_play",
+    "id": 0,
+    "value": 0
+   },
+   "relative": "+    2.000s ff_play    effect 0 STOP"
+  },
+  {
+   "record": {
+    "t": 1003.0,
+    "kind": "rumble_out",
+    "strong": 65535,
+    "weak": 0,
+    "sink": "log-only"
+   },
+   "relative": "+    3.000s rumble_out strong=65535 weak=0"
+  },
+  {
+   "record": {
+    "t": 1004.0,
+    "kind": "note",
+    "text": "unicode ✓",
+    "data": {
+     "b": [
+      1,
+      2
+     ]
+    }
+   },
+   "relative": "+    4.000s note       {\"text\": \"unicode \\u2713\", \"data\": {\"b\": [1, 2]}}"
+  },
+  {
+   "record": {
+    "kind": "corrupt",
+    "line": "{oops"
+   },
+   "relative": "+-1000.000s corrupt    {\"line\": \"{oops\"}"
   }
- }
+ ]
 }

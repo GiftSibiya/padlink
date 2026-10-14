@@ -1,6 +1,6 @@
 """Controller artwork (SVG) for the Input tab: naming contract, lookup,
-validation and template generation. No GTK here; the renderer is in
-padlink/gtk/svgart.py.
+validation and template generation. No GTK here; the renderer is
+`crates/padlink-gtk/src/svgart.rs`.
 
 Artwork contract (see README "Controller artwork"):
 - one SVG per controller family (xbox, playstation, nintendo), optionally a

@@ -15,10 +15,12 @@ jobs:
           python-version: "3.14"
       # evdev is pinned: code names in the golden fixtures depend on its alias tables
       - run: pip install evdev==2.0.0 pyudev==0.24.4 PyYAML==6.0.3
-      - name: Unit tests (live uinput and GTK rendering tests skip themselves)
+      - name: Reference-core unit tests (the live bridge test is the Rust one)
         run: python -m unittest discover -s tests -v
-      - name: Golden fixtures are up to date
-        run: python tools/gen_fixtures.py --check
+      - name: Golden fixtures and the generated code table are up to date
+        run: |
+          python tools/gen_fixtures.py --check
+          python tools/gen_codes.py --check
 
   rust:
     runs-on: ubuntu-latest
@@ -28,6 +30,7 @@ jobs:
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+      - run: sudo apt-get update && sudo apt-get install -y libudev-dev libgtk-4-dev libadwaita-1-dev librsvg2-dev
       - run: cargo fmt --all --check
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo test

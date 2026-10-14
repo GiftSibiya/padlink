@@ -1,158 +1,162 @@
 {
  "cases": [
   {
+   "name": "android_gamepad_synthetic",
+   "hex": "05 01 09 05 a1 01 85 01 05 09 19 01 29 0f 15 00 25 01 75 01 95 0f 81 02 75 01 95 01 81 03 05 01 09 39 15 00 25 07 75 04 95 01 81 42 75 04 95 01 81 03 09 30 09 31 09 32 09 35 15 00 26 ff 00 75 08 95 04 81 02 05 02 09 c5 09 c4 95 02 81 02 85 05 06 00 ff 09 01 15 00 26 ff 00 75 08 95 08 91 02 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": true,
    "has_pid": false,
-   "hex": "05 01 09 05 a1 01 85 01 05 09 19 01 29 0f 15 00 25 01 75 01 95 0f 81 02 75 01 95 01 81 03 05 01 09 39 15 00 25 07 75 04 95 01 81 42 75 04 95 01 81 03 09 30 09 31 09 32 09 35 15 00 26 ff 00 75 08 95 04 81 02 05 02 09 c5 09 c4 95 02 81 02 85 05 06 00 ff 09 01 15 00 26 ff 00 75 08 95 08 91 02 c0",
-   "name": "android_gamepad_synthetic",
+   "vendor_pages": [
+    65280
+   ],
    "reports": [
     {
-     "bits": 72,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 15,
-       "describe": "byte 0.0 15x1bit [0..1] var Button: Button 1..Button 15",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 1,
-       "usage_page": 9,
-       "usage_range": [
-        1,
-        15
-       ],
-       "usages": []
-      },
-      {
-       "bit_offset": 15,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 1.7 1x1bit [0..1] var padding",
-       "flags": 3,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 1,
-       "usage_page": 9,
-       "usage_range": null,
-       "usages": []
-      },
-      {
-       "bit_offset": 16,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 2.0 1x4bit [0..7] var Generic Desktop: Hat switch",
-       "flags": 66,
-       "kind": "input",
-       "logical_max": 7,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 4,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        57
-       ]
-      },
-      {
-       "bit_offset": 20,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 2.4 1x4bit [0..7] var padding",
-       "flags": 3,
-       "kind": "input",
-       "logical_max": 7,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 4,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": []
-      },
-      {
-       "bit_offset": 24,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 4,
-       "describe": "byte 3.0 4x8bit [0..255] var Generic Desktop: X, Y, Z, Rz",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        48,
-        49,
-        50,
-        53
-       ]
-      },
-      {
-       "bit_offset": 56,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 2,
-       "describe": "byte 7.0 2x8bit [0..255] var Simulation: Brake, Accelerator",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 2,
-       "usage_range": null,
-       "usages": [
-        197,
-        196
-       ]
-      }
-     ],
      "kind": "input",
-     "payload_len": 9,
      "report_id": 1,
+     "bits": 72,
+     "payload_len": 9,
+     "wire_len": 10,
      "usage_pages": [
       1,
       2,
       9
      ],
-     "wire_len": 10
-    },
-    {
-     "bits": 64,
      "fields": [
       {
+       "kind": "input",
+       "report_id": 1,
        "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 8,
-       "describe": "byte 0.0 8x8bit [0..255] var Vendor 0xff00: 0x01",
-       "flags": 2,
-       "kind": "output",
-       "logical_max": 255,
+       "size": 1,
+       "count": 15,
+       "usage_page": 9,
+       "usages": [],
+       "usage_range": [
+        1,
+        15
+       ],
        "logical_min": 0,
-       "report_id": 5,
-       "size": 8,
-       "usage_page": 65280,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 15x1bit [0..1] var Button: Button 1..Button 15"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 15,
+       "size": 1,
+       "count": 1,
+       "usage_page": 9,
+       "usages": [],
        "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 1.7 1x1bit [0..1] var padding"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 16,
+       "size": 4,
+       "count": 1,
+       "usage_page": 1,
        "usages": [
-        1
-       ]
+        57
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 7,
+       "flags": 66,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 2.0 1x4bit [0..7] var Generic Desktop: Hat switch"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 20,
+       "size": 4,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 7,
+       "flags": 3,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 2.4 1x4bit [0..7] var padding"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 24,
+       "size": 8,
+       "count": 4,
+       "usage_page": 1,
+       "usages": [
+        48,
+        49,
+        50,
+        53
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 3.0 4x8bit [0..255] var Generic Desktop: X, Y, Z, Rz"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 56,
+       "size": 8,
+       "count": 2,
+       "usage_page": 2,
+       "usages": [
+        197,
+        196
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 7.0 2x8bit [0..255] var Simulation: Brake, Accelerator"
       }
-     ],
+     ]
+    },
+    {
      "kind": "output",
-     "payload_len": 8,
      "report_id": 5,
+     "bits": 64,
+     "payload_len": 8,
+     "wire_len": 9,
      "usage_pages": [
       65280
      ],
-     "wire_len": 9
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 5,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 8,
+       "usage_page": 65280,
+       "usages": [
+        1
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 8x8bit [0..255] var Vendor 0xff00: 0x01"
+      }
+     ]
     }
    ],
    "summary": [
@@ -167,158 +171,156 @@
     "    byte 7.0 2x8bit [0..255] var Simulation: Brake, Accelerator",
     "output  report id 0x05  8 bytes payload (9 on the wire)",
     "    byte 0.0 8x8bit [0..255] var Vendor 0xff00: 0x01"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": [
-    65280
    ]
   },
   {
+   "name": "bt5_keyboard_3554_f605",
+   "hex": "05 01 09 06 a1 01 85 01 75 01 95 08 05 07 19 e0 29 e7 15 00 25 01 81 02 95 01 75 08 81 03 95 05 75 01 05 08 19 01 29 05 91 02 95 01 75 03 91 03 95 06 75 08 15 00 26 ff 00 05 07 19 00 29 ff 81 00 c0 05 0c 09 01 a1 01 85 03 15 00 26 80 03 19 00 2a 80 03 75 10 95 01 81 00 c0",
    "applications": [
     "Application(Generic Desktop:Keyboard)",
     "Application(Consumer:0x01)"
    ],
+   "uses_report_ids": true,
    "has_pid": false,
-   "hex": "05 01 09 06 a1 01 85 01 75 01 95 08 05 07 19 e0 29 e7 15 00 25 01 81 02 95 01 75 08 81 03 95 05 75 01 05 08 19 01 29 05 91 02 95 01 75 03 91 03 95 06 75 08 15 00 26 ff 00 05 07 19 00 29 ff 81 00 c0 05 0c 09 01 a1 01 85 03 15 00 26 80 03 19 00 2a 80 03 75 10 95 01 81 00 c0",
-   "name": "bt5_keyboard_3554_f605",
+   "vendor_pages": [],
    "reports": [
     {
+     "kind": "input",
+     "report_id": 1,
      "bits": 64,
+     "payload_len": 8,
+     "wire_len": 9,
+     "usage_pages": [
+      7
+     ],
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Keyboard)",
-       "count": 8,
-       "describe": "byte 0.0 8x1bit [0..1] var Keyboard: 0xe0..0xe7",
-       "flags": 2,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 1,
+       "bit_offset": 0,
        "size": 1,
+       "count": 8,
        "usage_page": 7,
+       "usages": [],
        "usage_range": [
         224,
         231
        ],
-       "usages": []
-      },
-      {
-       "bit_offset": 8,
-       "collection": "Application(Generic Desktop:Keyboard)",
-       "count": 1,
-       "describe": "byte 1.0 1x8bit [0..1] var padding",
-       "flags": 3,
-       "kind": "input",
+       "logical_min": 0,
        "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 7,
-       "usage_range": null,
-       "usages": []
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Keyboard)",
+       "describe": "byte 0.0 8x1bit [0..1] var Keyboard: 0xe0..0xe7"
       },
       {
-       "bit_offset": 16,
-       "collection": "Application(Generic Desktop:Keyboard)",
-       "count": 6,
-       "describe": "byte 2.0 6x8bit [0..255] array Keyboard: 0x00..0xff",
-       "flags": 0,
        "kind": "input",
-       "logical_max": 255,
-       "logical_min": 0,
        "report_id": 1,
+       "bit_offset": 8,
        "size": 8,
+       "count": 1,
        "usage_page": 7,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(Generic Desktop:Keyboard)",
+       "describe": "byte 1.0 1x8bit [0..1] var padding"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 16,
+       "size": 8,
+       "count": 6,
+       "usage_page": 7,
+       "usages": [],
        "usage_range": [
         0,
         255
        ],
-       "usages": []
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 0,
+       "collection": "Application(Generic Desktop:Keyboard)",
+       "describe": "byte 2.0 6x8bit [0..255] array Keyboard: 0x00..0xff"
       }
-     ],
-     "kind": "input",
-     "payload_len": 8,
-     "report_id": 1,
-     "usage_pages": [
-      7
-     ],
-     "wire_len": 9
+     ]
     },
     {
+     "kind": "input",
+     "report_id": 3,
      "bits": 16,
+     "payload_len": 2,
+     "wire_len": 3,
+     "usage_pages": [
+      12
+     ],
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.0 1x16bit [0..896] array Consumer: 0x00..0x380",
-       "flags": 0,
        "kind": "input",
-       "logical_max": 896,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 0,
        "size": 16,
+       "count": 1,
        "usage_page": 12,
+       "usages": [],
        "usage_range": [
         0,
         896
        ],
-       "usages": []
+       "logical_min": 0,
+       "logical_max": 896,
+       "flags": 0,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.0 1x16bit [0..896] array Consumer: 0x00..0x380"
       }
-     ],
-     "kind": "input",
-     "payload_len": 2,
-     "report_id": 3,
-     "usage_pages": [
-      12
-     ],
-     "wire_len": 3
+     ]
     },
     {
+     "kind": "output",
+     "report_id": 1,
      "bits": 8,
+     "payload_len": 1,
+     "wire_len": 2,
+     "usage_pages": [
+      8
+     ],
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Keyboard)",
-       "count": 5,
-       "describe": "byte 0.0 5x1bit [0..1] var LED: 0x01..0x05",
-       "flags": 2,
        "kind": "output",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 1,
+       "bit_offset": 0,
        "size": 1,
+       "count": 5,
        "usage_page": 8,
+       "usages": [],
        "usage_range": [
         1,
         5
        ],
-       "usages": []
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Keyboard)",
+       "describe": "byte 0.0 5x1bit [0..1] var LED: 0x01..0x05"
       },
       {
-       "bit_offset": 5,
-       "collection": "Application(Generic Desktop:Keyboard)",
-       "count": 1,
-       "describe": "byte 0.5 1x3bit [0..1] var padding",
-       "flags": 3,
        "kind": "output",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 1,
+       "bit_offset": 5,
        "size": 3,
+       "count": 1,
        "usage_page": 8,
+       "usages": [],
        "usage_range": null,
-       "usages": []
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(Generic Desktop:Keyboard)",
+       "describe": "byte 0.5 1x3bit [0..1] var padding"
       }
-     ],
-     "kind": "output",
-     "payload_len": 1,
-     "report_id": 1,
-     "usage_pages": [
-      8
-     ],
-     "wire_len": 2
+     ]
     }
    ],
    "summary": [
@@ -333,548 +335,550 @@
     "output  report id 0x01  1 bytes payload (2 on the wire)",
     "    byte 0.0 5x1bit [0..1] var LED: 0x01..0x05",
     "    byte 0.5 1x3bit [0..1] var padding"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "elan1203_touchpad_04f3_307a",
+   "hex": "05 01 09 02 a1 01 85 01 09 01 a1 00 05 09 19 01 29 02 15 00 25 01 75 01 95 02 81 02 95 06 81 03 05 01 09 30 09 31 09 38 15 81 25 7f 75 08 95 03 81 06 05 0c 0a 38 02 95 01 81 06 75 08 95 03 81 03 c0 c0 05 0d 09 05 a1 01 85 04 09 22 a1 02 15 00 25 01 09 47 09 42 95 02 75 01 81 02 05 09 09 02 09 03 15 00 25 01 75 01 95 02 81 02 05 0d 95 01 75 04 25 0f 09 51 81 02 05 01 15 00 26 a2 0c 75 10 55 0e 65 13 09 30 35 00 46 94 01 95 01 81 02 46 cf 00 26 7d 06 26 7d 06 09 31 81 02 05 0d 15 00 25 64 95 03 c0 55 0c 66 01 10 47 ff ff 00 00 27 ff ff 00 00 75 10 95 01 09 56 81 02 09 54 25 7f 95 01 75 08 81 02 25 01 75 01 95 08 81 03 09 c5 75 08 95 04 81 03 05 0d 85 02 09 55 09 59 75 04 95 02 25 0f b1 02 85 07 09 60 75 01 95 01 15 00 25 01 b1 02 95 0f b1 03 06 00 ff 06 00 ff 85 06 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02 85 0d 09 c4 15 00 26 ff 00 75 08 95 04 b1 02 85 0c 09 c6 96 e4 01 75 08 b1 02 85 0b 09 c7 95 80 75 08 b1 02 c0 05 0d 09 0e a1 01 85 03 09 22 a1 00 09 52 15 00 25 0a 75 10 95 01 b1 02 c0 09 22 a1 00 85 05 09 57 09 58 15 00 75 01 95 02 25 03 b1 02 95 0e b1 03 c0 c0",
    "applications": [
     "Application(Generic Desktop:Mouse)",
     "Application(0x0d:0x05)",
     "Application(0x0d:0x0e)"
    ],
+   "uses_report_ids": true,
    "has_pid": false,
-   "hex": "05 01 09 02 a1 01 85 01 09 01 a1 00 05 09 19 01 29 02 15 00 25 01 75 01 95 02 81 02 95 06 81 03 05 01 09 30 09 31 09 38 15 81 25 7f 75 08 95 03 81 06 05 0c 0a 38 02 95 01 81 06 75 08 95 03 81 03 c0 c0 05 0d 09 05 a1 01 85 04 09 22 a1 02 15 00 25 01 09 47 09 42 95 02 75 01 81 02 05 09 09 02 09 03 15 00 25 01 75 01 95 02 81 02 05 0d 95 01 75 04 25 0f 09 51 81 02 05 01 15 00 26 a2 0c 75 10 55 0e 65 13 09 30 35 00 46 94 01 95 01 81 02 46 cf 00 26 7d 06 26 7d 06 09 31 81 02 05 0d 15 00 25 64 95 03 c0 55 0c 66 01 10 47 ff ff 00 00 27 ff ff 00 00 75 10 95 01 09 56 81 02 09 54 25 7f 95 01 75 08 81 02 25 01 75 01 95 08 81 03 09 c5 75 08 95 04 81 03 05 0d 85 02 09 55 09 59 75 04 95 02 25 0f b1 02 85 07 09 60 75 01 95 01 15 00 25 01 b1 02 95 0f b1 03 06 00 ff 06 00 ff 85 06 09 c5 15 00 26 ff 00 75 08 96 00 01 b1 02 85 0d 09 c4 15 00 26 ff 00 75 08 95 04 b1 02 85 0c 09 c6 96 e4 01 75 08 b1 02 85 0b 09 c7 95 80 75 08 b1 02 c0 05 0d 09 0e a1 01 85 03 09 22 a1 00 09 52 15 00 25 0a 75 10 95 01 b1 02 c0 09 22 a1 00 85 05 09 57 09 58 15 00 75 01 95 02 25 03 b1 02 95 0e b1 03 c0 c0",
-   "name": "elan1203_touchpad_04f3_307a",
+   "vendor_pages": [
+    65280
+   ],
    "reports": [
     {
-     "bits": 64,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 2,
-       "describe": "byte 0.0 2x1bit [0..1] var Button: Button 1..Button 2",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 1,
-       "usage_page": 9,
-       "usage_range": [
-        1,
-        2
-       ],
-       "usages": []
-      },
-      {
-       "bit_offset": 2,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 6,
-       "describe": "byte 0.2 6x1bit [0..1] var padding",
-       "flags": 3,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 1,
-       "usage_page": 9,
-       "usage_range": null,
-       "usages": []
-      },
-      {
-       "bit_offset": 8,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 3,
-       "describe": "byte 1.0 3x8bit [-127..127] var Generic Desktop: X, Y, Wheel",
-       "flags": 6,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": -127,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        48,
-        49,
-        56
-       ]
-      },
-      {
-       "bit_offset": 32,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 1,
-       "describe": "byte 4.0 1x8bit [-127..127] var Consumer: 0x238",
-       "flags": 6,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": -127,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 12,
-       "usage_range": null,
-       "usages": [
-        568
-       ]
-      },
-      {
-       "bit_offset": 40,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 3,
-       "describe": "byte 5.0 3x8bit [-127..127] var padding",
-       "flags": 3,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": -127,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 12,
-       "usage_range": null,
-       "usages": []
-      }
-     ],
      "kind": "input",
-     "payload_len": 8,
      "report_id": 1,
+     "bits": 64,
+     "payload_len": 8,
+     "wire_len": 9,
      "usage_pages": [
       1,
       9,
       12
      ],
-     "wire_len": 9
-    },
-    {
-     "bits": 104,
      "fields": [
       {
+       "kind": "input",
+       "report_id": 1,
        "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
-       "count": 2,
-       "describe": "byte 0.0 2x1bit [0..1] var 0x0d: 0x47, 0x42",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 4,
        "size": 1,
-       "usage_page": 13,
-       "usage_range": null,
-       "usages": [
-        71,
-        66
-       ]
-      },
-      {
-       "bit_offset": 2,
-       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
        "count": 2,
-       "describe": "byte 0.2 2x1bit [0..1] var Button: Button 2, Button 3",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 4,
-       "size": 1,
        "usage_page": 9,
-       "usage_range": null,
-       "usages": [
-        2,
-        3
-       ]
-      },
-      {
-       "bit_offset": 4,
-       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
-       "count": 1,
-       "describe": "byte 0.4 1x4bit [0..15] var 0x0d: 0x51",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 15,
+       "usages": [],
+       "usage_range": [
+        1,
+        2
+       ],
        "logical_min": 0,
-       "report_id": 4,
-       "size": 4,
-       "usage_page": 13,
-       "usage_range": null,
-       "usages": [
-        81
-       ]
-      },
-      {
-       "bit_offset": 8,
-       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
-       "count": 1,
-       "describe": "byte 1.0 1x16bit [0..3234] var Generic Desktop: X",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 3234,
-       "logical_min": 0,
-       "report_id": 4,
-       "size": 16,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        48
-       ]
-      },
-      {
-       "bit_offset": 24,
-       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
-       "count": 1,
-       "describe": "byte 3.0 1x16bit [0..1661] var Generic Desktop: Y",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 1661,
-       "logical_min": 0,
-       "report_id": 4,
-       "size": 16,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        49
-       ]
-      },
-      {
-       "bit_offset": 40,
-       "collection": "Application(0x0d:0x05)",
-       "count": 1,
-       "describe": "byte 5.0 1x16bit [0..65535] var 0x0d: 0x56",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 65535,
-       "logical_min": 0,
-       "report_id": 4,
-       "size": 16,
-       "usage_page": 13,
-       "usage_range": null,
-       "usages": [
-        86
-       ]
-      },
-      {
-       "bit_offset": 56,
-       "collection": "Application(0x0d:0x05)",
-       "count": 1,
-       "describe": "byte 7.0 1x8bit [0..127] var 0x0d: 0x54",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": 0,
-       "report_id": 4,
-       "size": 8,
-       "usage_page": 13,
-       "usage_range": null,
-       "usages": [
-        84
-       ]
-      },
-      {
-       "bit_offset": 64,
-       "collection": "Application(0x0d:0x05)",
-       "count": 8,
-       "describe": "byte 8.0 8x1bit [0..1] var padding",
-       "flags": 3,
-       "kind": "input",
        "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 4,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 0.0 2x1bit [0..1] var Button: Button 1..Button 2"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 2,
        "size": 1,
-       "usage_page": 13,
+       "count": 6,
+       "usage_page": 9,
+       "usages": [],
        "usage_range": null,
-       "usages": []
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 0.2 6x1bit [0..1] var padding"
       },
       {
-       "bit_offset": 72,
-       "collection": "Application(0x0d:0x05)",
-       "count": 4,
-       "describe": "byte 9.0 4x8bit [0..1] var padding",
-       "flags": 3,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 4,
+       "report_id": 1,
+       "bit_offset": 8,
        "size": 8,
-       "usage_page": 13,
-       "usage_range": null,
+       "count": 3,
+       "usage_page": 1,
        "usages": [
-        197
-       ]
+        48,
+        49,
+        56
+       ],
+       "usage_range": null,
+       "logical_min": -127,
+       "logical_max": 127,
+       "flags": 6,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 1.0 3x8bit [-127..127] var Generic Desktop: X, Y, Wheel"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 32,
+       "size": 8,
+       "count": 1,
+       "usage_page": 12,
+       "usages": [
+        568
+       ],
+       "usage_range": null,
+       "logical_min": -127,
+       "logical_max": 127,
+       "flags": 6,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 4.0 1x8bit [-127..127] var Consumer: 0x238"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 40,
+       "size": 8,
+       "count": 3,
+       "usage_page": 12,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": -127,
+       "logical_max": 127,
+       "flags": 3,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 5.0 3x8bit [-127..127] var padding"
       }
-     ],
+     ]
+    },
+    {
      "kind": "input",
-     "payload_len": 13,
      "report_id": 4,
+     "bits": 104,
+     "payload_len": 13,
+     "wire_len": 14,
      "usage_pages": [
       1,
       9,
       13
      ],
-     "wire_len": 14
-    },
-    {
-     "bits": 8,
      "fields": [
       {
+       "kind": "input",
+       "report_id": 4,
        "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)",
+       "size": 1,
        "count": 2,
-       "describe": "byte 0.0 2x4bit [0..15] var 0x0d: 0x55, 0x59",
-       "flags": 2,
-       "kind": "feature",
-       "logical_max": 15,
-       "logical_min": 0,
-       "report_id": 2,
-       "size": 4,
        "usage_page": 13,
+       "usages": [
+        71,
+        66
+       ],
        "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
+       "describe": "byte 0.0 2x1bit [0..1] var 0x0d: 0x47, 0x42"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 2,
+       "size": 1,
+       "count": 2,
+       "usage_page": 9,
+       "usages": [
+        2,
+        3
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
+       "describe": "byte 0.2 2x1bit [0..1] var Button: Button 2, Button 3"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 4,
+       "size": 4,
+       "count": 1,
+       "usage_page": 13,
+       "usages": [
+        81
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 15,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
+       "describe": "byte 0.4 1x4bit [0..15] var 0x0d: 0x51"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 8,
+       "size": 16,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [
+        48
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 3234,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
+       "describe": "byte 1.0 1x16bit [0..3234] var Generic Desktop: X"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 24,
+       "size": 16,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [
+        49
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1661,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)/Logical(0x0d:0x22)",
+       "describe": "byte 3.0 1x16bit [0..1661] var Generic Desktop: Y"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 40,
+       "size": 16,
+       "count": 1,
+       "usage_page": 13,
+       "usages": [
+        86
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 65535,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 5.0 1x16bit [0..65535] var 0x0d: 0x56"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 56,
+       "size": 8,
+       "count": 1,
+       "usage_page": 13,
+       "usages": [
+        84
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 127,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 7.0 1x8bit [0..127] var 0x0d: 0x54"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 64,
+       "size": 1,
+       "count": 8,
+       "usage_page": 13,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 8.0 8x1bit [0..1] var padding"
+      },
+      {
+       "kind": "input",
+       "report_id": 4,
+       "bit_offset": 72,
+       "size": 8,
+       "count": 4,
+       "usage_page": 13,
+       "usages": [
+        197
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 9.0 4x8bit [0..1] var padding"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 2,
+     "bits": 8,
+     "payload_len": 1,
+     "wire_len": 2,
+     "usage_pages": [
+      13
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 2,
+       "bit_offset": 0,
+       "size": 4,
+       "count": 2,
+       "usage_page": 13,
        "usages": [
         85,
         89
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 15,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.0 2x4bit [0..15] var 0x0d: 0x55, 0x59"
       }
-     ],
+     ]
+    },
+    {
      "kind": "feature",
-     "payload_len": 1,
-     "report_id": 2,
+     "report_id": 3,
+     "bits": 16,
+     "payload_len": 2,
+     "wire_len": 3,
      "usage_pages": [
       13
      ],
-     "wire_len": 2
-    },
-    {
-     "bits": 16,
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x0e)/Physical(0x0d:0x22)",
-       "count": 1,
-       "describe": "byte 0.0 1x16bit [0..10] var 0x0d: 0x52",
-       "flags": 2,
        "kind": "feature",
-       "logical_max": 10,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 0,
        "size": 16,
+       "count": 1,
        "usage_page": 13,
-       "usage_range": null,
        "usages": [
         82
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 10,
+       "flags": 2,
+       "collection": "Application(0x0d:0x0e)/Physical(0x0d:0x22)",
+       "describe": "byte 0.0 1x16bit [0..10] var 0x0d: 0x52"
       }
-     ],
+     ]
+    },
+    {
      "kind": "feature",
+     "report_id": 5,
+     "bits": 16,
      "payload_len": 2,
-     "report_id": 3,
+     "wire_len": 3,
      "usage_pages": [
       13
      ],
-     "wire_len": 3
-    },
-    {
-     "bits": 16,
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x0e)/Physical(0x0d:0x22)",
-       "count": 2,
-       "describe": "byte 0.0 2x1bit [0..3] var 0x0d: 0x57, 0x58",
-       "flags": 2,
        "kind": "feature",
-       "logical_max": 3,
-       "logical_min": 0,
        "report_id": 5,
+       "bit_offset": 0,
        "size": 1,
+       "count": 2,
        "usage_page": 13,
-       "usage_range": null,
        "usages": [
         87,
         88
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 3,
+       "flags": 2,
+       "collection": "Application(0x0d:0x0e)/Physical(0x0d:0x22)",
+       "describe": "byte 0.0 2x1bit [0..3] var 0x0d: 0x57, 0x58"
       },
       {
-       "bit_offset": 2,
-       "collection": "Application(0x0d:0x0e)/Physical(0x0d:0x22)",
-       "count": 14,
-       "describe": "byte 0.2 14x1bit [0..3] var padding",
-       "flags": 3,
        "kind": "feature",
-       "logical_max": 3,
-       "logical_min": 0,
        "report_id": 5,
+       "bit_offset": 2,
        "size": 1,
+       "count": 14,
        "usage_page": 13,
+       "usages": [],
        "usage_range": null,
-       "usages": []
+       "logical_min": 0,
+       "logical_max": 3,
+       "flags": 3,
+       "collection": "Application(0x0d:0x0e)/Physical(0x0d:0x22)",
+       "describe": "byte 0.2 14x1bit [0..3] var padding"
       }
-     ],
-     "kind": "feature",
-     "payload_len": 2,
-     "report_id": 5,
-     "usage_pages": [
-      13
-     ],
-     "wire_len": 3
+     ]
     },
     {
+     "kind": "feature",
+     "report_id": 6,
      "bits": 2048,
+     "payload_len": 256,
+     "wire_len": 257,
+     "usage_pages": [
+      65280
+     ],
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)",
-       "count": 256,
-       "describe": "byte 0.0 256x8bit [0..255] var Vendor 0xff00: 0xc5",
-       "flags": 2,
        "kind": "feature",
-       "logical_max": 255,
-       "logical_min": 0,
        "report_id": 6,
+       "bit_offset": 0,
        "size": 8,
+       "count": 256,
        "usage_page": 65280,
-       "usage_range": null,
        "usages": [
         197
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.0 256x8bit [0..255] var Vendor 0xff00: 0xc5"
       }
-     ],
-     "kind": "feature",
-     "payload_len": 256,
-     "report_id": 6,
-     "usage_pages": [
-      65280
-     ],
-     "wire_len": 257
+     ]
     },
     {
-     "bits": 16,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)",
-       "count": 1,
-       "describe": "byte 0.0 1x1bit [0..1] var 0x0d: 0x60",
-       "flags": 2,
-       "kind": "feature",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 7,
-       "size": 1,
-       "usage_page": 13,
-       "usage_range": null,
-       "usages": [
-        96
-       ]
-      },
-      {
-       "bit_offset": 1,
-       "collection": "Application(0x0d:0x05)",
-       "count": 15,
-       "describe": "byte 0.1 15x1bit [0..1] var padding",
-       "flags": 3,
-       "kind": "feature",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 7,
-       "size": 1,
-       "usage_page": 13,
-       "usage_range": null,
-       "usages": []
-      }
-     ],
      "kind": "feature",
-     "payload_len": 2,
      "report_id": 7,
+     "bits": 16,
+     "payload_len": 2,
+     "wire_len": 3,
      "usage_pages": [
       13
      ],
-     "wire_len": 3
-    },
-    {
-     "bits": 1024,
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)",
-       "count": 128,
-       "describe": "byte 0.0 128x8bit [0..255] var Vendor 0xff00: 0xc7",
-       "flags": 2,
        "kind": "feature",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 11,
-       "size": 8,
-       "usage_page": 65280,
+       "report_id": 7,
+       "bit_offset": 0,
+       "size": 1,
+       "count": 1,
+       "usage_page": 13,
+       "usages": [
+        96
+       ],
        "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.0 1x1bit [0..1] var 0x0d: 0x60"
+      },
+      {
+       "kind": "feature",
+       "report_id": 7,
+       "bit_offset": 1,
+       "size": 1,
+       "count": 15,
+       "usage_page": 13,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 3,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.1 15x1bit [0..1] var padding"
+      }
+     ]
+    },
+    {
+     "kind": "feature",
+     "report_id": 11,
+     "bits": 1024,
+     "payload_len": 128,
+     "wire_len": 129,
+     "usage_pages": [
+      65280
+     ],
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 11,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 128,
+       "usage_page": 65280,
        "usages": [
         199
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.0 128x8bit [0..255] var Vendor 0xff00: 0xc7"
       }
-     ],
+     ]
+    },
+    {
      "kind": "feature",
-     "payload_len": 128,
-     "report_id": 11,
+     "report_id": 12,
+     "bits": 3872,
+     "payload_len": 484,
+     "wire_len": 485,
      "usage_pages": [
       65280
      ],
-     "wire_len": 129
-    },
-    {
-     "bits": 3872,
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)",
-       "count": 484,
-       "describe": "byte 0.0 484x8bit [0..255] var Vendor 0xff00: 0xc6",
-       "flags": 2,
        "kind": "feature",
-       "logical_max": 255,
-       "logical_min": 0,
        "report_id": 12,
+       "bit_offset": 0,
        "size": 8,
+       "count": 484,
        "usage_page": 65280,
-       "usage_range": null,
        "usages": [
         198
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.0 484x8bit [0..255] var Vendor 0xff00: 0xc6"
       }
-     ],
-     "kind": "feature",
-     "payload_len": 484,
-     "report_id": 12,
-     "usage_pages": [
-      65280
-     ],
-     "wire_len": 485
+     ]
     },
     {
-     "bits": 32,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(0x0d:0x05)",
-       "count": 4,
-       "describe": "byte 0.0 4x8bit [0..255] var Vendor 0xff00: 0xc4",
-       "flags": 2,
-       "kind": "feature",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 13,
-       "size": 8,
-       "usage_page": 65280,
-       "usage_range": null,
-       "usages": [
-        196
-       ]
-      }
-     ],
      "kind": "feature",
-     "payload_len": 4,
      "report_id": 13,
+     "bits": 32,
+     "payload_len": 4,
+     "wire_len": 5,
      "usage_pages": [
       65280
      ],
-     "wire_len": 5
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 13,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 4,
+       "usage_page": 65280,
+       "usages": [
+        196
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(0x0d:0x05)",
+       "describe": "byte 0.0 4x8bit [0..255] var Vendor 0xff00: 0xc4"
+      }
+     ]
     }
    ],
    "summary": [
@@ -914,46 +918,44 @@
     "    byte 0.0 484x8bit [0..255] var Vendor 0xff00: 0xc6",
     "feature report id 0x0d  4 bytes payload (5 on the wire)",
     "    byte 0.0 4x8bit [0..255] var Vendor 0xff00: 0xc4"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": [
-    65280
    ]
   },
   {
-   "applications": [],
-   "has_pid": true,
-   "hex": "05 0f 09 21 a1 02 85 01 09 22 15 01 25 28 75 08 95 01 91 02 c0",
    "name": "pid_synthetic",
+   "hex": "05 0f 09 21 a1 02 85 01 09 22 15 01 25 28 75 08 95 01 91 02 c0",
+   "applications": [],
+   "uses_report_ids": true,
+   "has_pid": true,
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 8,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Logical(PID (force feedback):Set Effect Report)",
-       "count": 1,
-       "describe": "byte 0.0 1x8bit [1..40] var PID (force feedback): Effect Block Index",
-       "flags": 2,
-       "kind": "output",
-       "logical_max": 40,
-       "logical_min": 1,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 15,
-       "usage_range": null,
-       "usages": [
-        34
-       ]
-      }
-     ],
      "kind": "output",
-     "payload_len": 1,
      "report_id": 1,
+     "bits": 8,
+     "payload_len": 1,
+     "wire_len": 2,
      "usage_pages": [
       15
      ],
-     "wire_len": 2
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 1,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 1,
+       "usage_page": 15,
+       "usages": [
+        34
+       ],
+       "usage_range": null,
+       "logical_min": 1,
+       "logical_max": 40,
+       "flags": 2,
+       "collection": "Logical(PID (force feedback):Set Effect Report)",
+       "describe": "byte 0.0 1x8bit [1..40] var PID (force feedback): Effect Block Index"
+      }
+     ]
     }
    ],
    "summary": [
@@ -961,306 +963,306 @@
     "report ids: yes  PID force feedback page: YES  vendor pages: -",
     "output  report id 0x01  1 bytes payload (2 on the wire)",
     "    byte 0.0 1x8bit [1..40] var PID (force feedback): Effect Block Index"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "wx_kb103_mouse_1915_0040",
+   "hex": "05 01 09 02 a1 01 85 01 09 01 a1 00 95 05 75 01 05 09 19 01 29 05 15 00 25 01 81 02 95 01 75 03 81 01 75 08 95 01 05 01 09 38 15 81 25 7f 81 06 05 0c 0a 38 02 95 01 81 06 c0 85 02 09 01 a1 00 75 10 95 02 05 01 09 30 09 31 16 01 80 26 ff 7f 81 06 c0 c0 05 0c 09 01 a1 01 85 03 15 00 25 01 75 01 95 01 09 cd 81 06 0a 83 01 81 06 09 b5 81 06 09 b6 81 06 09 ea 81 06 09 e9 81 06 0a 25 02 81 06 0a 24 02 81 06 09 05 15 00 26 ff 00 75 08 95 02 b1 02 c0",
    "applications": [
     "Application(Generic Desktop:Mouse)",
     "Application(Consumer:0x01)"
    ],
+   "uses_report_ids": true,
    "has_pid": false,
-   "hex": "05 01 09 02 a1 01 85 01 09 01 a1 00 95 05 75 01 05 09 19 01 29 05 15 00 25 01 81 02 95 01 75 03 81 01 75 08 95 01 05 01 09 38 15 81 25 7f 81 06 05 0c 0a 38 02 95 01 81 06 c0 85 02 09 01 a1 00 75 10 95 02 05 01 09 30 09 31 16 01 80 26 ff 7f 81 06 c0 c0 05 0c 09 01 a1 01 85 03 15 00 25 01 75 01 95 01 09 cd 81 06 0a 83 01 81 06 09 b5 81 06 09 b6 81 06 09 ea 81 06 09 e9 81 06 0a 25 02 81 06 0a 24 02 81 06 09 05 15 00 26 ff 00 75 08 95 02 b1 02 c0",
-   "name": "wx_kb103_mouse_1915_0040",
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 24,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 5,
-       "describe": "byte 0.0 5x1bit [0..1] var Button: Button 1..Button 5",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 1,
-       "usage_page": 9,
-       "usage_range": [
-        1,
-        5
-       ],
-       "usages": []
-      },
-      {
-       "bit_offset": 5,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 1,
-       "describe": "byte 0.5 1x3bit [0..1] array padding",
-       "flags": 1,
-       "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 1,
-       "size": 3,
-       "usage_page": 9,
-       "usage_range": null,
-       "usages": []
-      },
-      {
-       "bit_offset": 8,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 1,
-       "describe": "byte 1.0 1x8bit [-127..127] var Generic Desktop: Wheel",
-       "flags": 6,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": -127,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        56
-       ]
-      },
-      {
-       "bit_offset": 16,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
-       "count": 1,
-       "describe": "byte 2.0 1x8bit [-127..127] var Consumer: 0x238",
-       "flags": 6,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": -127,
-       "report_id": 1,
-       "size": 8,
-       "usage_page": 12,
-       "usage_range": null,
-       "usages": [
-        568
-       ]
-      }
-     ],
      "kind": "input",
-     "payload_len": 3,
      "report_id": 1,
+     "bits": 24,
+     "payload_len": 3,
+     "wire_len": 4,
      "usage_pages": [
       1,
       9,
       12
      ],
-     "wire_len": 4
-    },
-    {
-     "bits": 32,
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Mouse)/Physical(Consumer:0x01)",
-       "count": 2,
-       "describe": "byte 0.0 2x16bit [-32767..32767] var Generic Desktop: X, Y",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 32767,
-       "logical_min": -32767,
-       "report_id": 2,
-       "size": 16,
-       "usage_page": 1,
+       "report_id": 1,
+       "bit_offset": 0,
+       "size": 1,
+       "count": 5,
+       "usage_page": 9,
+       "usages": [],
+       "usage_range": [
+        1,
+        5
+       ],
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 0.0 5x1bit [0..1] var Button: Button 1..Button 5"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 5,
+       "size": 3,
+       "count": 1,
+       "usage_page": 9,
+       "usages": [],
        "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 1,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 0.5 1x3bit [0..1] array padding"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 8,
+       "size": 8,
+       "count": 1,
+       "usage_page": 1,
        "usages": [
-        48,
-        49
-       ]
+        56
+       ],
+       "usage_range": null,
+       "logical_min": -127,
+       "logical_max": 127,
+       "flags": 6,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 1.0 1x8bit [-127..127] var Generic Desktop: Wheel"
+      },
+      {
+       "kind": "input",
+       "report_id": 1,
+       "bit_offset": 16,
+       "size": 8,
+       "count": 1,
+       "usage_page": 12,
+       "usages": [
+        568
+       ],
+       "usage_range": null,
+       "logical_min": -127,
+       "logical_max": 127,
+       "flags": 6,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Generic Desktop:Pointer)",
+       "describe": "byte 2.0 1x8bit [-127..127] var Consumer: 0x238"
       }
-     ],
+     ]
+    },
+    {
      "kind": "input",
-     "payload_len": 4,
      "report_id": 2,
+     "bits": 32,
+     "payload_len": 4,
+     "wire_len": 5,
      "usage_pages": [
       1
      ],
-     "wire_len": 5
-    },
-    {
-     "bits": 8,
      "fields": [
       {
-       "bit_offset": 0,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.0 1x1bit [0..1] var Consumer: 0xcd",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
-       "report_id": 3,
-       "size": 1,
-       "usage_page": 12,
+       "report_id": 2,
+       "bit_offset": 0,
+       "size": 16,
+       "count": 2,
+       "usage_page": 1,
+       "usages": [
+        48,
+        49
+       ],
        "usage_range": null,
+       "logical_min": -32767,
+       "logical_max": 32767,
+       "flags": 6,
+       "collection": "Application(Generic Desktop:Mouse)/Physical(Consumer:0x01)",
+       "describe": "byte 0.0 2x16bit [-32767..32767] var Generic Desktop: X, Y"
+      }
+     ]
+    },
+    {
+     "kind": "input",
+     "report_id": 3,
+     "bits": 8,
+     "payload_len": 1,
+     "wire_len": 2,
+     "usage_pages": [
+      12
+     ],
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 3,
+       "bit_offset": 0,
+       "size": 1,
+       "count": 1,
+       "usage_page": 12,
        "usages": [
         205
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.0 1x1bit [0..1] var Consumer: 0xcd"
       },
       {
-       "bit_offset": 1,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.1 1x1bit [0..1] var Consumer: 0x183",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 1,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         387
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.1 1x1bit [0..1] var Consumer: 0x183"
       },
       {
-       "bit_offset": 2,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.2 1x1bit [0..1] var Consumer: 0xb5",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 2,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         181
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.2 1x1bit [0..1] var Consumer: 0xb5"
       },
       {
-       "bit_offset": 3,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.3 1x1bit [0..1] var Consumer: 0xb6",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 3,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         182
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.3 1x1bit [0..1] var Consumer: 0xb6"
       },
       {
-       "bit_offset": 4,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.4 1x1bit [0..1] var Consumer: 0xea",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 4,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         234
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.4 1x1bit [0..1] var Consumer: 0xea"
       },
       {
-       "bit_offset": 5,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.5 1x1bit [0..1] var Consumer: 0xe9",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 5,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         233
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.5 1x1bit [0..1] var Consumer: 0xe9"
       },
       {
-       "bit_offset": 6,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.6 1x1bit [0..1] var Consumer: 0x225",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 6,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         549
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.6 1x1bit [0..1] var Consumer: 0x225"
       },
       {
-       "bit_offset": 7,
-       "collection": "Application(Consumer:0x01)",
-       "count": 1,
-       "describe": "byte 0.7 1x1bit [0..1] var Consumer: 0x224",
-       "flags": 6,
        "kind": "input",
-       "logical_max": 1,
-       "logical_min": 0,
        "report_id": 3,
+       "bit_offset": 7,
        "size": 1,
+       "count": 1,
        "usage_page": 12,
-       "usage_range": null,
        "usages": [
         548
-       ]
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 1,
+       "flags": 6,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.7 1x1bit [0..1] var Consumer: 0x224"
       }
-     ],
-     "kind": "input",
-     "payload_len": 1,
-     "report_id": 3,
-     "usage_pages": [
-      12
-     ],
-     "wire_len": 2
+     ]
     },
     {
-     "bits": 16,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Consumer:0x01)",
-       "count": 2,
-       "describe": "byte 0.0 2x8bit [0..255] var Consumer: 0x05",
-       "flags": 2,
-       "kind": "feature",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 3,
-       "size": 8,
-       "usage_page": 12,
-       "usage_range": null,
-       "usages": [
-        5
-       ]
-      }
-     ],
      "kind": "feature",
-     "payload_len": 2,
      "report_id": 3,
+     "bits": 16,
+     "payload_len": 2,
+     "wire_len": 3,
      "usage_pages": [
       12
      ],
-     "wire_len": 3
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 3,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 2,
+       "usage_page": 12,
+       "usages": [
+        5
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Consumer:0x01)",
+       "describe": "byte 0.0 2x8bit [0..255] var Consumer: 0x05"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1284,72 +1286,72 @@
     "    byte 0.7 1x1bit [0..1] var Consumer: 0x224",
     "feature report id 0x03  2 bytes payload (3 on the wire)",
     "    byte 0.0 2x8bit [0..255] var Consumer: 0x05"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": []
+   ]
   },
   {
-   "applications": [],
-   "has_pid": false,
-   "hex": "",
    "name": "empty",
+   "hex": "",
+   "applications": [],
+   "uses_report_ids": false,
+   "has_pid": false,
+   "vendor_pages": [],
    "reports": [],
    "summary": [
     "applications: -",
     "report ids: no  PID force feedback page: no  vendor pages: -"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "truncated_short_item",
+   "hex": "05 01 09 05 a1 01 26 ff",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": false,
    "has_pid": false,
-   "hex": "05 01 09 05 a1 01 26 ff",
-   "name": "truncated_short_item",
+   "vendor_pages": [],
    "reports": [],
    "summary": [
     "applications: Application(Generic Desktop:Gamepad)",
     "report ids: no  PID force feedback page: no  vendor pages: -"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "long_item_skipped",
+   "hex": "fe 02 10 aa bb 05 01 09 05 a1 01 75 08 95 01 81 02 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": false,
    "has_pid": false,
-   "hex": "fe 02 10 aa bb 05 01 09 05 a1 01 75 08 95 01 81 02 c0",
-   "name": "long_item_skipped",
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 8,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 0.0 1x8bit [0..0] var Generic Desktop",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 0,
-       "logical_min": 0,
-       "report_id": 0,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": []
-      }
-     ],
      "kind": "input",
-     "payload_len": 1,
      "report_id": 0,
+     "bits": 8,
+     "payload_len": 1,
+     "wire_len": 1,
      "usage_pages": [
       1
      ],
-     "wire_len": 1
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 0,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 0,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 1x8bit [0..0] var Generic Desktop"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1357,77 +1359,77 @@
     "report ids: no  PID force feedback page: no  vendor pages: -",
     "input   report id 0x00  1 bytes payload (1 on the wire)",
     "    byte 0.0 1x8bit [0..0] var Generic Desktop"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
-   "applications": [],
-   "has_pid": false,
-   "hex": "fe",
    "name": "long_item_truncated",
+   "hex": "fe",
+   "applications": [],
+   "uses_report_ids": false,
+   "has_pid": false,
+   "vendor_pages": [],
    "reports": [],
    "summary": [
     "applications: -",
     "report ids: no  PID force feedback page: no  vendor pages: -"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "push_pop",
+   "hex": "05 01 09 05 a1 01 85 02 75 08 95 02 a4 75 10 95 01 09 30 81 02 b4 09 31 09 32 81 02 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": true,
    "has_pid": false,
-   "hex": "05 01 09 05 a1 01 85 02 75 08 95 02 a4 75 10 95 01 09 30 81 02 b4 09 31 09 32 81 02 c0",
-   "name": "push_pop",
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 32,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 0.0 1x16bit [0..0] var Generic Desktop: X",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 0,
-       "logical_min": 0,
-       "report_id": 2,
-       "size": 16,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        48
-       ]
-      },
-      {
-       "bit_offset": 16,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 2,
-       "describe": "byte 2.0 2x8bit [0..0] var Generic Desktop: Y, Z",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 0,
-       "logical_min": 0,
-       "report_id": 2,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        49,
-        50
-       ]
-      }
-     ],
      "kind": "input",
-     "payload_len": 4,
      "report_id": 2,
+     "bits": 32,
+     "payload_len": 4,
+     "wire_len": 5,
      "usage_pages": [
       1
      ],
-     "wire_len": 5
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 2,
+       "bit_offset": 0,
+       "size": 16,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [
+        48
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 0,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 1x16bit [0..0] var Generic Desktop: X"
+      },
+      {
+       "kind": "input",
+       "report_id": 2,
+       "bit_offset": 16,
+       "size": 8,
+       "count": 2,
+       "usage_page": 1,
+       "usages": [
+        49,
+        50
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 0,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 2.0 2x8bit [0..0] var Generic Desktop: Y, Z"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1436,46 +1438,46 @@
     "input   report id 0x02  4 bytes payload (5 on the wire)",
     "    byte 0.0 1x16bit [0..0] var Generic Desktop: X",
     "    byte 2.0 2x8bit [0..0] var Generic Desktop: Y, Z"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "extended_usage",
+   "hex": "05 01 09 05 a1 01 0b 70 00 0f 00 15 00 25 7f 75 08 95 01 91 02 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": false,
    "has_pid": true,
-   "hex": "05 01 09 05 a1 01 0b 70 00 0f 00 15 00 25 7f 75 08 95 01 91 02 c0",
-   "name": "extended_usage",
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 8,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 0.0 1x8bit [0..127] var PID (force feedback): Magnitude",
-       "flags": 2,
-       "kind": "output",
-       "logical_max": 127,
-       "logical_min": 0,
-       "report_id": 0,
-       "size": 8,
-       "usage_page": 15,
-       "usage_range": null,
-       "usages": [
-        112
-       ]
-      }
-     ],
      "kind": "output",
-     "payload_len": 1,
      "report_id": 0,
+     "bits": 8,
+     "payload_len": 1,
+     "wire_len": 1,
      "usage_pages": [
       15
      ],
-     "wire_len": 1
+     "fields": [
+      {
+       "kind": "output",
+       "report_id": 0,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 1,
+       "usage_page": 15,
+       "usages": [
+        112
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 127,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 1x8bit [0..127] var PID (force feedback): Magnitude"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1483,64 +1485,64 @@
     "report ids: no  PID force feedback page: YES  vendor pages: -",
     "output  report id 0x00  1 bytes payload (1 on the wire)",
     "    byte 0.0 1x8bit [0..127] var PID (force feedback): Magnitude"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "signed_logical",
+   "hex": "05 01 09 05 a1 01 09 30 09 31 15 81 25 7f 75 08 95 02 81 02 16 00 80 26 ff 7f 75 10 95 01 09 32 81 02 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": false,
    "has_pid": false,
-   "hex": "05 01 09 05 a1 01 09 30 09 31 15 81 25 7f 75 08 95 02 81 02 16 00 80 26 ff 7f 75 10 95 01 09 32 81 02 c0",
-   "name": "signed_logical",
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 32,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 2,
-       "describe": "byte 0.0 2x8bit [-127..127] var Generic Desktop: X, Y",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 127,
-       "logical_min": -127,
-       "report_id": 0,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        48,
-        49
-       ]
-      },
-      {
-       "bit_offset": 16,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 2.0 1x16bit [-32768..32767] var Generic Desktop: Z",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 32767,
-       "logical_min": -32768,
-       "report_id": 0,
-       "size": 16,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        50
-       ]
-      }
-     ],
      "kind": "input",
-     "payload_len": 4,
      "report_id": 0,
+     "bits": 32,
+     "payload_len": 4,
+     "wire_len": 4,
      "usage_pages": [
       1
      ],
-     "wire_len": 4
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 0,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 2,
+       "usage_page": 1,
+       "usages": [
+        48,
+        49
+       ],
+       "usage_range": null,
+       "logical_min": -127,
+       "logical_max": 127,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 2x8bit [-127..127] var Generic Desktop: X, Y"
+      },
+      {
+       "kind": "input",
+       "report_id": 0,
+       "bit_offset": 16,
+       "size": 16,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [
+        50
+       ],
+       "usage_range": null,
+       "logical_min": -32768,
+       "logical_max": 32767,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 2.0 1x16bit [-32768..32767] var Generic Desktop: Z"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1549,46 +1551,46 @@
     "input   report id 0x00  4 bytes payload (4 on the wire)",
     "    byte 0.0 2x8bit [-127..127] var Generic Desktop: X, Y",
     "    byte 2.0 1x16bit [-32768..32767] var Generic Desktop: Z"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "unsigned_lmax_high_bit",
+   "hex": "05 01 09 05 a1 01 09 30 15 00 25 ff 75 08 95 01 81 02 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": false,
    "has_pid": false,
-   "hex": "05 01 09 05 a1 01 09 30 15 00 25 ff 75 08 95 01 81 02 c0",
-   "name": "unsigned_lmax_high_bit",
+   "vendor_pages": [],
    "reports": [
     {
-     "bits": 8,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Generic Desktop:Gamepad)",
-       "count": 1,
-       "describe": "byte 0.0 1x8bit [0..255] var Generic Desktop: X",
-       "flags": 2,
-       "kind": "input",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 0,
-       "size": 8,
-       "usage_page": 1,
-       "usage_range": null,
-       "usages": [
-        48
-       ]
-      }
-     ],
      "kind": "input",
-     "payload_len": 1,
      "report_id": 0,
+     "bits": 8,
+     "payload_len": 1,
+     "wire_len": 1,
      "usage_pages": [
       1
      ],
-     "wire_len": 1
+     "fields": [
+      {
+       "kind": "input",
+       "report_id": 0,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 1,
+       "usage_page": 1,
+       "usages": [
+        48
+       ],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Generic Desktop:Gamepad)",
+       "describe": "byte 0.0 1x8bit [0..255] var Generic Desktop: X"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1596,44 +1598,46 @@
     "report ids: no  PID force feedback page: no  vendor pages: -",
     "input   report id 0x00  1 bytes payload (1 on the wire)",
     "    byte 0.0 1x8bit [0..255] var Generic Desktop: X"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   },
   {
+   "name": "vendor_feature_4byte_page",
+   "hex": "07 00 ff 00 00 09 01 a1 01 85 03 15 00 26 ff 00 75 08 95 3f b1 02 c0",
    "applications": [
     "Application(Vendor 0xff00:0x01)"
    ],
+   "uses_report_ids": true,
    "has_pid": false,
-   "hex": "07 00 ff 00 00 09 01 a1 01 85 03 15 00 26 ff 00 75 08 95 3f b1 02 c0",
-   "name": "vendor_feature_4byte_page",
+   "vendor_pages": [
+    65280
+   ],
    "reports": [
     {
-     "bits": 504,
-     "fields": [
-      {
-       "bit_offset": 0,
-       "collection": "Application(Vendor 0xff00:0x01)",
-       "count": 63,
-       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff00",
-       "flags": 2,
-       "kind": "feature",
-       "logical_max": 255,
-       "logical_min": 0,
-       "report_id": 3,
-       "size": 8,
-       "usage_page": 65280,
-       "usage_range": null,
-       "usages": []
-      }
-     ],
      "kind": "feature",
-     "payload_len": 63,
      "report_id": 3,
+     "bits": 504,
+     "payload_len": 63,
+     "wire_len": 64,
      "usage_pages": [
       65280
      ],
-     "wire_len": 64
+     "fields": [
+      {
+       "kind": "feature",
+       "report_id": 3,
+       "bit_offset": 0,
+       "size": 8,
+       "count": 63,
+       "usage_page": 65280,
+       "usages": [],
+       "usage_range": null,
+       "logical_min": 0,
+       "logical_max": 255,
+       "flags": 2,
+       "collection": "Application(Vendor 0xff00:0x01)",
+       "describe": "byte 0.0 63x8bit [0..255] var Vendor 0xff00"
+      }
+     ]
     }
    ],
    "summary": [
@@ -1641,26 +1645,22 @@
     "report ids: yes  PID force feedback page: no  vendor pages: 0xff00",
     "feature report id 0x03  63 bytes payload (64 on the wire)",
     "    byte 0.0 63x8bit [0..255] var Vendor 0xff00"
-   ],
-   "uses_report_ids": true,
-   "vendor_pages": [
-    65280
    ]
   },
   {
+   "name": "unbalanced_end_collection",
+   "hex": "c0 c0 05 01 09 05 a1 01 c0",
    "applications": [
     "Application(Generic Desktop:Gamepad)"
    ],
+   "uses_report_ids": false,
    "has_pid": false,
-   "hex": "c0 c0 05 01 09 05 a1 01 c0",
-   "name": "unbalanced_end_collection",
+   "vendor_pages": [],
    "reports": [],
    "summary": [
     "applications: Application(Generic Desktop:Gamepad)",
     "report ids: no  PID force feedback page: no  vendor pages: -"
-   ],
-   "uses_report_ids": false,
-   "vendor_pages": []
+   ]
   }
  ]
 }

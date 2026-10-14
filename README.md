@@ -22,10 +22,18 @@ Every step writes JSONL logs, so you can study what a game sends and how the con
 ## Install
 
 ```sh
-./install.sh            # wrappers in ~/.local/bin + desktop entry, uses system python
+./install.sh            # builds padlink and padlink-gtk, installs both into ~/.local/bin
 ```
 
-Arch needs these packages: `python-evdev python-pyudev python-yaml python-gobject gtk4 libadwaita`.
+The command line, the bridge, and the GTK app are Rust. Building needs a Rust toolchain (Arch: `rustup`), libudev (part of systemd), and the GTK stack (`gtk4`, `libadwaita`, `librsvg`). There is no Python runtime dependency for the installed commands.
+
+Arch can build a package from a checkout of this repo:
+
+```sh
+makepkg -si          # PKGBUILD: binaries, desktop file, udev rule
+```
+
+`cargo install --path crates/padlink-cli --locked` and `cargo install --path crates/padlink-gtk --locked` install only the binaries, into `~/.cargo/bin`.
 
 Rumble on the HID-mode dongle needs write access to its hidraw node:
 
@@ -101,7 +109,7 @@ Run `padlink-gtk`. The sidebar lists controllers and updates live on hotplug. It
 The Input tab's drawing can come from your own SVG artwork, for example made in Illustrator or Inkscape. padlink uses the most specific file it finds:
 
 1. `~/.config/padlink/art/<name>.svg`: your own files, which take priority.
-2. `padlink/gtk/art/<name>.svg`: artwork shipped with padlink.
+2. `<prefix>/share/padlink/art/<name>.svg`: artwork shipped beside the installed binary (`~/.local/share/padlink/art` from `./install.sh`, `/usr/share/padlink/art` from the Arch package).
 3. The built-in drawing.
 
 Here `<name>` is a model (`xbox360`, `xboxone`, `xboxseries`, `ds4`, `dualsense`, `switchpro`) or a family (`xbox`, `playstation`, `nintendo`). Controllers without their own artwork, such as the GameSir, use `xbox`.
@@ -220,12 +228,13 @@ Run `padlink logs export` to bundle the logs and profiles into a tarball for sha
 ## Development
 
 ```sh
-python3 -m unittest -v      # unit tests + a live bridge test using a fake uinput "dongle"
+cargo test              # core unit tests; the live bridge test needs /dev/uinput and skips itself otherwise
+python3 -m unittest -v  # the Python core, still used to generate golden fixtures
 ```
 
 The live test creates a fake source pad and runs the bridge. It checks input translation and has a separate "game" process upload and play a rumble effect, which must arrive as `ff_upload`/`ff_play`/`rumble_out`. The test needs `/dev/uinput` access and skips itself otherwise.
 
-Code layout: `padlink/core/` holds the logic and has no GTK dependency. `padlink/cli.py` is the command line, and `padlink/gtk/` is the libadwaita UI.
+Code layout: `crates/padlink-core` is the logic, `crates/padlink-cli` is the `padlink` binary, and `crates/padlink-gtk` is the libadwaita UI. `padlink/core/` is the Python reference that still builds the golden fixtures.
 
 ## Contributing
 

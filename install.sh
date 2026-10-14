@@ -1,31 +1,23 @@
 #!/bin/sh
-# Install padlink for the current user without pip: wrapper scripts in ~/.local/bin
-# that run this checkout with the system Python (which has python-evdev, pyudev, gi).
+# Install padlink for the current user, into ~/.local/bin:
+#   padlink      the command line and rumble bridge (Rust)
+#   padlink-gtk  the GTK app (Rust, links padlink-core; no Python)
 set -eu
 REPO="$(cd "$(dirname "$0")" && pwd)"
 BIN="$HOME/.local/bin"
 APPS="$HOME/.local/share/applications"
 mkdir -p "$BIN" "$APPS"
 
-for dep in evdev pyudev yaml gi; do
-    /usr/bin/python3 -c "import $dep" 2>/dev/null || {
-        echo "missing python module '$dep' (Arch: sudo pacman -S python-evdev python-pyudev python-yaml python-gobject gtk4 libadwaita)"
-        exit 1
-    }
-done
-
-cat > "$BIN/padlink" <<SH
-#!/bin/sh
-PYTHONPATH="$REPO\${PYTHONPATH:+:\$PYTHONPATH}" exec /usr/bin/python3 -m padlink "\$@"
-SH
-cat > "$BIN/padlink-gtk" <<SH
-#!/bin/sh
-PYTHONPATH="$REPO\${PYTHONPATH:+:\$PYTHONPATH}" exec /usr/bin/python3 -m padlink.gtk.app "\$@"
-SH
-chmod +x "$BIN/padlink" "$BIN/padlink-gtk"
+command -v cargo >/dev/null 2>&1 || {
+    echo "cargo not found (Arch: sudo pacman -S rustup && rustup default stable)"
+    exit 1
+}
+cargo build --release --manifest-path "$REPO/Cargo.toml" -p padlink-cli -p padlink-gtk
+install -m755 "$REPO/target/release/padlink" "$BIN/padlink"
+install -m755 "$REPO/target/release/padlink-gtk" "$BIN/padlink-gtk"
 install -m644 "$REPO/data/padlink.desktop" "$APPS/padlink.desktop"
-
 echo "installed: $BIN/padlink, $BIN/padlink-gtk, $APPS/padlink.desktop"
+
 if [ ! -e /etc/udev/rules.d/70-padlink.rules ]; then
     echo
     echo "For hidraw rumble on the GameSir/Zikway dongle, also run (needs sudo):"

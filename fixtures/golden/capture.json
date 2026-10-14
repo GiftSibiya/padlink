@@ -1,0 +1,88 @@
+{
+ "lines": [
+  {
+   "line": "ffff8a1f c1a3e2c0 3575215 S Io:3:005:2 -115:8 8 = 0500ff00 00000000",
+   "record": null
+  },
+  {
+   "line": "ffff8a1f c1a3e2c0 3575290 C Io:3:005:2 0 8 >",
+   "record": null
+  },
+  {
+   "line": "ffff8a1f 3575300 C Ii:3:005:1 0:8 20 = 01020304 05060708 090a0b0c 0d0e0f10 11121314",
+   "record": {
+    "event": "C",
+    "xfer": "Ii",
+    "bus": 3,
+    "dev": 5,
+    "ep": 1,
+    "dir": "in",
+    "type": "interrupt",
+    "hex": "01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14"
+   }
+  },
+  {
+   "line": "ffff8a1f 3575400 S Co:3:005:0 s 21 09 0205 0000 0003 3 = 05ff00",
+   "record": {
+    "event": "S",
+    "xfer": "Co",
+    "bus": 3,
+    "dev": 5,
+    "ep": 0,
+    "dir": "out",
+    "type": "control",
+    "hex": "05 ff 00",
+    "setup": "21 09 0205 0000 0003"
+   }
+  },
+  {
+   "line": "ffff8a1f 3575400 S Ci:3:005:0 s a1 01 0105 0000 0040 64 <",
+   "record": {
+    "event": "S",
+    "xfer": "Ci",
+    "bus": 3,
+    "dev": 5,
+    "ep": 0,
+    "dir": "in",
+    "type": "control",
+    "setup": "a1 01 0105 0000 0040"
+   }
+  },
+  {
+   "line": "ffff8a1f 3575500 E Bo:1:002:3 -32 0",
+   "record": {
+    "event": "E",
+    "xfer": "Bo",
+    "bus": 1,
+    "dev": 2,
+    "ep": 3,
+    "dir": "out",
+    "type": "bulk"
+   }
+  },
+  {
+   "line": "ffff8a1f 3575600 S Zi:2:009:4 -115 256 <",
+   "record": {
+    "event": "S",
+    "xfer": "Zi",
+    "bus": 2,
+    "dev": 9,
+    "ep": 4,
+    "dir": "in",
+    "type": "iso"
+   }
+  },
+  {
+   "line": "short line",
+   "record": null
+  },
+  {
+   "line": "ffff 1 S Xo:bad:005:2 0 0",
+   "record": null
+  },
+  {
+   "line": "",
+   "record": null
+  }
+ ]
+}
