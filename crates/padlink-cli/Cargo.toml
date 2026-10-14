@@ -19,3 +19,29 @@ libc.workspace = true
 padlink-core = { path = "../padlink-core" }
 serde_json.workspace = true
 tar.workspace = true
+
+# `cargo deb -p padlink-cli` (scripts/package.sh): one package with both binaries
+[package.metadata.deb]
+name = "padlink"
+maintainer = "Gift Sibiya <https://github.com/GiftSibiya>"
+copyright = "2026, Gift Sibiya"
+license-file = ["../../LICENSE", "0"]
+section = "utils"
+priority = "optional"
+extended-description = """\
+Detects, debugs and logs game controllers, and bridges rumble to controllers whose kernel \
+driver can't vibrate them (e.g. the GameSir T4N Lite in HID mode): games use a virtual \
+controller with force feedback, and padlink forwards their rumble to the real one. Includes \
+a GTK app and Lutris/Wine/Proton setup helpers."""
+# shlibdeps on both binaries: libgtk-4-1, libadwaita-1-0, librsvg2-2, libudev1, ...
+depends = "$auto"
+maintainer-scripts = "../../packaging/debian/"
+assets = [
+    ["target/release/padlink", "usr/bin/", "755"],
+    ["target/release/padlink-gtk", "usr/bin/", "755"],
+    ["../../data/padlink.desktop", "usr/share/applications/", "644"],
+    ["../../data/70-padlink.rules", "usr/lib/udev/rules.d/", "644"],
+    ["../../data/art-templates/*.svg", "usr/share/padlink/art/", "644"],
+    ["../../README.md", "usr/share/doc/padlink/", "644"],
+    ["../../CHANGELOG.md", "usr/share/doc/padlink/", "644"],
+]

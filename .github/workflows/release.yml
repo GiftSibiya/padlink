@@ -1,0 +1,41 @@
+name: Release
+
+# Push a tag like v0.1.0 (matching Cargo.toml's version) to publish a GitHub release with:
+# the binary tarball, the .deb, and a stable Arch PKGBUILD + .SRCINFO for the AUR.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: sudo apt-get update && sudo apt-get install -y libudev-dev libgtk-4-dev libadwaita-1-dev librsvg2-dev
+      - name: Tag matches the Cargo.toml version
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -n1)
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "tag $GITHUB_REF_NAME != v$version"; exit 1; }
+      - name: Release notes from CHANGELOG.md
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '/^## \[/ { on = index($0, "[" v "]") > 0; next } on' CHANGELOG.md > notes.md
+          test -s notes.md || { echo "no CHANGELOG.md section for $version"; exit 1; }
+      - run: cargo test --locked
+      - run: cargo install cargo-deb --locked
+      - run: scripts/package.sh
+      - run: scripts/render-pkgbuild.sh "$GITHUB_REF_NAME" dist/
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -f dist/padlink-*-source.tar.gz
+          # GitHub renames dot-files on upload: ship PKGBUILD + .SRCINFO together for the AUR repo
+          tar -C dist -czf "dist/padlink-aur-${GITHUB_REF_NAME#v}.tar.gz" PKGBUILD .SRCINFO
+          gh release create "$GITHUB_REF_NAME" --verify-tag --title "padlink $GITHUB_REF_NAME" \
+            --notes-file notes.md dist/*.tar.gz dist/*.deb dist/*.sha256 dist/PKGBUILD
