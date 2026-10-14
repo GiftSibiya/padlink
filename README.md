@@ -21,17 +21,29 @@ Every step writes JSONL logs, so you can study what a game sends and how the con
 
 ## Install
 
+Prebuilt packages are on the [releases page](https://github.com/GiftSibiya/padlink/releases) (x86_64):
+
+| System | Package | Install |
+|---|---|---|
+| Ubuntu 24.04+, Debian 13+ | `padlink_<version>-1_amd64.deb` | `sudo apt install ./padlink_*.deb` (includes the udev rule) |
+| Arch | `padlink-aur-<version>.tar.gz` (PKGBUILD) | unpack, then `makepkg -si` |
+| Any (GTK 4.12+, libadwaita 1.4+) | `padlink-<version>-x86_64-linux.tar.gz` | unpack, then `./install.sh` (into `~/.local`) or `sudo ./install.sh --prefix /usr/local` |
+
+From source:
+
 ```sh
 ./install.sh            # builds padlink and padlink-gtk, installs both into ~/.local/bin
 ```
 
 The command line, the bridge, and the GTK app are Rust. Building needs a Rust toolchain (Arch: `rustup`), libudev (part of systemd), and the GTK stack (`gtk4`, `libadwaita`, `librsvg`). padlink is written entirely in Rust; there is no Python dependency.
 
-Arch can build a package from a checkout of this repo:
+Arch can also build the latest `main` from a checkout of this repo:
 
 ```sh
-makepkg -si          # PKGBUILD: binaries, desktop file, udev rule
+makepkg -si          # PKGBUILD (padlink-git): binaries, desktop file, udev rule
 ```
+
+Releases: bump the version in `Cargo.toml`, add a `CHANGELOG.md` section, merge, then push a `v<version>` tag. `.github/workflows/release.yml` builds and publishes everything (`scripts/package.sh`, `scripts/render-pkgbuild.sh`).
 
 `cargo install --path crates/padlink-cli --locked` and `cargo install --path crates/padlink-gtk --locked` install only the binaries, into `~/.cargo/bin`.
 
