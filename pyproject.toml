@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "padlink"
 version = "0.1.0"
 description = "Wireless controller companion for Linux: detection, diagnostics, logging and a rumble bridge"
+license = "MIT"
 requires-python = ">=3.11"
 # System packages (Arch): python-evdev python-pyudev python-gobject gtk4 libadwaita python-yaml
 dependencies = ["evdev", "pyudev", "PyYAML"]

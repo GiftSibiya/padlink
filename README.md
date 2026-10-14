@@ -155,3 +155,11 @@ python3 -m unittest -v      # unit tests + a live bridge test using a fake uinpu
 The live test creates a fake source pad and runs the bridge. It checks input translation and has a separate "game" process upload and play a rumble effect, which must arrive as `ff_upload`/`ff_play`/`rumble_out`. The test needs `/dev/uinput` access and skips itself otherwise.
 
 Code layout: `padlink/core/` holds the logic and has no GTK dependency. `padlink/cli.py` is the command line, and `padlink/gtk/` is the libadwaita UI.
+
+## Contributing
+
+Issues and pull requests are welcome, especially rumble profiles and probe results for controllers other than the T4N Lite. `padlink logs export` bundles your logs and profiles so you can attach them to an issue.
+
+## License
+
+[MIT](LICENSE)
